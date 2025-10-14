@@ -1,0 +1,93 @@
+import 'package:rawg/features/dashboard/data/models/esrb_rating_model.dart';
+import 'package:rawg/features/dashboard/data/models/genre_model.dart';
+import 'package:rawg/features/dashboard/data/models/parent_platform_model.dart';
+import 'package:rawg/features/dashboard/data/models/store_model.dart';
+import 'package:rawg/features/dashboard/domain/entities/game.dart';
+
+class GameModel extends Game {
+  GameModel({
+    required super.id,
+    required super.slug,
+    required super.name,
+    required super.released,
+    required super.tba,
+    required super.backgroundImage,
+    required super.ratingsCount,
+    required super.reviewsTextCount,
+    required super.added,
+    required super.metacritic,
+    required super.playtime,
+    required super.suggestionsCount,
+    required super.reviewsCount,
+    required super.saturatedColor,
+    required super.dominantColor,
+    required super.parentPlatforms,
+    required super.genres,
+    required super.stores,
+    required super.esrbRating,
+  });
+
+  GameModel copyWith({
+    int? id,
+    String? slug,
+    String? name,
+    DateTime? released,
+    bool? tba,
+    String? backgroundImage,
+    int? ratingsCount,
+    int? reviewsTextCount,
+    int? added,
+    int? metacritic,
+    int? playtime,
+    int? suggestionsCount,
+    int? reviewsCount,
+    String? saturatedColor,
+    String? dominantColor,
+    List<ParentPlatformModel>? parentPlatforms,
+    List<GenreModel>? genres,
+    List<StoreModel>? stores,
+    EsrbRatingModel? esrbRating,
+  }) => GameModel(
+    id: id ?? this.id,
+    slug: slug ?? this.slug,
+    name: name ?? this.name,
+    released: released ?? this.released,
+    tba: tba ?? this.tba,
+    backgroundImage: backgroundImage ?? this.backgroundImage,
+    ratingsCount: ratingsCount ?? this.ratingsCount,
+    reviewsTextCount: reviewsTextCount ?? this.reviewsTextCount,
+    added: added ?? this.added,
+    metacritic: metacritic ?? this.metacritic,
+    playtime: playtime ?? this.playtime,
+    suggestionsCount: suggestionsCount ?? this.suggestionsCount,
+    reviewsCount: reviewsCount ?? this.reviewsCount,
+    saturatedColor: saturatedColor ?? this.saturatedColor,
+    dominantColor: dominantColor ?? this.dominantColor,
+    parentPlatforms: parentPlatforms ?? this.parentPlatforms,
+    genres: genres ?? this.genres,
+    stores: stores ?? this.stores,
+    esrbRating: esrbRating ?? this.esrbRating,
+  );
+
+  factory GameModel.fromJson(Map<String, dynamic> json) => GameModel(
+    id: json["id"],
+    slug: json["slug"],
+    name: json["name"],
+    released: DateTime.parse(json["released"]),
+    tba: json["tba"],
+    backgroundImage: json["background_image"],
+    ratingsCount: json["ratings_count"],
+    reviewsTextCount: json["reviews_text_count"],
+    added: json["added"],
+    metacritic: json["metacritic"],
+    playtime: json["playtime"],
+    suggestionsCount: json["suggestions_count"],
+    reviewsCount: json["reviews_count"],
+    saturatedColor: json["saturated_color"],
+    dominantColor: json["dominant_color"],
+    parentPlatforms: List<ParentPlatformModel>.from(json["parent_platforms"].map((x) => ParentPlatformModel.fromJson(x))),
+    genres: List<GenreModel>.from(json["genres"].map((x) => GenreModel.fromJson(x))),
+    stores: List<StoreModel>.from(json["stores"].map((x) => StoreModel.fromJson(x))),
+    esrbRating: EsrbRatingModel.fromJson(json["esrb_rating"]),
+  );
+}

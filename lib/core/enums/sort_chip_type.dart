@@ -1,0 +1,1 @@
+enum SortChipType { general, platforms }

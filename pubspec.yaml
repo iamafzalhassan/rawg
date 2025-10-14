@@ -1,0 +1,56 @@
+name: rawg
+description: "A game info based project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cached_network_image: ^3.4.1
+  cupertino_icons: ^1.0.8
+  dio: ^5.9.0
+  equatable: ^2.0.7
+  flutter_bloc: ^9.1.1
+  flutter_native_splash: ^2.4.6
+  get_it: ^8.1.0
+  go_router: ^16.0.0
+  hive: ^2.2.3
+  internet_connection_checker_plus: ^2.7.2
+  intl: ^0.20.2
+  pretty_dio_logger: ^1.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/locales/
+
+  fonts:
+    - family: SFProDisplay
+      fonts:
+        - asset: assets/fonts/SF-Pro-Display-Regular.ttf
+          weight: 400
+
+flutter_native_splash:
+  android: true
+  ios: true
+  color: "#000000"
+  color_dark: "#000000"
+  image: "assets/images/logo.png"
+  android_12:
+    color: "#000000"
+    color_dark: "#000000"
+    icon_background_color: "#000000"
+    image: assets/images/logo.png
