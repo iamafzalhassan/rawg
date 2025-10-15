@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg/core/network/api_result.dart';
 import 'package:rawg/features/dashboard/domain/entities/game.dart';
@@ -12,7 +11,6 @@ part 'dashboard_state.dart';
 class DashboardCubit extends Cubit<DashboardState> {
   final GetGamesUseCase getGamesUseCase;
   final GetGameOverviewUseCase getGameOverviewUseCase;
-  final ScrollController scrollController = ScrollController();
 
   DashboardCubit(this.getGamesUseCase, this.getGameOverviewUseCase) : super(const DashboardState());
 
