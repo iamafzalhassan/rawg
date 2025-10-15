@@ -5,7 +5,7 @@ import 'app_pallete.dart';
 
 class AppTheme {
   static final darkMode = ThemeData.dark().copyWith(
-    appBarTheme: const AppBarTheme(backgroundColor: AppPalette.black2),
+    appBarTheme: const AppBarTheme(backgroundColor: AppPalette.black2, scrolledUnderElevation: 0),
     elevatedButtonTheme: elevatedButtonTheme(),
     outlinedButtonTheme: outLinedButtonTheme(),
     scaffoldBackgroundColor: AppPalette.black2,
