@@ -4,6 +4,7 @@ import 'package:rawg/core/enums/sort_chip_type.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 import 'package:rawg/features/common/presentation/widgets/rawg_app_bar.dart';
+import 'package:rawg/features/common/presentation/widgets/rawg_button.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/dashboard_cubit.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/sort_chip_cubit.dart';
 import 'package:rawg/features/dashboard/presentation/widgets/game_card.dart';
@@ -15,8 +16,6 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<DashboardCubit>();
-
     return Scaffold(
       appBar: RAWGAppBar(),
       body: Padding(
@@ -71,20 +70,28 @@ class Dashboard extends StatelessWidget {
                   if (state.message != null) {
                     return Center(
                       child: Text(
-                        'Hi, Afzal',
-                        style: const TextStyle(fontSize: 16, color: Colors.red),
+                        state.message!,
+                        style: const TextStyle(fontSize: 16, color: AppPalette.white),
                       ),
                     );
                   }
 
                   return ListView(
-                    controller: cubit.scrollController,
+                    physics: ClampingScrollPhysics(),
                     children: [
                       Wrap(
                         spacing: 10.0,
                         runSpacing: 10.0,
                         children: state.games!.map((game) => GameCard(game)).toList(),
                       ),
+                      if (!state.more && !state.end)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24.0),
+                          child: RAWGButton(
+                            'Load more',
+                            () => onTapLoadMore(context),
+                          ),
+                        ),
                       if (state.more)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 24.0),
@@ -99,5 +106,9 @@ class Dashboard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  onTapLoadMore(BuildContext context) {
+    context.read<DashboardCubit>().getGames(loadMore: true);
   }
 }

@@ -3,9 +3,11 @@ import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 
 class RAWGButton extends StatelessWidget {
-  const RAWGButton(this.icon, this.label, {super.key});
+  const RAWGButton(this.label, this.onTap, {this.icon, super.key});
 
-  final String icon, label;
+  final String label;
+  final String? icon;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +15,12 @@ class RAWGButton extends StatelessWidget {
       width: double.infinity,
       height: 55,
       child: ElevatedButton.icon(
-        icon: Image.asset(icon, width: 20.0),
+        icon: icon != null ? Image.asset(icon!, width: 20.0) : null,
         label: Text(
           label,
           style: AppFont.style(color: AppPalette.white, fontSize: 20.0),
         ),
-        onPressed: () {},
+        onPressed: () => onTap(),
       ),
     );
   }

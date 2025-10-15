@@ -192,14 +192,19 @@ class GameOverview extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: RAWGButton(
-                    AssetConstants.plusIcon,
+                    icon: AssetConstants.plusIcon,
                     'Add to collection',
+                    () {},
                   ),
                 ),
                 SizedBox(height: 16.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: RAWGButton(AssetConstants.giftIcon, 'Add to wishlist'),
+                  child: RAWGButton(
+                    icon: AssetConstants.giftIcon,
+                    'Add to wishlist',
+                    () {},
+                  ),
                 ),
                 SizedBox(height: 16.0),
               ],

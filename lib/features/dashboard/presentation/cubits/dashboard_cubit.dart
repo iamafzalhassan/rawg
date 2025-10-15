@@ -14,26 +14,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   final GetGameOverviewUseCase getGameOverviewUseCase;
   final ScrollController scrollController = ScrollController();
 
-  DashboardCubit(this.getGamesUseCase, this.getGameOverviewUseCase) : super(const DashboardState()) {
-    initScrollListener();
-  }
-
-  void initScrollListener() {
-    scrollController.addListener(onScroll);
-  }
-
-  void onScroll() {
-    if (isEnd && !state.more && !state.end) {
-      getGames(loadMore: true);
-    }
-  }
-
-  bool get isEnd {
-    if (!scrollController.hasClients) return false;
-    final maxScroll = scrollController.position.maxScrollExtent;
-    final currentScroll = scrollController.offset;
-    return currentScroll >= (maxScroll * 0.9);
-  }
+  DashboardCubit(this.getGamesUseCase, this.getGameOverviewUseCase) : super(const DashboardState());
 
   Future<void> getGames({bool loadMore = false}) async {
     if (state.more || state.end) return;
