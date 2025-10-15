@@ -7,6 +7,7 @@ import 'package:rawg/core/constants/asset_constants.dart';
 import 'package:rawg/core/constants/route_constants.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
+import 'package:rawg/core/utils/show_loading.dart';
 import 'package:rawg/features/dashboard/domain/entities/game.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/dashboard_cubit.dart';
 
@@ -120,8 +121,10 @@ class GameCard extends StatelessWidget {
     );
   }
 
-  onTap(BuildContext context) {
-    context.read<DashboardCubit>().getGameOverview(game.id!);
+  void onTap(BuildContext context) async {
+    ShowLoading.show(context);
+    final result = await context.read<DashboardCubit>().getGameOverview(game.id!);
+    ShowLoading.hide(context);
     context.pushNamed(RouteConstants.gameOverview, extra: game);
   }
 }

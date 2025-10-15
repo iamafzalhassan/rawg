@@ -60,8 +60,6 @@ class DashboardCubit extends Cubit<DashboardState> {
   }
 
   Future<void> getGameOverview(int id) async {
-    emit(state.copyWith(loading: true));
-
     final result = await getGameOverviewUseCase(id);
 
     switch (result) {
