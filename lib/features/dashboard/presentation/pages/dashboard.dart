@@ -15,6 +15,8 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<DashboardCubit>();
+
     return Scaffold(
       appBar: RAWGAppBar(),
       body: Padding(
@@ -60,32 +62,37 @@ class Dashboard extends StatelessWidget {
             ),
             SizedBox(height: 24.0),
             Expanded(
-              child: SingleChildScrollView(
-                child: BlocBuilder<DashboardCubit, DashboardState>(
-                  builder: (context, state) {
-                    if (state.loading) {
-                      return SizedBox.shrink();
-                    }
+              child: BlocBuilder<DashboardCubit, DashboardState>(
+                builder: (context, state) {
+                  if (state.loading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
 
-                    if (state.message != null && state.message!.isNotEmpty) {
-                      return Center(
-                        child: Text(
-                          state.message!,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.red,
-                          ),
-                        ),
-                      );
-                    }
-
-                    return Wrap(
-                      spacing: 10.0,
-                      runSpacing: 10.0,
-                      children: state.games!.map((game) => GameCard(game)).toList(),
+                  if (state.message != null) {
+                    return Center(
+                      child: Text(
+                        'Hi, Afzal',
+                        style: const TextStyle(fontSize: 16, color: Colors.red),
+                      ),
                     );
-                  },
-                ),
+                  }
+
+                  return ListView(
+                    controller: cubit.scrollController,
+                    children: [
+                      Wrap(
+                        spacing: 10.0,
+                        runSpacing: 10.0,
+                        children: state.games!.map((game) => GameCard(game)).toList(),
+                      ),
+                      if (state.more)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24.0),
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                    ],
+                  );
+                },
               ),
             ),
           ],

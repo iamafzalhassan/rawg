@@ -1,7 +1,6 @@
 import 'package:rawg/features/dashboard/domain/entities/esrb_rating.dart';
 import 'package:rawg/features/dashboard/domain/entities/genre.dart';
 import 'package:rawg/features/dashboard/domain/entities/parent_platform.dart';
-import 'package:rawg/features/dashboard/domain/entities/publisher.dart';
 import 'package:rawg/features/dashboard/domain/entities/store.dart';
 
 class Game {
@@ -23,7 +22,7 @@ class Game {
   List<ParentPlatform> parentPlatforms;
   List<Genre> genres;
   List<Store> stores;
-  EsrbRating esrbRating;
+  EsrbRating? esrbRating;
 
   Game({
     required this.id,
@@ -44,6 +43,6 @@ class Game {
     required this.parentPlatforms,
     required this.genres,
     required this.stores,
-    required this.esrbRating,
+    this.esrbRating,
   });
 }

@@ -7,7 +7,7 @@ import 'package:rawg/features/dashboard/data/models/game_model.dart';
 import 'package:rawg/features/dashboard/data/models/game_overview_model.dart';
 
 abstract interface class DashboardRemoteDataSource {
-  Future<ApiResult<List<GameModel>>> getGames();
+  Future<ApiResult<List<GameModel>>> getGames({int page = 1, int pageSize = ApiConstants.pageSize});
 
   Future<ApiResult<GameOverviewModel>> getGameOverview(int id);
 }
@@ -18,9 +18,12 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   DashboardRemoteDataSourceImpl(this.apiRequest);
 
   @override
-  Future<ApiResult<List<GameModel>>> getGames() async {
+  Future<ApiResult<List<GameModel>>> getGames({int page = 1, int pageSize = ApiConstants.pageSize}) async {
     try {
-      final response = await apiRequest.get(ApiConstants.games);
+      final response = await apiRequest.get(
+        ApiConstants.games,
+        queryParameters: {'page': page, 'page_size': pageSize},
+      );
 
       final List<GameModel> games = (response.data['results'] as List).map((json) => GameModel.fromJson(json)).toList();
 

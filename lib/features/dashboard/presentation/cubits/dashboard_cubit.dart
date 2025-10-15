@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg/core/network/api_result.dart';
 import 'package:rawg/features/dashboard/domain/entities/game.dart';
@@ -11,19 +12,58 @@ part 'dashboard_state.dart';
 class DashboardCubit extends Cubit<DashboardState> {
   final GetGamesUseCase getGamesUseCase;
   final GetGameOverviewUseCase getGameOverviewUseCase;
+  final ScrollController scrollController = ScrollController();
 
-  DashboardCubit(this.getGamesUseCase, this.getGameOverviewUseCase) : super(const DashboardState());
+  DashboardCubit(this.getGamesUseCase, this.getGameOverviewUseCase) : super(const DashboardState()) {
+    initScrollListener();
+  }
 
-  Future<void> getGames() async {
-    emit(state.copyWith(loading: true));
+  void initScrollListener() {
+    scrollController.addListener(onScroll);
+  }
 
-    final result = await getGamesUseCase();
+  void onScroll() {
+    if (isEnd && !state.more && !state.end) {
+      getGames(loadMore: true);
+    }
+  }
+
+  bool get isEnd {
+    if (!scrollController.hasClients) return false;
+    final maxScroll = scrollController.position.maxScrollExtent;
+    final currentScroll = scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
+  }
+
+  Future<void> getGames({bool loadMore = false}) async {
+    if (state.more || state.end) return;
+
+    if (loadMore) {
+      emit(state.copyWith(more: true));
+    } else {
+      emit(state.copyWith(loading: true, currentPage: 1));
+    }
+
+    final page = loadMore ? state.currentPage + 1 : 1;
+    final result = await getGamesUseCase(page: page);
 
     switch (result) {
       case ApiSuccess<List<Game>>():
-        emit(state.copyWith(loading: false, games: result.data));
+        final games = loadMore ? [...(state.games ?? <Game>[]), ...result.data] : result.data;
+
+        emit(
+          state.copyWith(
+            loading: false,
+            more: false,
+            games: games,
+            currentPage: page,
+            end: games.isEmpty || games.length < 20,
+            message: null,
+          ),
+        );
+
       case ApiFailure<List<Game>>():
-        emit(state.copyWith(loading: false, message: result.message));
+        emit(state.copyWith(loading: false, more: false, message: result.message));
     }
   }
 

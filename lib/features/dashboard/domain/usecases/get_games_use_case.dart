@@ -7,7 +7,7 @@ class GetGamesUseCase {
 
   GetGamesUseCase(this.dashboardRepository);
 
-  Future<ApiResult<List<Game>>> call() async {
-    return await dashboardRepository.getGames();
+  Future<ApiResult<List<Game>>> call({int page = 1, int pageSize = 20}) async {
+    return await dashboardRepository.getGames(page: page, pageSize: pageSize);
   }
 }

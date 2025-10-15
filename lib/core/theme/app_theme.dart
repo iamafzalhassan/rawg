@@ -9,6 +9,10 @@ class AppTheme {
     elevatedButtonTheme: elevatedButtonTheme(),
     outlinedButtonTheme: outLinedButtonTheme(),
     scaffoldBackgroundColor: AppPalette.black2,
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: AppPalette.white,
+      circularTrackColor: AppPalette.gray4,
+    ),
   );
 
   static elevatedButtonTheme() {
