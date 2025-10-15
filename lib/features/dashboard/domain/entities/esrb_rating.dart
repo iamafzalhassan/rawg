@@ -1,7 +1,7 @@
 class EsrbRating {
-  int id;
-  String name;
-  String slug;
+  int? id;
+  String? name;
+  String? slug;
 
-  EsrbRating({required this.id, required this.name, required this.slug});
+  EsrbRating({this.id, this.name, this.slug});
 }

@@ -37,7 +37,7 @@ class GameOverview extends StatelessWidget {
                     CachedNetworkImage(
                       fit: BoxFit.cover,
                       height: MediaQuery.of(context).size.height / 2.5,
-                      imageUrl: game.backgroundImage,
+                      imageUrl: game.backgroundImage!,
                       width: MediaQuery.of(context).size.width,
                     ),
                     Padding(
@@ -71,7 +71,7 @@ class GameOverview extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              game.name,
+                              game.name!,
                               style: AppFont.style(
                                 color: AppPalette.white,
                                 fontSize: 30,
@@ -108,12 +108,12 @@ class GameOverview extends StatelessWidget {
                     children: [
                       GameOverviewValueCard(
                         label: 'Platforms',
-                        value: 'PC, PlayStation 5, Xbox Series S/X, PlayStation 4, PlayStation 3, Xbox 360, Xbox One',
+                        value: game.platforms,
                       ),
                       SizedBox(width: 20.0),
                       GameOverviewValueCard(
                         label: 'Metascores',
-                        child: MetaScoreBox(state.selectedGame!.metacritic),
+                        child: MetaScoreBox(state.selectedGame!.metacritic!),
                       ),
                     ],
                   ),
@@ -128,7 +128,7 @@ class GameOverview extends StatelessWidget {
                       SizedBox(width: 20.0),
                       GameOverviewValueCard(
                         label: 'Release Date',
-                        value: DateFormat("MMM d, yyyy").format(game.released),
+                        value: DateFormat("MMM d, yyyy").format(game.released!),
                       ),
                     ],
                   ),
@@ -141,12 +141,12 @@ class GameOverview extends StatelessWidget {
                     children: [
                       GameOverviewValueCard(
                         label: 'Website',
-                        value: state.selectedGame!.website.replaceFirst(RegExp(r'https?://'), ''),
+                        value: state.selectedGame!.website!.replaceFirst(RegExp(r'https?://'), ''),
                       ),
                       SizedBox(width: 20.0),
                       GameOverviewValueCard(
                         label: 'Publisher',
-                        value: 'Rockstar games',
+                        value: state.selectedGame!.publisherNames,
                       ),
                     ],
                   ),

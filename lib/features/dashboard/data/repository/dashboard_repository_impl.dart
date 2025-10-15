@@ -10,8 +10,18 @@ class DashboardRepositoryImpl implements DashboardRepository {
   DashboardRepositoryImpl(this.dashboardRemoteDataSource);
 
   @override
-  Future<ApiResult<List<Game>>> getGames({int page = 1, int pageSize = 20}) {
-    return dashboardRemoteDataSource.getGames(page: page, pageSize: pageSize);
+  Future<ApiResult<List<Game>>> getGames({
+    int page = 1,
+    int pageSize = 20,
+    String? ordering,
+    String? platforms,
+  }) {
+    return dashboardRemoteDataSource.getGames(
+      page: page,
+      pageSize: pageSize,
+      ordering: ordering,
+      platforms: platforms,
+    );
   }
 
   @override

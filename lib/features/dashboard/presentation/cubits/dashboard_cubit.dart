@@ -16,17 +16,30 @@ class DashboardCubit extends Cubit<DashboardState> {
 
   DashboardCubit(this.getGamesUseCase, this.getGameOverviewUseCase) : super(const DashboardState());
 
-  Future<void> getGames({bool loadMore = false}) async {
+  Future<void> getGames({
+    bool loadMore = false,
+    String? ordering,
+    String? platforms,
+  }) async {
     if (state.more || state.end) return;
 
     if (loadMore) {
       emit(state.copyWith(more: true));
     } else {
-      emit(state.copyWith(loading: true, currentPage: 1));
+      emit(state.copyWith(
+        loading: true,
+        currentPage: 1,
+        ordering: ordering,
+        platforms: platforms,
+      ));
     }
 
     final page = loadMore ? state.currentPage + 1 : 1;
-    final result = await getGamesUseCase(page: page);
+    final result = await getGamesUseCase(
+      page: page,
+      ordering: ordering ?? state.ordering,
+      platforms: platforms ?? state.platforms,
+    );
 
     switch (result) {
       case ApiSuccess<List<Game>>():

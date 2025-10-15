@@ -37,7 +37,7 @@ class GameCard extends StatelessWidget {
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
                 height: 135,
-                imageUrl: game.backgroundImage,
+                imageUrl: game.backgroundImage!,
                 width: ((MediaQuery.of(context).size.width - 32) / 2),
               ),
             ),
@@ -45,7 +45,7 @@ class GameCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
-                game.name,
+                game.name!,
                 style: AppFont.style(color: AppPalette.white, fontSize: 14),
                 textAlign: TextAlign.left,
                 maxLines: 1,
@@ -55,7 +55,7 @@ class GameCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
-                DateFormat("MMM d, yyyy").format(game.released),
+                DateFormat("MMM d, yyyy").format(game.released!),
                 style: AppFont.style(color: AppPalette.gray1, fontSize: 11),
                 textAlign: TextAlign.left,
               ),
@@ -121,7 +121,7 @@ class GameCard extends StatelessWidget {
   }
 
   onTap(BuildContext context) {
-    context.read<DashboardCubit>().getGameOverview(game.id);
+    context.read<DashboardCubit>().getGameOverview(game.id!);
     context.pushNamed(RouteConstants.gameOverview, extra: game);
   }
 }

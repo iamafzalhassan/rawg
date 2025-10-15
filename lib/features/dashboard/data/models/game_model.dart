@@ -24,7 +24,7 @@ class GameModel extends Game {
     required super.parentPlatforms,
     required super.genres,
     required super.stores,
-    super.esrbRating,
+    required super.esrbRating,
   });
 
   GameModel copyWith({

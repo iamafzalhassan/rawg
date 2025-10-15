@@ -2,8 +2,7 @@ part of 'sort_chip_cubit.dart';
 
 class SortChipState extends Equatable {
   final SortItem? selectedGeneral, selectedPlatform;
-  final List<SortItem>? generalSortList;
-  final List<SortItem>? platformSortList;
+  final List<SortItem>? generalSortList, platformSortList;
 
   const SortChipState({
     this.selectedGeneral,
@@ -13,13 +12,15 @@ class SortChipState extends Equatable {
   });
 
   SortChipState copyWith({
-    SortItem? selectedGeneral, selectedPlatform,
+    SortItem? selectedGeneral,
+    selectedPlatform,
     List<SortItem>? generalSortList,
-    List<SortItem>? platformSortList,
+    platformSortList,
+    bool clearPlatform = false,
   }) {
     return SortChipState(
       selectedGeneral: selectedGeneral ?? this.selectedGeneral,
-      selectedPlatform: selectedPlatform,
+      selectedPlatform: clearPlatform ? null : (selectedPlatform ?? this.selectedPlatform),
       generalSortList: generalSortList ?? this.generalSortList,
       platformSortList: platformSortList ?? this.platformSortList,
     );

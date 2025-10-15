@@ -38,25 +38,36 @@ class Dashboard extends StatelessWidget {
               textAlign: TextAlign.left,
             ),
             SizedBox(height: 24.0),
-            BlocBuilder<SortChipCubit, SortChipState>(
-              builder: (context, state) => Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
-                    child: SortChip(
-                      SortChipType.general,
-                      label: 'Order by ',
-                      value: state.selectedGeneral!.name,
+            BlocListener<SortChipCubit, SortChipState>(
+              listener: (context, state) {
+                final ordering = state.selectedGeneral?.value;
+                final platforms = state.selectedPlatform?.value;
+
+                context.read<DashboardCubit>().getGames(
+                  ordering: ordering,
+                  platforms: platforms,
+                );
+              },
+              child: BlocBuilder<SortChipCubit, SortChipState>(
+                builder: (context, state) => Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: SortChip(
+                        SortChipType.general,
+                        label: 'Order by ',
+                        value: state.selectedGeneral!.name,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
-                    child: SortChip(
-                      SortChipType.platforms,
-                      value: state.selectedPlatform?.name ?? 'Platforms',
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: SortChip(
+                        SortChipType.platforms,
+                        value: state.selectedPlatform?.name ?? 'Platforms',
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 24.0),
@@ -71,7 +82,10 @@ class Dashboard extends StatelessWidget {
                     return Center(
                       child: Text(
                         state.message!,
-                        style: const TextStyle(fontSize: 16, color: AppPalette.white),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: AppPalette.white,
+                        ),
                       ),
                     );
                   }
