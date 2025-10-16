@@ -1,4 +1,4 @@
-import 'package:rawg/features/dashboard/data/models/publisher_model.dart';
+import 'package:rawg/features/dashboard/data/models/remote/publisher_model.dart';
 import 'package:rawg/features/dashboard/domain/entities/game_overview.dart';
 import 'package:rawg/features/dashboard/domain/entities/publisher.dart';
 

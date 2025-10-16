@@ -82,10 +82,8 @@ class Dashboard extends StatelessWidget {
                     return Center(
                       child: Text(
                         state.message!,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: AppPalette.white,
-                        ),
+                        textAlign: TextAlign.center,
+                        style: AppFont.style(color: AppPalette.white, fontSize: 16),
                       ),
                     );
                   }

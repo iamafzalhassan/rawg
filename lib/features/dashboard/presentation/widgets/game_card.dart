@@ -123,7 +123,7 @@ class GameCard extends StatelessWidget {
 
   void onTap(BuildContext context) async {
     ShowLoading.show(context);
-    final result = await context.read<DashboardCubit>().getGameOverview(game.id!);
+    await context.read<DashboardCubit>().getGameOverview(game.id!);
     ShowLoading.hide(context);
     context.pushNamed(RouteConstants.gameOverview, extra: game);
   }

@@ -1,7 +1,7 @@
-import 'package:rawg/features/dashboard/data/models/esrb_rating_model.dart';
-import 'package:rawg/features/dashboard/data/models/genre_model.dart';
-import 'package:rawg/features/dashboard/data/models/parent_platform_model.dart';
-import 'package:rawg/features/dashboard/data/models/store_model.dart';
+import 'package:rawg/features/dashboard/data/models/remote/esrb_rating_model.dart';
+import 'package:rawg/features/dashboard/data/models/remote/genre_model.dart';
+import 'package:rawg/features/dashboard/data/models/remote/parent_platform_model.dart';
+import 'package:rawg/features/dashboard/data/models/remote/store_model.dart';
 import 'package:rawg/features/dashboard/domain/entities/game.dart';
 
 class GameModel extends Game {

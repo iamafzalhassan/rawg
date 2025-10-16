@@ -1,13 +1,22 @@
 import 'package:rawg/core/network/api_result.dart';
+import 'package:rawg/core/network/connection_checker.dart';
+import 'package:rawg/features/dashboard/data/datasources/dashboard_local_datasource.dart';
 import 'package:rawg/features/dashboard/data/datasources/dashboard_remote_datasource.dart';
+import 'package:rawg/features/dashboard/data/models/remote/game_model.dart';
 import 'package:rawg/features/dashboard/domain/entities/game.dart';
 import 'package:rawg/features/dashboard/domain/entities/game_overview.dart';
 import 'package:rawg/features/dashboard/domain/repository/dashboard_repository.dart';
 
 class DashboardRepositoryImpl implements DashboardRepository {
-  final DashboardRemoteDataSource dashboardRemoteDataSource;
+  final DashboardRemoteDataSource remoteDataSource;
+  final DashboardLocalDataSource localDataSource;
+  final ConnectionChecker connectionChecker;
 
-  DashboardRepositoryImpl(this.dashboardRemoteDataSource);
+  DashboardRepositoryImpl(
+    this.remoteDataSource,
+    this.localDataSource,
+    this.connectionChecker,
+  );
 
   @override
   Future<ApiResult<List<Game>>> getGames({
@@ -15,17 +24,64 @@ class DashboardRepositoryImpl implements DashboardRepository {
     int pageSize = 20,
     String? ordering,
     String? platforms,
-  }) {
-    return dashboardRemoteDataSource.getGames(
-      page: page,
-      pageSize: pageSize,
-      ordering: ordering,
-      platforms: platforms,
-    );
+  }) async {
+    try {
+      final isConnected = await connectionChecker.isConnected;
+
+      if (isConnected) {
+        final result = await remoteDataSource.getGames(
+          page: page,
+          pageSize: pageSize,
+          ordering: ordering,
+          platforms: platforms,
+        );
+
+        if (result is ApiSuccess<List<GameModel>>) {
+          await localDataSource.cacheGames(
+            result.data,
+            page: page,
+            ordering: ordering,
+            platforms: platforms,
+          );
+
+          return ApiSuccess<List<Game>>(result.data);
+        } else {
+          return await getCachedGames(page, ordering, platforms);
+        }
+      } else {
+        return await getCachedGames(page, ordering, platforms);
+      }
+    } catch (e) {
+      return await getCachedGames(page, ordering, platforms);
+    }
+  }
+
+  Future<ApiResult<List<Game>>> getCachedGames(
+    int page,
+    String? ordering,
+    String? platforms,
+  ) async {
+    try {
+      final cachedGames = await localDataSource.getCachedGames(
+        page: page,
+        ordering: ordering,
+        platforms: platforms,
+      );
+
+      if (cachedGames.isNotEmpty) {
+        return ApiSuccess(cachedGames);
+      } else {
+        return const ApiFailure(
+          message: 'No cached data available. Please check your internet connection.',
+        );
+      }
+    } catch (e) {
+      return ApiFailure(message: e.toString());
+    }
   }
 
   @override
   Future<ApiResult<GameOverview>> getGameOverview(int id) {
-    return dashboardRemoteDataSource.getGameOverview(id);
+    return remoteDataSource.getGameOverview(id);
   }
 }

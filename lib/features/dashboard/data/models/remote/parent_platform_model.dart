@@ -1,6 +1,5 @@
+import 'package:rawg/features/dashboard/data/models/remote/esrb_rating_model.dart';
 import 'package:rawg/features/dashboard/domain/entities/parent_platform.dart';
-
-import 'esrb_rating_model.dart';
 
 class ParentPlatformModel extends ParentPlatform{
   ParentPlatformModel({required super.platform});

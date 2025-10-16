@@ -3,8 +3,8 @@ import 'package:rawg/core/constants/api_constants.dart';
 import 'package:rawg/core/errors/exceptions.dart';
 import 'package:rawg/core/network/api_request.dart';
 import 'package:rawg/core/network/api_result.dart';
-import 'package:rawg/features/dashboard/data/models/game_model.dart';
-import 'package:rawg/features/dashboard/data/models/game_overview_model.dart';
+import 'package:rawg/features/dashboard/data/models/remote/game_model.dart';
+import 'package:rawg/features/dashboard/data/models/remote/game_overview_model.dart';
 
 abstract interface class DashboardRemoteDataSource {
   Future<ApiResult<List<GameModel>>> getGames({

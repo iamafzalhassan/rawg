@@ -1,4 +1,4 @@
-import 'package:rawg/features/dashboard/data/models/genre_model.dart';
+import 'package:rawg/features/dashboard/data/models/remote/genre_model.dart';
 import 'package:rawg/features/dashboard/domain/entities/store.dart';
 
 class StoreModel extends Store{
