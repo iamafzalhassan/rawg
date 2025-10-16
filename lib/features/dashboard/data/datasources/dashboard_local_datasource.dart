@@ -46,7 +46,7 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
 
     for (var i = 0; i < games.length; i++) {
       final hiveModel = HiveGameModel.fromGameModel(games[i]);
-      await gamesBox.put('${cacheKey}_$i', hiveModel);
+      await gamesBox.put('$cacheKey-$i', hiveModel);
     }
   }
 
@@ -82,7 +82,7 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
   }
 
   String generateCacheKey({int page = 1, String? ordering, String? platforms}) {
-    return 'games_p${page}_o${ordering ?? 'none'}_pl${platforms ?? 'none'}';
+    return 'games-p$page-o${ordering ?? 'none'}-pl${platforms ?? 'none'}';
   }
 
   Future<void> clearPageCache(String cacheKey) async {
