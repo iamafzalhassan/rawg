@@ -3,15 +3,16 @@ import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 
 class GameOverviewValueCard extends StatelessWidget {
-  const GameOverviewValueCard({
+  const GameOverviewValueCard(
+    this.label, {
     super.key,
-    this.label,
     this.value,
     this.width,
     this.child,
   });
 
-  final String? label, value;
+  final String label;
+  final String? value;
   final double? width;
   final Widget? child;
 
@@ -21,13 +22,12 @@ class GameOverviewValueCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          label!,
+          label,
           style: AppFont.style(color: AppPalette.gray4, fontSize: 10),
           textAlign: TextAlign.left,
         ),
         SizedBox(height: 2.0),
-        if (child != null)
-          child!,
+        if (child != null) child!,
         if (value != null)
           SizedBox(
             width: width ?? (((MediaQuery.of(context).size.width - 32) / 2) - 10),

@@ -20,7 +20,7 @@ class MetaScoreBox extends StatelessWidget {
       child: Text(
         '$metacritic',
         style: AppFont.style(color: AppPalette.green1, fontSize: 12),
-        textAlign: TextAlign.left,
+        textAlign: TextAlign.center,
       ),
     );
   }

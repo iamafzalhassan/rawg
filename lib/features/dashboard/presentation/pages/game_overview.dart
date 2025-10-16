@@ -25,10 +25,6 @@ class GameOverview extends StatelessWidget {
         physics: ClampingScrollPhysics(),
         child: BlocBuilder<DashboardCubit, DashboardState>(
           builder: (context, state) {
-            if (state.loading) {
-              return SizedBox.shrink();
-            }
-
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -107,13 +103,13 @@ class GameOverview extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       GameOverviewValueCard(
-                        label: 'Platforms',
+                        'Platforms',
                         value: game.platforms,
                       ),
                       SizedBox(width: 20.0),
                       GameOverviewValueCard(
-                        label: 'Metascores',
-                        child: MetaScoreBox(state.selectedGame!.metacritic!),
+                        'Metascores',
+                        child: MetaScoreBox(state.selectedGame!.metacritic ?? 0),
                       ),
                     ],
                   ),
@@ -124,10 +120,10 @@ class GameOverview extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GameOverviewValueCard(label: 'Genre', value: 'Action'),
+                      GameOverviewValueCard('Genre', value: 'Action'),
                       SizedBox(width: 20.0),
                       GameOverviewValueCard(
-                        label: 'Release Date',
+                        'Release Date',
                         value: DateFormat("MMM d, yyyy").format(game.released!),
                       ),
                     ],
@@ -140,12 +136,12 @@ class GameOverview extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       GameOverviewValueCard(
-                        label: 'Website',
+                        'Website',
                         value: state.selectedGame!.website!.replaceFirst(RegExp(r'https?://'), ''),
                       ),
                       SizedBox(width: 20.0),
                       GameOverviewValueCard(
-                        label: 'Publisher',
+                        'Publisher',
                         value: state.selectedGame!.publisherNames,
                       ),
                     ],
@@ -155,7 +151,7 @@ class GameOverview extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: GameOverviewValueCard(
-                    label: 'About',
+                    'About',
                     value: state.selectedGame!.shortDescription,
                     width: MediaQuery.of(context).size.width,
                   ),

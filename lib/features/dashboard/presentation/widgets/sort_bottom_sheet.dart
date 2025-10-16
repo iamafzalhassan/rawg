@@ -49,21 +49,21 @@ class SortBottomSheet extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  item.name!,
+                  item.name,
                   style: AppFont.style(color: AppPalette.white, fontSize: 18),
                   textAlign: TextAlign.left,
                 ),
                 const Spacer(),
                 Container(
                   decoration: BoxDecoration(
-                    color: item.isSelected! ? AppPalette.green1 : null,
+                    color: item.isSelected ? AppPalette.green1 : null,
                     shape: BoxShape.circle,
-                    border: item.isSelected! ? null : Border.all(color: AppPalette.gray2),
+                    border: item.isSelected ? null : Border.all(color: AppPalette.gray2),
                   ),
                   height: 20,
                   width: 20,
                   padding: const EdgeInsets.all(2.0),
-                  child: item.isSelected! ? Image.asset(AssetConstants.tickIcon) : null,
+                  child: item.isSelected ? Image.asset(AssetConstants.tickIcon) : null,
                 ),
               ],
             ),

@@ -13,7 +13,7 @@ class SortChipCubit extends Cubit<SortChipState> {
   SortChipCubit() : super(const SortChipState()) {
     emit(
       state.copyWith(
-        selectedGeneral: generalSortList.singleWhere((i) => i.isSelected!),
+        selectedGeneral: generalSortList.singleWhere((i) => i.isSelected),
         generalSortList: generalSortList,
         platformSortList: platformSortList,
       ),
@@ -22,19 +22,19 @@ class SortChipCubit extends Cubit<SortChipState> {
 
   void onItemSelected(SortChipType type, SortItem item) {
     if (type == SortChipType.general) {
-      generalSortList = updateSelection(generalSortList, item.id!, false);
+      generalSortList = updateSelection(generalSortList, item.id, false);
       emit(
         state.copyWith(
-          selectedGeneral: generalSortList.singleWhere((i) => i.isSelected!),
+          selectedGeneral: generalSortList.singleWhere((i) => i.isSelected),
           generalSortList: generalSortList,
         ),
       );
     } else {
-      final isCurrentlySelected = platformSortList.any((i) => i.isSelected! && i.id == item.id);
-      platformSortList = updateSelection(platformSortList, item.id!, isCurrentlySelected);
+      final isCurrentlySelected = platformSortList.any((i) => i.isSelected && i.id == item.id);
+      platformSortList = updateSelection(platformSortList, item.id, isCurrentlySelected);
       emit(
         state.copyWith(
-          selectedPlatform: isCurrentlySelected ? null : platformSortList.firstWhere((i) => i.isSelected!),
+          selectedPlatform: isCurrentlySelected ? null : platformSortList.firstWhere((i) => i.isSelected),
           platformSortList: platformSortList,
           clearPlatform: isCurrentlySelected,
         ),
@@ -45,10 +45,10 @@ class SortChipCubit extends Cubit<SortChipState> {
   List<SortItem> updateSelection(List<SortItem> list, int id, bool deSelect) {
     return list.map((i) {
       return SortItem(
-        id: i.id,
-        name: i.name,
-        isSelected: deSelect ? false : i.id == id,
-        value: i.value,
+        deSelect ? false : i.id == id,
+        i.id,
+        i.name,
+        i.value,
       );
     }).toList();
   }
