@@ -12,12 +12,15 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await init();
+  run();
+}
 
+void run() {
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en', 'US'), Locale('si', 'LK')],
-      path: 'assets/locales',
       fallbackLocale: const Locale('en', 'US'),
+      path: 'assets/locales',
+      supportedLocales: const [Locale('en', 'US'), Locale('si', 'LK')],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => sl<SortChipCubit>()),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rawg/core/constants/asset_constants.dart';
 import 'package:rawg/core/constants/route_constants.dart';
-import 'package:rawg/core/theme/app_pallete.dart';
 
 class RAWGAppBar extends StatelessWidget implements PreferredSizeWidget {
   const RAWGAppBar({super.key});

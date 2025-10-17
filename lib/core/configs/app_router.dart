@@ -12,7 +12,7 @@ class AppRouter {
       GoRoute(
         path: '/dashboard',
         name: RouteConstants.dashboard,
-        builder: (context, state) => const Dashboard(),
+        builder: (context, state) => Dashboard(),
         routes: [
           GoRoute(
             path: 'game-overview',
@@ -22,12 +22,12 @@ class AppRouter {
               return GameOverview(game);
             },
           ),
-          GoRoute(
-            path: 'settings',
-            name: RouteConstants.settings,
-            builder: (context, state) => const Settings(),
-          ),
         ],
+      ),
+      GoRoute(
+        path: '/settings',
+        name: RouteConstants.settings,
+        builder: (context, state) => Settings(),
       ),
     ],
   );

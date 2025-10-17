@@ -9,12 +9,12 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      locale: context.locale,
+      localizationsDelegates: context.localizationDelegates,
+      routerConfig: AppRouter.router,
+      supportedLocales: context.supportedLocales,
       title: 'appTitle'.tr(),
       theme: AppTheme.darkMode,
-      routerConfig: AppRouter.router,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
     );
   }
 }
