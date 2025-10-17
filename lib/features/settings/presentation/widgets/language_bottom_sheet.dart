@@ -2,37 +2,43 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg/core/constants/asset_constants.dart';
-import 'package:rawg/core/enums/sort_chip_type.dart';
+import 'package:rawg/core/constants/locale_constants.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 import 'package:rawg/features/common/presentation/widgets/doshed_divider.dart';
-import 'package:rawg/features/dashboard/domain/entities/sort_item.dart';
-import 'package:rawg/features/dashboard/presentation/cubits/sort_chip_cubit.dart';
+import 'package:rawg/features/settings/presentation/cubits/settings_cubit.dart';
 
-class SortBottomSheet extends StatelessWidget {
-  const SortBottomSheet(this.type, {super.key});
-
-  final SortChipType type;
+class LanguageBottomSheet extends StatelessWidget {
+  const LanguageBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SortChipCubit, SortChipState>(
-      builder: (context, state) {
-        final List<SortItem>? sortList = type == SortChipType.general ? state.generalSortList : state.platformSortList;
+    final languages = LocaleConstants.languages;
 
+    return BlocBuilder<SettingsCubit, SettingsState>(
+      builder: (context, state) {
         return Column(
           children: [
             Container(
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.only(left: 16.0),
               child: Text(
-                'sort.title'.tr(),
+                'settings.selectLanguage'.tr(),
                 style: AppFont.style(color: AppPalette.white, fontSize: 25),
                 textAlign: TextAlign.left,
               ),
             ),
             const SizedBox(height: 16.0),
-            ...List.generate(sortList!.length, (i) => buildSortItem(context, sortList[i], i, sortList.length)),
+            ...List.generate(
+              languages.length,
+              (i) => buildLanguageItem(
+                context,
+                languages[i]['locale'] as Locale,
+                languages[i]['name'] as String,
+                i,
+                languages.length,
+              ),
+            ),
             const SizedBox(height: 16.0),
           ],
         );
@@ -40,9 +46,17 @@ class SortBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget buildSortItem(BuildContext context, SortItem item, int index, int length) {
+  Widget buildLanguageItem(
+    BuildContext context,
+    Locale locale,
+    String name,
+    int index,
+    int length,
+  ) {
+    final isSelected = context.locale == locale;
+
     return GestureDetector(
-      onTap: () => onTap(context, item),
+      onTap: () => onLanguageSelected(context, locale),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
@@ -50,21 +64,21 @@ class SortBottomSheet extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  item.name,
+                  name,
                   style: AppFont.style(color: AppPalette.white, fontSize: 18),
                   textAlign: TextAlign.left,
                 ),
                 const Spacer(),
                 Container(
                   decoration: BoxDecoration(
-                    color: item.isSelected ? AppPalette.green1 : null,
+                    color: isSelected ? AppPalette.green1 : null,
                     shape: BoxShape.circle,
-                    border: item.isSelected ? null : Border.all(color: AppPalette.gray2),
+                    border: isSelected ? null : Border.all(color: AppPalette.gray2),
                   ),
                   height: 20,
                   width: 20,
                   padding: const EdgeInsets.all(2.0),
-                  child: item.isSelected ? Image.asset(AssetConstants.tickIcon) : null,
+                  child: isSelected ? Image.asset(AssetConstants.tickIcon) : null,
                 ),
               ],
             ),
@@ -79,8 +93,15 @@ class SortBottomSheet extends StatelessWidget {
     );
   }
 
-  void onTap(BuildContext context, SortItem item) {
-    context.read<SortChipCubit>().onItemSelected(type, item);
-    Navigator.pop(context);
+  void onLanguageSelected(BuildContext context, Locale locale) async {
+    await context.setLocale(locale);
+
+    if (context.mounted) {
+      context.read<SettingsCubit>().setCurrentLocale(locale);
+    }
+
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
   }
 }

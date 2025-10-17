@@ -12,6 +12,7 @@ import 'package:rawg/features/dashboard/domain/usecases/get_game_overview_use_ca
 import 'package:rawg/features/dashboard/domain/usecases/get_games_use_case.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/dashboard_cubit.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/sort_chip_cubit.dart';
+import 'package:rawg/features/settings/presentation/cubits/settings_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -27,6 +28,8 @@ Future<void> initCommon() async {
   sl.registerLazySingleton<ConnectionChecker>(() => ConnectionCheckerImpl(InternetConnection()));
 
   sl.registerFactory(() => SortChipCubit());
+
+  sl.registerFactory(() => SettingsCubit());
 }
 
 Future<void> initHive() async {

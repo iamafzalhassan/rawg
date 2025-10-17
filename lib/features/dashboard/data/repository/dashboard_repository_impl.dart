@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:rawg/core/network/api_result.dart';
 import 'package:rawg/core/network/connection_checker.dart';
 import 'package:rawg/features/dashboard/data/datasources/dashboard_local_datasource.dart';
@@ -13,10 +14,10 @@ class DashboardRepositoryImpl implements DashboardRepository {
   final ConnectionChecker connectionChecker;
 
   DashboardRepositoryImpl(
-    this.remoteDataSource,
-    this.localDataSource,
-    this.connectionChecker,
-  );
+      this.remoteDataSource,
+      this.localDataSource,
+      this.connectionChecker,
+      );
 
   @override
   Future<ApiResult<List<Game>>> getGames({
@@ -57,10 +58,10 @@ class DashboardRepositoryImpl implements DashboardRepository {
   }
 
   Future<ApiResult<List<Game>>> getCachedGames(
-    int page,
-    String? ordering,
-    String? platforms,
-  ) async {
+      int page,
+      String? ordering,
+      String? platforms,
+      ) async {
     try {
       final cachedGames = await localDataSource.getCachedGames(
         page: page,
@@ -71,8 +72,8 @@ class DashboardRepositoryImpl implements DashboardRepository {
       if (cachedGames.isNotEmpty) {
         return ApiSuccess(cachedGames);
       } else {
-        return const ApiFailure(
-          message: 'No cached data available. Please check your internet connection.',
+        return ApiFailure(
+          message: 'errors.noCache'.tr(),
         );
       }
     } catch (e) {

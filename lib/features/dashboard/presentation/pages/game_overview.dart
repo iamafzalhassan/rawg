@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:rawg/core/constants/asset_constants.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
@@ -77,7 +78,9 @@ class GameOverview extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                              'Average playtime almost ${game.playtime} Hours.',
+                              'gameOverview.averagePlaytime'.tr(
+                                args: ['${game.playtime}'],
+                              ),
                               style: AppFont.style(
                                 color: AppPalette.white,
                                 fontSize: 14,
@@ -103,28 +106,15 @@ class GameOverview extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       GameOverviewValueCard(
-                        'Platforms',
+                        'gameOverview.platforms'.tr(),
                         value: game.platforms,
                       ),
                       SizedBox(width: 20.0),
                       GameOverviewValueCard(
-                        'Metascores',
-                        child: MetaScoreBox(state.selectedGame!.metacritic ?? 0),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GameOverviewValueCard('Genre', value: 'Action'),
-                      SizedBox(width: 20.0),
-                      GameOverviewValueCard(
-                        'Release Date',
-                        value: DateFormat("MMM d, yyyy").format(game.released!),
+                        'gameOverview.metascores'.tr(),
+                        child: MetaScoreBox(
+                          state.selectedGame!.metacritic ?? 0,
+                        ),
                       ),
                     ],
                   ),
@@ -136,12 +126,31 @@ class GameOverview extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       GameOverviewValueCard(
-                        'Website',
-                        value: state.selectedGame!.website!.replaceFirst(RegExp(r'https?://'), ''),
+                        'gameOverview.genre'.tr(),
+                        value: 'Action',
                       ),
                       SizedBox(width: 20.0),
                       GameOverviewValueCard(
-                        'Publisher',
+                        'gameOverview.releaseDate'.tr(),
+                        value: intl.DateFormat("MMM d, yyyy").format(game.released!),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GameOverviewValueCard(
+                        'gameOverview.website'.tr(),
+                        value: state.selectedGame!.website!.replaceFirst(RegExp(r'https?://'), '',
+                        ),
+                      ),
+                      SizedBox(width: 20.0),
+                      GameOverviewValueCard(
+                        'gameOverview.publisher'.tr(),
                         value: state.selectedGame!.publisherNames,
                       ),
                     ],
@@ -151,7 +160,7 @@ class GameOverview extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: GameOverviewValueCard(
-                    'About',
+                    'gameOverview.about'.tr(),
                     value: state.selectedGame!.shortDescription,
                     width: MediaQuery.of(context).size.width,
                   ),
@@ -163,7 +172,7 @@ class GameOverview extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Available Stores',
+                        'gameOverview.availableStores'.tr(),
                         style: AppFont.style(
                           color: AppPalette.gray4,
                           fontSize: 10.0,
@@ -173,11 +182,14 @@ class GameOverview extends StatelessWidget {
                       SizedBox(height: 5.0),
                       Row(
                         children: [
-                          StoreChip(AssetConstants.steamIcon, 'Steam'),
+                          StoreChip(
+                            AssetConstants.steamIcon,
+                            'stores.steam'.tr(),
+                          ),
                           SizedBox(width: 5.0),
                           StoreChip(
                             AssetConstants.epicStoresIcon,
-                            'Epic Games',
+                            'stores.epicGames'.tr(),
                           ),
                         ],
                       ),
@@ -189,7 +201,7 @@ class GameOverview extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: RAWGButton(
                     icon: AssetConstants.plusIcon,
-                    'Add to collection',
+                    'gameOverview.addToCollection'.tr(),
                     () {},
                   ),
                 ),
@@ -198,7 +210,7 @@ class GameOverview extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: RAWGButton(
                     icon: AssetConstants.giftIcon,
-                    'Add to wishlist',
+                    'gameOverview.addToWishlist'.tr(),
                     () {},
                   ),
                 ),

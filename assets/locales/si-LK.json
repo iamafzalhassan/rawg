@@ -1,0 +1,60 @@
+{
+  "appTitle": "RAWG",
+  "dashboard": {
+    "title": "නව සහ ජනප්‍රිය",
+    "subtitle": "ක්‍රීඩකයින්ගේ ගණන සහ නිකුත් කළ දිනය මත පදනම් වේ.",
+    "searchHint": "ක්‍රීඩා 892,993 ක් සොයන්න",
+    "loadMore": "තව පූරණය කරන්න",
+    "orderBy": "අනුපිළිවෙල ",
+    "platforms": "වේදිකා"
+  },
+  "gameOverview": {
+    "averagePlaytime": "සාමාන්‍ය ක්‍රීඩා කාලය පැය {} කි.",
+    "addToCollection": "එකතුවට එක් කරන්න",
+    "addToWishlist": "කැමති ලැයිස්තුවට එක් කරන්න",
+    "availableStores": "පවතින වෙළඳසැල්",
+    "platforms": "වේදිකා",
+    "metascores": "මෙටාස්කෝර්",
+    "genre": "ප්‍රභේදය",
+    "releaseDate": "නිකුත් කළ දිනය",
+    "website": "වෙබ් අඩවිය",
+    "publisher": "ප්‍රකාශකයා",
+    "about": "පිළිබඳව"
+  },
+  "settings": {
+    "title": "සැකසුම්",
+    "language": "භාෂාව",
+    "notifications": "දැනුම්දීම්",
+    "selectLanguage": "භාෂාව තෝරන්න"
+  },
+  "languages": {
+    "english": "English",
+    "sinhala": "සිංහල"
+  },
+  "sort": {
+    "title": "අනුපිළිවෙල,",
+    "relevance": "අදාළත්වය",
+    "dateAdded": "එක් කළ දිනය",
+    "playstation": "PlayStation",
+    "xbox": "Xbox",
+    "pc": "PC"
+  },
+  "stores": {
+    "steam": "Steam",
+    "epicGames": "Epic Games"
+  },
+  "errors": {
+    "noCache": "හැඹිලි දත්ත නොමැත. කරුණාකර ඔබේ අන්තර්ජාල සම්බන්ධතාවය පරීක්ෂා කරන්න.",
+    "connectionTimeout": "සම්බන්ධතා කාල සීමාව. කරුණාකර ඔබේ අන්තර්ජාල සම්බන්ධතාවය පරීක්ෂා කරන්න.",
+    "sendTimeout": "යැවීමේ කාල සීමාව. කරුණාකර නැවත උත්සාහ කරන්න.",
+    "receiveTimeout": "ලැබීමේ කාල සීමාව. කරුණාකර නැවත උත්සාහ කරන්න.",
+    "badRequest": "වැරදි ඉල්ලීමක්. කරුණාකර ඔබේ ආදානය පරීක්ෂා කරන්න.",
+    "unauthorized": "අනවසරයි. කරුණාකර නැවත පිවිසෙන්න.",
+    "accessDenied": "ප්‍රවේශය ප්‍රතික්ෂේප විය.",
+    "notFound": "සම්පත හමු නොවීය.",
+    "serverError": "අභ්‍යන්තර සේවාදායක දෝෂයකි. කරුණාකර පසුව නැවත උත්සාහ කරන්න.",
+    "cancelled": "ඉල්ලීම අවලංගු කරන ලදී.",
+    "noInternet": "අන්තර්ජාල සම්බන්ධතාවයක් නැත. කරුණාකර ඔබේ සම්බන්ධතාවය පරීක්ෂා කරන්න.",
+    "default": "යමක් වැරදී ඇත. කරුණාකර නැවත උත්සාහ කරන්න."
+  }
+}

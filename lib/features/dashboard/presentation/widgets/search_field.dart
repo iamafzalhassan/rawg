@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:rawg/core/constants/asset_constants.dart';
 import 'package:rawg/core/theme/app_font.dart';
@@ -13,14 +14,14 @@ class SearchField extends StatelessWidget {
       cursorColor: AppPalette.white,
       decoration: InputDecoration(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50), // rounded edges
-          borderSide: BorderSide.none, // no border line
+          borderRadius: BorderRadius.circular(50),
+          borderSide: BorderSide.none,
         ),
         contentPadding: const EdgeInsets.all(16),
         filled: true,
         fillColor: AppPalette.gray5,
         hintStyle: AppFont.style(fontSize: 18.0, color: AppPalette.gray1),
-        hintText: 'Search 892,993 games',
+        hintText: 'dashboard.searchHint'.tr(),
         prefixIcon: Image.asset(AssetConstants.searchIcon, width: 18.0),
       ),
     );

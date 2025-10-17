@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg/core/enums/sort_chip_type.dart';
@@ -28,12 +29,12 @@ class Dashboard extends StatelessWidget {
               child: SearchField(),
             ),
             Text(
-              'New and trending',
+              'dashboard.title'.tr(),
               style: AppFont.style(color: AppPalette.white, fontSize: 30),
               textAlign: TextAlign.left,
             ),
             Text(
-              'Based on player counts and release date.',
+              'dashboard.subtitle'.tr(),
               style: AppFont.style(color: AppPalette.white, fontSize: 15),
               textAlign: TextAlign.left,
             ),
@@ -55,7 +56,7 @@ class Dashboard extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 12.0),
                       child: SortChip(
                         SortChipType.general,
-                        label: 'Order by ',
+                        label: 'dashboard.orderBy'.tr(),
                         value: state.selectedGeneral!.name,
                       ),
                     ),
@@ -63,7 +64,7 @@ class Dashboard extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 12.0),
                       child: SortChip(
                         SortChipType.platforms,
-                        value: state.selectedPlatform?.name ?? 'Platforms',
+                        value: state.selectedPlatform?.name ?? 'dashboard.platforms'.tr(),
                       ),
                     ),
                   ],
@@ -83,7 +84,10 @@ class Dashboard extends StatelessWidget {
                       child: Text(
                         state.message!,
                         textAlign: TextAlign.center,
-                        style: AppFont.style(color: AppPalette.white, fontSize: 16),
+                        style: AppFont.style(
+                          color: AppPalette.white,
+                          fontSize: 16,
+                        ),
                       ),
                     );
                   }
@@ -94,13 +98,15 @@ class Dashboard extends StatelessWidget {
                       Wrap(
                         spacing: 10.0,
                         runSpacing: 10.0,
-                        children: state.games!.map((game) => GameCard(game)).toList(),
+                        children: state.games!
+                            .map((game) => GameCard(game))
+                            .toList(),
                       ),
                       if (!state.more && !state.end)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 24.0),
                           child: RAWGButton(
-                            'Load more',
+                            'dashboard.loadMore'.tr(),
                             () => onTapLoadMore(context),
                           ),
                         ),

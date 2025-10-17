@@ -1,39 +1,40 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Exceptions {
   static String handleError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
-        return "Connection timeout. Please check your internet connection.";
+        return "errors.connectionTimeout".tr();
       case DioExceptionType.sendTimeout:
-        return "Send timeout. Please try again.";
+        return "errors.sendTimeout".tr();
       case DioExceptionType.receiveTimeout:
-        return "Receive timeout. Please try again.";
+        return "errors.receiveTimeout".tr();
       case DioExceptionType.badResponse:
         return handleStatusCode(error.response?.statusCode);
       case DioExceptionType.cancel:
-        return "Request was cancelled.";
+        return "errors.cancelled".tr();
       case DioExceptionType.connectionError:
-        return "No internet connection. Please check your connectivity.";
+        return "errors.noInternet".tr();
       default:
-        return "Something went wrong. Please try again.";
+        return "errors.default".tr();
     }
   }
 
   static String handleStatusCode(int? statusCode) {
     switch (statusCode) {
       case 400:
-        return "Bad request. Please check your input.";
+        return "errors.badRequest".tr();
       case 401:
-        return "Unauthorized. Please login again.";
+        return "errors.unauthorized".tr();
       case 403:
-        return "Access denied.";
+        return "errors.accessDenied".tr();
       case 404:
-        return "Resource not found.";
+        return "errors.notFound".tr();
       case 500:
-        return "Internal server error. Please try again later.";
+        return "errors.serverError".tr();
       default:
-        return "Server error. Please try again.";
+        return "errors.default".tr();
     }
   }
 }

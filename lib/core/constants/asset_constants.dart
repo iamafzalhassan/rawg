@@ -15,4 +15,5 @@ class AssetConstants {
   static const windowsIcon = 'assets/icons/windows.png';
   static const xboxIcon = 'assets/icons/xbox.png';
   static const tickIcon = 'assets/icons/tick.png';
+  static const settingIcon = 'assets/icons/setting.png';
 }
