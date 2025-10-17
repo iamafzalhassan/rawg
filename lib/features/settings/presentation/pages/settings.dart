@@ -1,11 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide showBottomSheet;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:rawg/core/constants/asset_constants.dart';
-import 'package:rawg/core/theme/app_font.dart';
-import 'package:rawg/core/theme/app_pallete.dart';
 import 'package:rawg/core/utils/show_bottom_sheet.dart';
+import 'package:rawg/features/common/presentation/widgets/rawg_app_bar.dart';
 import 'package:rawg/features/settings/presentation/cubits/settings_cubit.dart';
 import 'package:rawg/features/settings/presentation/widgets/language_bottom_sheet.dart';
 import 'package:rawg/features/settings/presentation/widgets/settings_item.dart';
@@ -16,19 +13,11 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        leading: GestureDetector(
-          onTap: () => context.pop(),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Image.asset(AssetConstants.leftArrowIcon),
-          ),
-        ),
-        title: Text(
-          'settings.title'.tr(),
-          style: AppFont.style(color: AppPalette.white, fontSize: 20),
-        ),
+      appBar: RAWGAppBar(
+        showLogo: false,
+        title: 'settings.title'.tr(),
+        showBackButton: true,
+        showSettingsButton: false,
       ),
       body: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
