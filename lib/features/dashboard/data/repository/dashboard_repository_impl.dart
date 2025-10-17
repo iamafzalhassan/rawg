@@ -23,7 +23,6 @@ class DashboardRepositoryImpl implements DashboardRepository {
   Future<ApiResult<List<Game>>> getGames({
     int page = 1,
     int pageSize = 20,
-    String? ordering,
     String? platforms,
   }) async {
     try {
@@ -33,7 +32,6 @@ class DashboardRepositoryImpl implements DashboardRepository {
         final result = await remoteDataSource.getGames(
           page: page,
           pageSize: pageSize,
-          ordering: ordering,
           platforms: platforms,
         );
 
@@ -41,31 +39,28 @@ class DashboardRepositoryImpl implements DashboardRepository {
           await localDataSource.cacheGames(
             result.data,
             page: page,
-            ordering: ordering,
             platforms: platforms,
           );
 
           return ApiSuccess<List<Game>>(result.data);
         } else {
-          return await getCachedGames(page, ordering, platforms);
+          return await getCachedGames(page, platforms);
         }
       } else {
-        return await getCachedGames(page, ordering, platforms);
+        return await getCachedGames(page, platforms);
       }
     } catch (e) {
-      return await getCachedGames(page, ordering, platforms);
+      return await getCachedGames(page, platforms);
     }
   }
 
   Future<ApiResult<List<Game>>> getCachedGames(
       int page,
-      String? ordering,
       String? platforms,
       ) async {
     try {
       final cachedGames = await localDataSource.getCachedGames(
         page: page,
-        ordering: ordering,
         platforms: platforms,
       );
 

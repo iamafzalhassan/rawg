@@ -6,13 +6,11 @@ abstract interface class DashboardLocalDataSource {
   Future<void> cacheGames(
     List<GameModel> games, {
     int page = 1,
-    String? ordering,
     String? platforms,
   });
 
   Future<List<GameModel>> getCachedGames({
     int page = 1,
-    String? ordering,
     String? platforms,
   });
 
@@ -32,13 +30,11 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
   Future<void> cacheGames(
     List<GameModel> games, {
     int page = 1,
-    String? ordering,
     String? platforms,
   }) async {
     final gamesBox = await box;
     final cacheKey = generateCacheKey(
       page: page,
-      ordering: ordering,
       platforms: platforms,
     );
 
@@ -53,13 +49,11 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
   @override
   Future<List<GameModel>> getCachedGames({
     int page = 1,
-    String? ordering,
     String? platforms,
   }) async {
     final gamesBox = await box;
     final cacheKey = generateCacheKey(
       page: page,
-      ordering: ordering,
       platforms: platforms,
     );
 
@@ -81,8 +75,8 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
     await gamesBox.clear();
   }
 
-  String generateCacheKey({int page = 1, String? ordering, String? platforms}) {
-    return 'games-p$page-o${ordering ?? 'none'}-pl${platforms ?? 'none'}';
+  String generateCacheKey({int page = 1, String? platforms}) {
+    return 'games-p$page-pl${platforms ?? 'none'}';
   }
 
   Future<void> clearPageCache(String cacheKey) async {

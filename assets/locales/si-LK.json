@@ -5,7 +5,6 @@
     "subtitle": "ක්‍රීඩකයින්ගේ ගණන සහ නිකුත් කළ දිනය මත පදනම් වේ.",
     "searchHint": "ක්‍රීඩා 892,993 ක් සොයන්න",
     "loadMore": "තව පූරණය කරන්න",
-    "orderBy": "අනුපිළිවෙල ",
     "platforms": "වේදිකා"
   },
   "gameOverview": {
@@ -32,9 +31,6 @@
     "sinhala": "සිංහල"
   },
   "sort": {
-    "title": "අනුපිළිවෙල,",
-    "relevance": "අදාළත්වය",
-    "dateAdded": "එක් කළ දිනය",
     "playstation": "PlayStation",
     "xbox": "Xbox",
     "pc": "PC"

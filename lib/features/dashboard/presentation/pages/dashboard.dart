@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rawg/core/enums/sort_chip_type.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 import 'package:rawg/features/common/presentation/widgets/rawg_app_bar.dart';
@@ -41,33 +40,12 @@ class Dashboard extends StatelessWidget {
             SizedBox(height: 24.0),
             BlocListener<SortChipCubit, SortChipState>(
               listener: (context, state) {
-                final ordering = state.selectedGeneral?.value;
                 final platforms = state.selectedPlatform?.value;
-
-                context.read<DashboardCubit>().getGames(
-                  ordering: ordering,
-                  platforms: platforms,
-                );
+                context.read<DashboardCubit>().getGames(platforms: platforms);
               },
               child: BlocBuilder<SortChipCubit, SortChipState>(
-                builder: (context, state) => Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 12.0),
-                      child: SortChip(
-                        SortChipType.general,
-                        label: 'dashboard.orderBy'.tr(),
-                        value: state.selectedGeneral!.name,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 12.0),
-                      child: SortChip(
-                        SortChipType.platforms,
-                        value: state.selectedPlatform?.name ?? 'dashboard.platforms'.tr(),
-                      ),
-                    ),
-                  ],
+                builder: (context, state) => SortChip(
+                  value: state.selectedPlatform?.name ?? 'dashboard.platforms'.tr(),
                 ),
               ),
             ),
@@ -98,9 +76,7 @@ class Dashboard extends StatelessWidget {
                       Wrap(
                         spacing: 10.0,
                         runSpacing: 10.0,
-                        children: state.games!
-                            .map((game) => GameCard(game))
-                            .toList(),
+                        children: state.games!.map((game) => GameCard(game)).toList(),
                       ),
                       if (!state.more && !state.end)
                         Padding(

@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg/core/constants/asset_constants.dart';
-import 'package:rawg/core/enums/sort_chip_type.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 import 'package:rawg/features/common/presentation/widgets/doshed_divider.dart';
@@ -10,15 +9,13 @@ import 'package:rawg/features/dashboard/domain/entities/sort_item.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/sort_chip_cubit.dart';
 
 class SortBottomSheet extends StatelessWidget {
-  const SortBottomSheet(this.type, {super.key});
-
-  final SortChipType type;
+  const SortBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SortChipCubit, SortChipState>(
       builder: (context, state) {
-        final List<SortItem>? sortList = type == SortChipType.general ? state.generalSortList : state.platformSortList;
+        final List<SortItem>? platformList = state.platformSortList;
 
         return Column(
           children: [
@@ -26,13 +23,13 @@ class SortBottomSheet extends StatelessWidget {
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.only(left: 16.0),
               child: Text(
-                'sort.title'.tr(),
+                'dashboard.platforms'.tr(),
                 style: AppFont.style(color: AppPalette.white, fontSize: 25),
                 textAlign: TextAlign.left,
               ),
             ),
             const SizedBox(height: 16.0),
-            ...List.generate(sortList!.length, (i) => buildSortItem(context, sortList[i], i, sortList.length)),
+            ...List.generate(platformList!.length, (i) => buildPlatformItem(context, platformList[i], i, platformList.length)),
             const SizedBox(height: 16.0),
           ],
         );
@@ -40,7 +37,7 @@ class SortBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget buildSortItem(BuildContext context, SortItem item, int index, int length) {
+  Widget buildPlatformItem(BuildContext context, SortItem item, int index, int length) {
     return GestureDetector(
       onTap: () => onTap(context, item),
       child: Padding(
@@ -80,7 +77,7 @@ class SortBottomSheet extends StatelessWidget {
   }
 
   void onTap(BuildContext context, SortItem item) {
-    context.read<SortChipCubit>().onItemSelected(type, item);
+    context.read<SortChipCubit>().onItemSelected(item);
     Navigator.pop(context);
   }
 }

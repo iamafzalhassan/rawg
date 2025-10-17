@@ -6,7 +6,6 @@ abstract interface class DashboardRepository {
   Future<ApiResult<List<Game>>> getGames({
     int page = 1,
     int pageSize = 20,
-    String? ordering,
     String? platforms,
   });
 

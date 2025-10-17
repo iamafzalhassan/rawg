@@ -6,7 +6,6 @@ class DashboardState extends Equatable {
   final bool end;
   final int currentPage;
   final String? message;
-  final String? ordering;
   final String? platforms;
   final GameOverview? selectedGame;
   final List<Game>? games;
@@ -17,7 +16,6 @@ class DashboardState extends Equatable {
     this.end = false,
     this.currentPage = 1,
     this.message,
-    this.ordering,
     this.platforms,
     this.selectedGame,
     this.games,
@@ -29,7 +27,6 @@ class DashboardState extends Equatable {
     bool? end,
     int? currentPage,
     String? message,
-    String? ordering,
     String? platforms,
     GameOverview? selectedGame,
     List<Game>? games,
@@ -40,7 +37,6 @@ class DashboardState extends Equatable {
       end: end ?? this.end,
       currentPage: currentPage ?? this.currentPage,
       message: message ?? this.message,
-      ordering: ordering ?? this.ordering,
       platforms: platforms ?? this.platforms,
       selectedGame: selectedGame ?? this.selectedGame,
       games: games ?? this.games,
@@ -54,7 +50,6 @@ class DashboardState extends Equatable {
     end,
     currentPage,
     message,
-    ordering,
     platforms,
     selectedGame,
     games,
