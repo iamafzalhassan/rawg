@@ -51,6 +51,7 @@
     "serverError": "Internal server error. Please try again later.",
     "cancelled": "Request was cancelled.",
     "noInternet": "No internet connection. Please check your connectivity.",
-    "default": "Something went wrong. Please try again."
+    "default": "Something went wrong. Please try again.",
+    "noMoreData": "No more data available. Please try connecting to Internet."
   }
 }

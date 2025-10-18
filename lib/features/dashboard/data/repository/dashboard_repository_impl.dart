@@ -14,10 +14,10 @@ class DashboardRepositoryImpl implements DashboardRepository {
   final ConnectionChecker connectionChecker;
 
   DashboardRepositoryImpl(
-      this.remoteDataSource,
-      this.localDataSource,
-      this.connectionChecker,
-      );
+    this.remoteDataSource,
+    this.localDataSource,
+    this.connectionChecker,
+  );
 
   @override
   Future<ApiResult<List<Game>>> getGames({
@@ -36,11 +36,13 @@ class DashboardRepositoryImpl implements DashboardRepository {
         );
 
         if (result is ApiSuccess<List<GameModel>>) {
-          await localDataSource.cacheGames(
-            result.data,
-            page: page,
-            platforms: platforms,
-          );
+          if (result.data.isNotEmpty) {
+            await localDataSource.cacheGames(
+              result.data,
+              page: page,
+              platforms: platforms,
+            );
+          }
 
           return ApiSuccess<List<Game>>(result.data);
         } else {
@@ -55,9 +57,9 @@ class DashboardRepositoryImpl implements DashboardRepository {
   }
 
   Future<ApiResult<List<Game>>> getCachedGames(
-      int page,
-      String? platforms,
-      ) async {
+    int page,
+    String? platforms,
+  ) async {
     try {
       final cachedGames = await localDataSource.getCachedGames(
         page: page,
@@ -68,11 +70,13 @@ class DashboardRepositoryImpl implements DashboardRepository {
         return ApiSuccess(cachedGames);
       } else {
         return ApiFailure(
-          message: 'errors.noCache'.tr(),
+          message: page == 1 ? 'errors.noCache'.tr() : 'errors.noMoreData'.tr(),
         );
       }
     } catch (e) {
-      return ApiFailure(message: e.toString());
+      return ApiFailure(
+        message: page == 1 ? 'errors.noCache'.tr() : 'errors.noMoreData'.tr(),
+      );
     }
   }
 

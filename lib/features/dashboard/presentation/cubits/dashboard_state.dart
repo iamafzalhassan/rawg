@@ -5,7 +5,8 @@ class DashboardState extends Equatable {
   final bool more;
   final bool end;
   final int currentPage;
-  final String? message;
+  final String? errorMessage;
+  final String? snackbarMessage;
   final String? platforms;
   final GameOverview? selectedGame;
   final List<Game>? games;
@@ -15,7 +16,8 @@ class DashboardState extends Equatable {
     this.more = false,
     this.end = false,
     this.currentPage = 1,
-    this.message,
+    this.errorMessage,
+    this.snackbarMessage,
     this.platforms,
     this.selectedGame,
     this.games,
@@ -26,7 +28,9 @@ class DashboardState extends Equatable {
     bool? more,
     bool? end,
     int? currentPage,
-    String? message,
+    String? errorMessage,
+    String? snackbarMessage,
+    bool clearMessages = false,
     String? platforms,
     GameOverview? selectedGame,
     List<Game>? games,
@@ -36,12 +40,21 @@ class DashboardState extends Equatable {
       more: more ?? this.more,
       end: end ?? this.end,
       currentPage: currentPage ?? this.currentPage,
-      message: message ?? this.message,
+      errorMessage: clearMessages ? null : (errorMessage ?? this.errorMessage),
+      snackbarMessage: clearMessages ? null : (snackbarMessage ?? this.snackbarMessage),
       platforms: platforms ?? this.platforms,
       selectedGame: selectedGame ?? this.selectedGame,
       games: games ?? this.games,
     );
   }
+
+  bool get hasGames => games != null && games!.isNotEmpty;
+
+  bool get showError => errorMessage != null && !hasGames;
+
+  bool get showLoadMoreButton => !more && !end && hasGames;
+
+  bool get showEndMessage => end && hasGames;
 
   @override
   List<Object?> get props => [
@@ -49,7 +62,8 @@ class DashboardState extends Equatable {
     more,
     end,
     currentPage,
-    message,
+    errorMessage,
+    snackbarMessage,
     platforms,
     selectedGame,
     games,

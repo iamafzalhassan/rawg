@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:rawg/core/theme/app_font.dart';
+import 'package:rawg/core/theme/app_pallete.dart';
 
 void showSnackBar(BuildContext context, String content) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
       SnackBar(
-        content: Text(content),
+        backgroundColor: AppPalette.white,
+        content: Text(content, style: AppFont.style(color: AppPalette.black, fontSize: 16)),
+        duration: Duration(seconds: 2),
       ),
     );
 }

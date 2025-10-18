@@ -9,10 +9,7 @@ abstract interface class DashboardLocalDataSource {
     String? platforms,
   });
 
-  Future<List<GameModel>> getCachedGames({
-    int page = 1,
-    String? platforms,
-  });
+  Future<List<GameModel>> getCachedGames({int page = 1, String? platforms});
 
   Future<void> clearCache();
 }
@@ -33,10 +30,7 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
     String? platforms,
   }) async {
     final gamesBox = await box;
-    final cacheKey = generateCacheKey(
-      page: page,
-      platforms: platforms,
-    );
+    final cacheKey = generateCacheKey(page: page, platforms: platforms);
 
     await clearPageCache(cacheKey);
 
@@ -52,21 +46,11 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
     String? platforms,
   }) async {
     final gamesBox = await box;
-    final cacheKey = generateCacheKey(
-      page: page,
-      platforms: platforms,
-    );
+    final cacheKey = generateCacheKey(page: page, platforms: platforms);
 
     final cachedGames = gamesBox.values.where((game) => game.key.toString().startsWith(cacheKey)).toList();
 
-    final validGames = cachedGames.where((game) => !game.isStale).toList();
-
-    if (validGames.isEmpty && cachedGames.isNotEmpty) {
-      await clearPageCache(cacheKey);
-      return [];
-    }
-
-    return validGames.map((hiveModel) => hiveModel.toGameModel()).toList();
+    return cachedGames.map((hiveModel) => hiveModel.toGameModel()).toList();
   }
 
   @override

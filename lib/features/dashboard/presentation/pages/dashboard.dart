@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
+import 'package:rawg/core/utils/show_snackbar.dart';
 import 'package:rawg/features/common/presentation/widgets/rawg_app_bar.dart';
 import 'package:rawg/features/common/presentation/widgets/rawg_button.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/dashboard_cubit.dart';
@@ -40,8 +41,9 @@ class Dashboard extends StatelessWidget {
             SizedBox(height: 24.0),
             BlocListener<SortChipCubit, SortChipState>(
               listener: (context, state) {
-                final platforms = state.selectedPlatform?.value;
-                context.read<DashboardCubit>().getGames(platforms: platforms);
+                context.read<DashboardCubit>().getGames(
+                  platforms: state.selectedPlatform?.value,
+                );
               },
               child: BlocBuilder<SortChipCubit, SortChipState>(
                 builder: (context, state) => SortChip(
@@ -51,16 +53,22 @@ class Dashboard extends StatelessWidget {
             ),
             SizedBox(height: 24.0),
             Expanded(
-              child: BlocBuilder<DashboardCubit, DashboardState>(
+              child: BlocConsumer<DashboardCubit, DashboardState>(
+                listener: (context, state) {
+                  if (state.snackbarMessage != null) {
+                    showSnackBar(context, state.snackbarMessage!);
+                    context.read<DashboardCubit>().clearSnackbarMessage();
+                  }
+                },
                 builder: (context, state) {
                   if (state.loading) {
                     return Center(child: CircularProgressIndicator());
                   }
 
-                  if (state.message != null) {
+                  if (state.showError) {
                     return Center(
                       child: Text(
-                        state.message!,
+                        state.errorMessage!,
                         textAlign: TextAlign.center,
                         style: AppFont.style(
                           color: AppPalette.white,
@@ -78,18 +86,31 @@ class Dashboard extends StatelessWidget {
                         runSpacing: 10.0,
                         children: state.games!.map((game) => GameCard(game)).toList(),
                       ),
-                      if (!state.more && !state.end)
+                      if (state.showLoadMoreButton)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 24.0),
                           child: RAWGButton(
                             'dashboard.loadMore'.tr(),
-                            () => onTapLoadMore(context),
+                            () => context.read<DashboardCubit>().getGames(loadMore: true),
                           ),
                         ),
                       if (state.more)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 24.0),
                           child: Center(child: CircularProgressIndicator()),
+                        ),
+                      if (state.showEndMessage)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24.0),
+                          child: Center(
+                            child: Text(
+                              'No more games to load',
+                              style: AppFont.style(
+                                color: AppPalette.gray1,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
                         ),
                     ],
                   );
@@ -100,9 +121,5 @@ class Dashboard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  onTapLoadMore(BuildContext context) {
-    context.read<DashboardCubit>().getGames(loadMore: true);
   }
 }
