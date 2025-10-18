@@ -10,7 +10,6 @@ abstract interface class DashboardRemoteDataSource {
   Future<ApiResult<List<GameModel>>> getGames({
     int page = 1,
     int pageSize = ApiConstants.pageSize,
-    String? ordering,
     String? platforms,
   });
 
@@ -26,17 +25,12 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   Future<ApiResult<List<GameModel>>> getGames({
     int page = 1,
     int pageSize = ApiConstants.pageSize,
-    String? ordering,
     String? platforms,
   }) async {
     final queryParameters = <String, dynamic>{
       'page': page,
       'page_size': pageSize,
     };
-
-    if (ordering != null && ordering.isNotEmpty) {
-      queryParameters['ordering'] = ordering;
-    }
 
     if (platforms != null && platforms.isNotEmpty) {
       queryParameters['platforms'] = platforms;
