@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:rawg/features/dashboard/domain/entities/esrb_rating.dart';
 import 'package:rawg/features/dashboard/domain/entities/genre.dart';
 import 'package:rawg/features/dashboard/domain/entities/parent_platform.dart';
@@ -49,5 +50,12 @@ class Game {
   String get platforms {
     if (parentPlatforms == null) return '';
     return parentPlatforms!.map((p) => p.platform?.name).join(', ');
+  }
+
+  String get getGenreNames {
+    if (genres == null || genres!.isEmpty) {
+      return 'genres.action'.tr();
+    }
+    return genres!.map((g) => g.name).join(', ');
   }
 }

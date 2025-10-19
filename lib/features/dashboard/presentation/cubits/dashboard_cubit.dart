@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -27,8 +28,8 @@ class DashboardCubit extends Cubit<DashboardState> {
 
   void initConnectionListener() {
     connection = InternetConnection().onStatusChange.listen((
-      status,
-    ) {
+        status,
+        ) {
       final isConnected = status == InternetStatus.connected;
 
       if (isConnected && offline) {
@@ -98,10 +99,10 @@ class DashboardCubit extends Cubit<DashboardState> {
   }
 
   void handleGamesResult(
-    ApiResult<List<Game>> result,
-    bool loadMore,
-    int page,
-  ) {
+      ApiResult<List<Game>> result,
+      bool loadMore,
+      int page,
+      ) {
     switch (result) {
       case ApiSuccess<List<Game>>(:final data):
         final games = loadMore ? [...?state.games, ...data] : data;
@@ -114,8 +115,8 @@ class DashboardCubit extends Cubit<DashboardState> {
             games: games,
             currentPage: page,
             end: reachedEnd,
-            errorMessage: games.isEmpty && page == 1 ? 'No games found' : null,
-            snackbarMessage: reachedEnd && loadMore && games.isNotEmpty ? 'No more games to load' : null,
+            errorMessage: games.isEmpty && page == 1 ? 'dashboard.noGamesFound'.tr() : null,
+            snackbarMessage: reachedEnd && loadMore && games.isNotEmpty ? 'dashboard.noMoreGames'.tr() : null,
           ),
         );
 

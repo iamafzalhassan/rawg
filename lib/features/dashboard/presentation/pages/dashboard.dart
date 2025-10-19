@@ -107,7 +107,7 @@ class Dashboard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 24.0),
                             child: Center(
                               child: Text(
-                                'No more games to load',
+                                'dashboard.noMoreGames'.tr(),
                                 style: AppFont.style(
                                   color: AppPalette.gray1,
                                   fontSize: 14,

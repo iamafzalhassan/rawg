@@ -5,7 +5,9 @@
     "subtitle": "Based on player counts and release date.",
     "searchHint": "Search 892,993 games",
     "loadMore": "Load more",
-    "platforms": "Platforms"
+    "platforms": "Platforms",
+    "noGamesFound": "No games found",
+    "noMoreGames": "No more games to load"
   },
   "gameOverview": {
     "averagePlaytime": "Average playtime almost {} Hours.",
@@ -38,6 +40,9 @@
   "stores": {
     "steam": "Steam",
     "epicGames": "Epic Games"
+  },
+  "genres": {
+    "action": "Action"
   },
   "errors": {
     "noCache": "No cached data available. Please check your internet connection.",
