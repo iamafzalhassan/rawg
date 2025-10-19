@@ -24,39 +24,54 @@ class DashboardRepositoryImpl implements DashboardRepository {
     int page = 1,
     int pageSize = 20,
     String? platforms,
+    String? searchQuery,
   }) async {
     try {
       final isConnected = await connectionChecker.isConnected;
 
       if (isConnected) {
-        final result = await remoteDataSource.getGames(
-          page: page,
-          pageSize: pageSize,
-          platforms: platforms,
+        return await _fetchAndCacheGames(
+          page,
+          pageSize,
+          platforms,
+          searchQuery,
         );
-
-        if (result is ApiSuccess<List<GameModel>>) {
-          if (result.data.isNotEmpty) {
-            await localDataSource.cacheGames(
-              result.data,
-              page: page,
-              platforms: platforms,
-            );
-          }
-
-          return ApiSuccess<List<Game>>(result.data);
-        } else {
-          return await getCachedGames(page, platforms);
-        }
       } else {
-        return await getCachedGames(page, platforms);
+        return await _getCachedGames(page, platforms);
       }
     } catch (e) {
-      return await getCachedGames(page, platforms);
+      return await _getCachedGames(page, platforms);
     }
   }
 
-  Future<ApiResult<List<Game>>> getCachedGames(
+  Future<ApiResult<List<Game>>> _fetchAndCacheGames(
+    int page,
+    int pageSize,
+    String? platforms,
+    String? searchQuery,
+  ) async {
+    final result = await remoteDataSource.getGames(
+      page: page,
+      pageSize: pageSize,
+      platforms: platforms,
+      searchQuery: searchQuery,
+    );
+
+    if (result case ApiSuccess<List<GameModel>>(data: final games)) {
+      if (games.isNotEmpty && searchQuery == null) {
+        localDataSource.cacheGames(games, page: page, platforms: platforms).catchError((e) => {});
+      }
+      return ApiSuccess<List<Game>>(games);
+    }
+
+    if (searchQuery == null) {
+      return await _getCachedGames(page, platforms);
+    }
+
+    return result as ApiFailure<List<Game>>;
+  }
+
+  Future<ApiResult<List<Game>>> _getCachedGames(
     int page,
     String? platforms,
   ) async {
@@ -68,11 +83,11 @@ class DashboardRepositoryImpl implements DashboardRepository {
 
       if (cachedGames.isNotEmpty) {
         return ApiSuccess(cachedGames);
-      } else {
-        return ApiFailure(
-          message: page == 1 ? 'errors.noCache'.tr() : 'errors.noMoreData'.tr(),
-        );
       }
+
+      return ApiFailure(
+        message: page == 1 ? 'errors.noCache'.tr() : 'errors.noMoreData'.tr(),
+      );
     } catch (e) {
       return ApiFailure(
         message: page == 1 ? 'errors.noCache'.tr() : 'errors.noMoreData'.tr(),
@@ -81,7 +96,5 @@ class DashboardRepositoryImpl implements DashboardRepository {
   }
 
   @override
-  Future<ApiResult<GameOverview>> getGameOverview(int id) {
-    return remoteDataSource.getGameOverview(id);
-  }
+  Future<ApiResult<GameOverview>> getGameOverview(int id) => remoteDataSource.getGameOverview(id);
 }

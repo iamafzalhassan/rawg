@@ -6,13 +6,15 @@ import 'package:rawg/features/dashboard/presentation/pages/game_overview.dart';
 import 'package:rawg/features/settings/presentation/pages/settings.dart';
 
 class AppRouter {
+  AppRouter._();
+
   static final router = GoRouter(
     initialLocation: '/dashboard',
     routes: [
       GoRoute(
         path: '/dashboard',
         name: RouteConstants.dashboard,
-        builder: (context, state) => Dashboard(),
+        builder: (context, state) => const Dashboard(),
         routes: [
           GoRoute(
             path: 'game-overview',
@@ -27,7 +29,7 @@ class AppRouter {
       GoRoute(
         path: '/settings',
         name: RouteConstants.settings,
-        builder: (context, state) => Settings(),
+        builder: (context, state) => const Settings(),
       ),
     ],
   );

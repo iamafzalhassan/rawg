@@ -7,6 +7,7 @@ abstract interface class DashboardRepository {
     int page = 1,
     int pageSize = 20,
     String? platforms,
+    String? searchQuery,
   });
 
   Future<ApiResult<GameOverview>> getGameOverview(int id);

@@ -17,107 +17,111 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: RAWGAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: SearchField(),
-            ),
-            Text(
-              'dashboard.title'.tr(),
-              style: AppFont.style(color: AppPalette.white, fontSize: 30),
-              textAlign: TextAlign.left,
-            ),
-            Text(
-              'dashboard.subtitle'.tr(),
-              style: AppFont.style(color: AppPalette.white, fontSize: 15),
-              textAlign: TextAlign.left,
-            ),
-            SizedBox(height: 24.0),
-            BlocListener<SortChipCubit, SortChipState>(
-              listener: (context, state) {
-                context.read<DashboardCubit>().getGames(
-                  platforms: state.selectedPlatform?.value,
-                );
-              },
-              child: BlocBuilder<SortChipCubit, SortChipState>(
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<SortChipCubit, SortChipState>(
+          listenWhen: (previous, current) => current.shouldTriggerFilter && !previous.shouldTriggerFilter,
+          listener: (context, state) {
+            context.read<DashboardCubit>().getGames(platforms: state.selectedPlatform?.value);
+            context.read<SortChipCubit>().resetFilterTrigger();
+          },
+        ),
+        BlocListener<DashboardCubit, DashboardState>(
+          listenWhen: (previous, current) => current.snackbarMessage != null,
+          listener: (context, state) {
+            showSnackBar(context, state.snackbarMessage!);
+            context.read<DashboardCubit>().clearSnackbarMessage();
+          },
+        ),
+      ],
+      child: Scaffold(
+        appBar: const RAWGAppBar(),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                child: SearchField(),
+              ),
+              Text(
+                'dashboard.title'.tr(),
+                style: AppFont.style(color: AppPalette.white, fontSize: 30),
+              ),
+              Text(
+                'dashboard.subtitle'.tr(),
+                style: AppFont.style(color: AppPalette.white, fontSize: 15),
+              ),
+              const SizedBox(height: 24.0),
+              BlocBuilder<SortChipCubit, SortChipState>(
                 builder: (context, state) => SortChip(
                   value: state.selectedPlatform?.name ?? 'dashboard.platforms'.tr(),
+                  isLoading: state.isFiltering,
                 ),
               ),
-            ),
-            SizedBox(height: 24.0),
-            Expanded(
-              child: BlocConsumer<DashboardCubit, DashboardState>(
-                listener: (context, state) {
-                  if (state.snackbarMessage != null) {
-                    showSnackBar(context, state.snackbarMessage!);
-                    context.read<DashboardCubit>().clearSnackbarMessage();
-                  }
-                },
-                builder: (context, state) {
-                  if (state.loading) {
-                    return Center(child: CircularProgressIndicator());
-                  }
+              const SizedBox(height: 24.0),
+              Expanded(
+                child: BlocBuilder<DashboardCubit, DashboardState>(
+                  builder: (context, state) {
+                    if (state.loading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-                  if (state.showError) {
-                    return Center(
-                      child: Text(
-                        state.errorMessage!,
-                        textAlign: TextAlign.center,
-                        style: AppFont.style(
-                          color: AppPalette.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    );
-                  }
-
-                  return ListView(
-                    physics: ClampingScrollPhysics(),
-                    children: [
-                      Wrap(
-                        spacing: 10.0,
-                        runSpacing: 10.0,
-                        children: state.games!.map((game) => GameCard(game)).toList(),
-                      ),
-                      if (state.showLoadMoreButton)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 24.0),
-                          child: RAWGButton(
-                            'dashboard.loadMore'.tr(),
-                            () => context.read<DashboardCubit>().getGames(loadMore: true),
+                    if (state.showError) {
+                      return Center(
+                        child: Text(
+                          state.errorMessage!,
+                          textAlign: TextAlign.center,
+                          style: AppFont.style(
+                            color: AppPalette.white,
+                            fontSize: 16,
                           ),
                         ),
-                      if (state.more)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 24.0),
-                          child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+
+                    return ListView(
+                      physics: const ClampingScrollPhysics(),
+                      children: [
+                        Wrap(
+                          spacing: 10.0,
+                          runSpacing: 10.0,
+                          children: state.games!.map((game) => GameCard(game)).toList(),
                         ),
-                      if (state.showEndMessage)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 24.0),
-                          child: Center(
-                            child: Text(
-                              'No more games to load',
-                              style: AppFont.style(
-                                color: AppPalette.gray1,
-                                fontSize: 14,
+                        if (state.showLoadMoreButton)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 24.0),
+                            child: RAWGButton(
+                              'dashboard.loadMore'.tr(),
+                              () => context.read<DashboardCubit>().getGames(loadMore: true),
+                            ),
+                          ),
+                        if (state.more)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 24.0),
+                            child: Center(child: CircularProgressIndicator()),
+                          ),
+                        if (state.showEndMessage)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 24.0),
+                            child: Center(
+                              child: Text(
+                                'No more games to load',
+                                style: AppFont.style(
+                                  color: AppPalette.gray1,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                    ],
-                  );
-                },
+                      ],
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

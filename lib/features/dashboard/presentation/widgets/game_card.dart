@@ -18,113 +18,114 @@ class GameCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => onTap(context),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          color: AppPalette.black1,
-        ),
-        height: 220.0,
-        width: (((MediaQuery.of(context).size.width - 32) / 2) - 5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8.0),
-                topRight: Radius.circular(8.0),
+    final width = (MediaQuery.of(context).size.width - 32) / 2 - 5;
+
+    return RepaintBoundary(
+      child: GestureDetector(
+        onTap: () => onTap(context),
+        child: Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            color: AppPalette.black1,
+          ),
+          height: 220.0,
+          width: width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0),
+                ),
+                child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  height: 135,
+                  imageUrl: game.backgroundImage!,
+                  width: width,
+                  memCacheWidth: (width * 2).toInt(), // Optimize memory
+                ),
               ),
-              child: CachedNetworkImage(
-                fit: BoxFit.cover,
-                height: 135,
-                imageUrl: game.backgroundImage!,
-                width: ((MediaQuery.of(context).size.width - 32) / 2),
+              const SizedBox(height: 8.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  game.name!,
+                  style: AppFont.style(color: AppPalette.white, fontSize: 14),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            SizedBox(height: 8.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                game.name!,
-                style: AppFont.style(color: AppPalette.white, fontSize: 14),
-                textAlign: TextAlign.left,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  DateFormat("MMM d, yyyy").format(game.released!),
+                  style: AppFont.style(color: AppPalette.gray1, fontSize: 11),
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                DateFormat("MMM d, yyyy").format(game.released!),
-                style: AppFont.style(color: AppPalette.gray1, fontSize: 11),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                      color: AppPalette.gray6,
-                    ),
-                    height: 25.0,
-                    padding: EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(AssetConstants.plusIcon, width: 8.0),
-                        SizedBox(width: 2.0),
-                        Text(
-                          NumberFormat.decimalPattern().format(game.ratingsCount),
-                          style: AppFont.style(
-                            color: AppPalette.gray1,
-                            fontSize: 8,
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                        color: AppPalette.gray6,
+                      ),
+                      height: 25.0,
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(AssetConstants.plusIcon, width: 8.0),
+                          const SizedBox(width: 2.0),
+                          Text(
+                            NumberFormat.decimalPattern().format(
+                              game.ratingsCount,
+                            ),
+                            style: AppFont.style(
+                              color: AppPalette.gray1,
+                              fontSize: 8,
+                            ),
                           ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 5.0),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                      color: AppPalette.gray6,
+                    const SizedBox(width: 5.0),
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                        color: AppPalette.gray6,
+                      ),
+                      height: 25.0,
+                      width: 25.0,
+                      alignment: Alignment.center,
+                      child: Image.asset(AssetConstants.giftIcon, width: 9.0),
                     ),
-                    height: 25.0,
-                    padding: EdgeInsets.symmetric(horizontal: 5.0),
-                    width: 25.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(AssetConstants.giftIcon, width: 9.0),
-                      ],
-                    ),
-                  ),
-                  Spacer(),
-                  Image.asset(AssetConstants.psIcon, width: 13.0),
-                  SizedBox(width: 5.0),
-                  Image.asset(AssetConstants.xboxIcon, width: 13.0),
-                  SizedBox(width: 5.0),
-                  Image.asset(AssetConstants.windowsIcon, width: 13.0),
-                ],
+                    const Spacer(),
+                    Image.asset(AssetConstants.psIcon, width: 13.0),
+                    const SizedBox(width: 5.0),
+                    Image.asset(AssetConstants.xboxIcon, width: 13.0),
+                    const SizedBox(width: 5.0),
+                    Image.asset(AssetConstants.windowsIcon, width: 13.0),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 5.0),
-          ],
+              const SizedBox(height: 5.0),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  void onTap(BuildContext context) async {
+  Future<void> onTap(BuildContext context) async {
     ShowLoading.show(context);
     await context.read<DashboardCubit>().getGameOverview(game.id!);
-    ShowLoading.hide(context);
-    context.pushNamed(RouteConstants.gameOverview, extra: game);
+    if (context.mounted) {
+      ShowLoading.hide(context);
+      context.pushNamed(RouteConstants.gameOverview, extra: game);
+    }
   }
 }

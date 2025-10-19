@@ -9,7 +9,7 @@ void showSnackBar(BuildContext context, String content) {
       SnackBar(
         backgroundColor: AppPalette.white,
         content: Text(content, style: AppFont.style(color: AppPalette.black, fontSize: 16)),
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ),
     );
 }

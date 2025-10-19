@@ -15,7 +15,7 @@ void showBottomSheet(BuildContext context, Widget child) {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Container(
               height: 5,
               width: 60,
@@ -24,7 +24,7 @@ void showBottomSheet(BuildContext context, Widget child) {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             child,
           ],
         ),

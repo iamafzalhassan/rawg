@@ -6,21 +6,26 @@ import 'package:rawg/core/utils/show_bottom_sheet.dart';
 import 'package:rawg/features/dashboard/presentation/widgets/sort_bottom_sheet.dart';
 
 class SortChip extends StatelessWidget {
-  const SortChip({required this.value, super.key});
+  const SortChip({
+    required this.value,
+    this.isLoading = false,
+    super.key,
+  });
 
   final String value;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showBottomSheet(context, SortBottomSheet()),
+      onTap: isLoading ? null : () => showBottomSheet(context, const SortBottomSheet()),
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
           color: AppPalette.gray6,
         ),
         height: 30.0,
-        padding: EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -28,8 +33,15 @@ class SortChip extends StatelessWidget {
               value,
               style: AppFont.style(color: AppPalette.white, fontSize: 12),
             ),
-            SizedBox(width: 5.0),
-            Image.asset(AssetConstants.chevronIcon, width: 15.0),
+            const SizedBox(width: 5.0),
+            if (isLoading)
+              const SizedBox(
+                width: 15,
+                height: 15,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            else
+              Image.asset(AssetConstants.chevronIcon, width: 15.0),
           ],
         ),
       ),

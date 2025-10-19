@@ -4,10 +4,12 @@ class DashboardState extends Equatable {
   final bool loading;
   final bool more;
   final bool end;
-  final int currentPage;
+  final bool search;
   final String? errorMessage;
   final String? snackbarMessage;
   final String? platforms;
+  final String? searchQuery;
+  final int currentPage;
   final GameOverview? selectedGame;
   final List<Game>? games;
 
@@ -15,10 +17,12 @@ class DashboardState extends Equatable {
     this.loading = true,
     this.more = false,
     this.end = false,
-    this.currentPage = 1,
+    this.search = false,
     this.errorMessage,
     this.snackbarMessage,
     this.platforms,
+    this.searchQuery,
+    this.currentPage = 1,
     this.selectedGame,
     this.games,
   });
@@ -27,11 +31,13 @@ class DashboardState extends Equatable {
     bool? loading,
     bool? more,
     bool? end,
-    int? currentPage,
+    bool? search,
+    bool clearMessages = false,
     String? errorMessage,
     String? snackbarMessage,
-    bool clearMessages = false,
     String? platforms,
+    String? searchQuery,
+    int? currentPage,
     GameOverview? selectedGame,
     List<Game>? games,
   }) {
@@ -39,16 +45,18 @@ class DashboardState extends Equatable {
       loading: loading ?? this.loading,
       more: more ?? this.more,
       end: end ?? this.end,
-      currentPage: currentPage ?? this.currentPage,
       errorMessage: clearMessages ? null : (errorMessage ?? this.errorMessage),
       snackbarMessage: clearMessages ? null : (snackbarMessage ?? this.snackbarMessage),
       platforms: platforms ?? this.platforms,
+      searchQuery: searchQuery ?? this.searchQuery,
+      search: search ?? this.search,
+      currentPage: currentPage ?? this.currentPage,
       selectedGame: selectedGame ?? this.selectedGame,
       games: games ?? this.games,
     );
   }
 
-  bool get hasGames => games != null && games!.isNotEmpty;
+  bool get hasGames => games?.isNotEmpty ?? false;
 
   bool get showError => errorMessage != null && !hasGames;
 
@@ -56,16 +64,23 @@ class DashboardState extends Equatable {
 
   bool get showEndMessage => end && hasGames;
 
+  bool get hasSearchQuery => searchQuery?.isNotEmpty ?? false;
+
   @override
   List<Object?> get props => [
     loading,
     more,
     end,
-    currentPage,
     errorMessage,
     snackbarMessage,
     platforms,
+    searchQuery,
+    search,
+    currentPage,
     selectedGame,
     games,
   ];
+
+  @override
+  bool get stringify => true;
 }

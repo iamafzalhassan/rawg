@@ -3,19 +3,21 @@ import 'package:rawg/features/dashboard/domain/entities/game.dart';
 import 'package:rawg/features/dashboard/domain/repository/dashboard_repository.dart';
 
 class GetGamesUseCase {
-  final DashboardRepository dashboardRepository;
+  final DashboardRepository _dashboardRepository;
 
-  GetGamesUseCase(this.dashboardRepository);
+  GetGamesUseCase(this._dashboardRepository);
 
   Future<ApiResult<List<Game>>> call({
     int page = 1,
     int pageSize = 20,
     String? platforms,
+    String? searchQuery,
   }) async {
-    return await dashboardRepository.getGames(
+    return await _dashboardRepository.getGames(
       page: page,
       pageSize: pageSize,
       platforms: platforms,
+      searchQuery: searchQuery,
     );
   }
 }

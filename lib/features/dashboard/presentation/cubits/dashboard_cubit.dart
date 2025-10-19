@@ -12,12 +12,14 @@ import 'package:rawg/features/dashboard/domain/usecases/get_games_use_case.dart'
 part 'dashboard_state.dart';
 
 class DashboardCubit extends Cubit<DashboardState> {
-  bool offline = false;
-
   final GetGamesUseCase getGamesUseCase;
   final GetGameOverviewUseCase getGameOverviewUseCase;
 
+  bool offline = false;
+  Timer? timer;
   StreamSubscription<InternetStatus>? connection;
+
+  static const Duration searchDebounceDuration = Duration(milliseconds: 500);
 
   DashboardCubit(this.getGamesUseCase, this.getGameOverviewUseCase) : super(const DashboardState()) {
     initConnectionListener();
@@ -37,10 +39,32 @@ class DashboardCubit extends Cubit<DashboardState> {
     });
   }
 
+  void onSearchChanged(String query) {
+    timer?.cancel();
+
+    emit(state.copyWith(searchQuery: query, search: query.isNotEmpty));
+
+    if (query.isEmpty) {
+      getGames(searchQuery: null);
+      return;
+    }
+
+    timer = Timer(searchDebounceDuration, () {
+      getGames(searchQuery: query);
+    });
+  }
+
+  void clearSearch() {
+    timer?.cancel();
+    emit(state.copyWith(searchQuery: '', search: false));
+    getGames(searchQuery: null);
+  }
+
   Future<void> getGames({
     bool loadMore = false,
     bool forceRefresh = false,
     String? platforms,
+    String? searchQuery,
   }) async {
     if (!forceRefresh && (state.more || state.end)) return;
 
@@ -52,6 +76,8 @@ class DashboardCubit extends Cubit<DashboardState> {
           loading: true,
           currentPage: 1,
           platforms: platforms,
+          searchQuery: searchQuery,
+          search: false,
           end: false,
           clearMessages: true,
         ),
@@ -59,13 +85,27 @@ class DashboardCubit extends Cubit<DashboardState> {
     }
 
     final page = loadMore ? state.currentPage + 1 : 1;
-    final result = await getGamesUseCase(page: page, platforms: platforms ?? state.platforms);
+    final platformsToUse = platforms ?? state.platforms;
+    final queryToUse = searchQuery ?? state.searchQuery;
 
+    final result = await getGamesUseCase(
+      page: page,
+      platforms: platformsToUse,
+      searchQuery: queryToUse?.isEmpty ?? true ? null : queryToUse,
+    );
+
+    handleGamesResult(result, loadMore, page);
+  }
+
+  void handleGamesResult(
+    ApiResult<List<Game>> result,
+    bool loadMore,
+    int page,
+  ) {
     switch (result) {
-      case ApiSuccess<List<Game>>():
-        final games = loadMore ? [...(state.games ?? <Game>[]), ...result.data] : result.data;
-
-        final reachedEnd = result.data.isEmpty || result.data.length < 20;
+      case ApiSuccess<List<Game>>(:final data):
+        final games = loadMore ? [...?state.games, ...data] : data;
+        final reachedEnd = data.isEmpty || data.length < 20;
 
         emit(
           state.copyWith(
@@ -79,15 +119,15 @@ class DashboardCubit extends Cubit<DashboardState> {
           ),
         );
 
-      case ApiFailure<List<Game>>():
-        final hasExistingGames = state.games != null && state.games!.isNotEmpty;
+      case ApiFailure<List<Game>>(:final message):
+        final hasExistingGames = state.games?.isNotEmpty ?? false;
 
         emit(
           state.copyWith(
             loading: false,
             more: false,
-            errorMessage: hasExistingGames ? null : result.message,
-            snackbarMessage: hasExistingGames ? result.message : null,
+            errorMessage: hasExistingGames ? null : message,
+            snackbarMessage: hasExistingGames ? message : null,
           ),
         );
     }
@@ -97,8 +137,8 @@ class DashboardCubit extends Cubit<DashboardState> {
     final result = await getGameOverviewUseCase(id);
 
     switch (result) {
-      case ApiSuccess<GameOverview>():
-        emit(state.copyWith(loading: false, selectedGame: result.data));
+      case ApiSuccess<GameOverview>(:final data):
+        emit(state.copyWith(loading: false, selectedGame: data));
       case ApiFailure<GameOverview>():
         emit(state.copyWith(loading: false));
     }
@@ -110,6 +150,7 @@ class DashboardCubit extends Cubit<DashboardState> {
 
   @override
   Future<void> close() {
+    timer?.cancel();
     connection?.cancel();
     return super.close();
   }

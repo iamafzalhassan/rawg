@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg/core/constants/asset_constants.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
-import 'package:rawg/features/common/presentation/widgets/doshed_divider.dart';
+import 'package:rawg/features/common/presentation/widgets/dashed_divider.dart';
 import 'package:rawg/features/dashboard/domain/entities/sort_item.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/sort_chip_cubit.dart';
 
@@ -15,7 +15,7 @@ class SortBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SortChipCubit, SortChipState>(
       builder: (context, state) {
-        final List<SortItem>? platformList = state.platformSortList;
+        final List<SortItem> platformList = state.platformSortList;
 
         return Column(
           children: [

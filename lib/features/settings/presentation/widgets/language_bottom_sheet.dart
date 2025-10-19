@@ -5,7 +5,7 @@ import 'package:rawg/core/constants/asset_constants.dart';
 import 'package:rawg/core/constants/locale_constants.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
-import 'package:rawg/features/common/presentation/widgets/doshed_divider.dart';
+import 'package:rawg/features/common/presentation/widgets/dashed_divider.dart';
 import 'package:rawg/features/settings/presentation/cubits/settings_cubit.dart';
 
 class LanguageBottomSheet extends StatelessWidget {
