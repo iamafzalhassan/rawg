@@ -32,9 +32,9 @@ class SearchField extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: state.search
                   ? const SizedBox(
-                      width: 18,
                       height: 18,
-                      child: CircularProgressIndicator(),
+                      width: 18,
+                      child: CircularProgressIndicator(strokeWidth: 1.0),
                     )
                   : Image.asset(AssetConstants.searchIcon, width: 18.0),
             ),
