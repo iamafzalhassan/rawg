@@ -11,36 +11,25 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashboardCubit, DashboardState>(
-      buildWhen: (previous, current) => previous.search != current.search || previous.hasSearchQuery != current.hasSearchQuery,
-      builder: (context, state) {
-        return TextField(
-          onChanged: (value) => context.read<DashboardCubit>().onSearchChanged(value),
-          style: AppFont.style(color: AppPalette.white, fontSize: 18.0),
-          cursorColor: AppPalette.white,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding: const EdgeInsets.all(16),
-            filled: true,
-            fillColor: AppPalette.gray5,
-            hintStyle: AppFont.style(fontSize: 18.0, color: AppPalette.gray1),
-            hintText: 'dashboard.searchHint'.tr(),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: state.search
-                  ? const SizedBox(
-                      height: 18,
-                      width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2.0),
-                    )
-                  : Image.asset(AssetConstants.searchIcon, width: 18.0),
-            ),
-          ),
-        );
-      },
+    return TextField(
+      onChanged: (value) => context.read<DashboardCubit>().onSearchChanged(value),
+      style: AppFont.style(color: AppPalette.white, fontSize: 18.0),
+      cursorColor: AppPalette.white,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: const EdgeInsets.all(16),
+        filled: true,
+        fillColor: AppPalette.gray5,
+        hintStyle: AppFont.style(fontSize: 18.0, color: AppPalette.gray1),
+        hintText: 'dashboard.searchHint'.tr(),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Image.asset(AssetConstants.searchIcon, width: 18.0),
+        ),
+      ),
     );
   }
 }

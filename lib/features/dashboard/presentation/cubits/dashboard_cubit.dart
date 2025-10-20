@@ -17,10 +17,10 @@ class DashboardCubit extends Cubit<DashboardState> {
   final GetGameOverviewUseCase getGameOverviewUseCase;
 
   bool offline = false;
+  Duration searchDebounceDuration = Duration(seconds: 1);
+
   Timer? timer;
   StreamSubscription<InternetStatus>? connection;
-
-  static const Duration searchDebounceDuration = Duration(milliseconds: 500);
 
   DashboardCubit(this.getGamesUseCase, this.getGameOverviewUseCase) : super(const DashboardState()) {
     initConnectionListener();
@@ -63,7 +63,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     String? platforms,
     String? searchQuery,
   }) async {
-    if (!forceRefresh && (state.more || state.end)) return;
+    if (!forceRefresh && loadMore && (state.more || state.end)) return;
 
     if (loadMore) {
       emit(state.copyWith(more: true, clearMessages: true));

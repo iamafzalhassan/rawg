@@ -43,7 +43,8 @@ class DashboardRepositoryImpl implements DashboardRepository {
       if (result case ApiSuccess<List<GameModel>>(data: final games)) {
         final filteredGames = games.where((game) {
           final metacritic = game.metacritic ?? 0;
-          return metacritic > 0;
+          final releaseYear = game.released?.year ?? 0;
+          return metacritic > 75 && releaseYear >= 2015;
         }).toList();
 
         return ApiSuccess<List<Game>>(filteredGames);
