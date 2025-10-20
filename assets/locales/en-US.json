@@ -2,7 +2,7 @@
   "appTitle": "RAWG",
   "dashboard": {
     "title": "New and trending",
-    "subtitle": "Based on player counts and release date.",
+    "subtitle": "Released since 2015 with a Metascore above 75",
     "searchHint": "Search 892,993 games",
     "loadMore": "Load more",
     "platforms": "Platforms",

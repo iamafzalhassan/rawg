@@ -102,7 +102,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     switch (result) {
       case ApiSuccess<List<Game>>(:final data):
         final games = loadMore ? [...?state.games, ...data] : data;
-        final reachedEnd = data.isEmpty || data.length < 20;
+        final reachedEnd = data.isEmpty;
 
         emit(
           state.copyWith(
