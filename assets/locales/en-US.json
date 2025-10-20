@@ -6,8 +6,7 @@
     "searchHint": "Search 892,993 games",
     "loadMore": "Load more",
     "platforms": "Platforms",
-    "noGamesFound": "No games found",
-    "noMoreGames": "No more games to load"
+    "noGamesFound": "No games found"
   },
   "gameOverview": {
     "averagePlaytime": "Average playtime almost {} Hours.",
