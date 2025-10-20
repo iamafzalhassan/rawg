@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
-import 'package:rawg/core/utils/show_snackbar.dart';
 import 'package:rawg/features/common/presentation/widgets/rawg_app_bar.dart';
 import 'package:rawg/features/common/presentation/widgets/rawg_button.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/dashboard_cubit.dart';
@@ -17,23 +16,12 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<SortChipCubit, SortChipState>(
-          listenWhen: (previous, current) => current.shouldTriggerFilter && !previous.shouldTriggerFilter,
-          listener: (context, state) {
-            context.read<DashboardCubit>().getGames(platforms: state.selectedPlatform?.value);
-            context.read<SortChipCubit>().resetFilterTrigger();
-          },
-        ),
-        BlocListener<DashboardCubit, DashboardState>(
-          listenWhen: (previous, current) => current.snackbarMessage != null,
-          listener: (context, state) {
-            showSnackBar(context, state.snackbarMessage!);
-            context.read<DashboardCubit>().clearSnackbarMessage();
-          },
-        ),
-      ],
+    return BlocListener<SortChipCubit, SortChipState>(
+      listenWhen: (previous, current) => current.shouldTriggerFilter && !previous.shouldTriggerFilter,
+      listener: (context, state) {
+        context.read<DashboardCubit>().getGames(platforms: state.selectedPlatform?.value);
+        context.read<SortChipCubit>().resetFilterTrigger();
+      },
       child: Scaffold(
         appBar: const RAWGAppBar(),
         body: Padding(
@@ -101,19 +89,6 @@ class Dashboard extends StatelessWidget {
                           const Padding(
                             padding: EdgeInsets.symmetric(vertical: 24.0),
                             child: Center(child: CircularProgressIndicator()),
-                          ),
-                        if (state.showEndMessage)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 24.0),
-                            child: Center(
-                              child: Text(
-                                'dashboard.noMoreGames'.tr(),
-                                style: AppFont.style(
-                                  color: AppPalette.gray1,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
                           ),
                       ],
                     );

@@ -27,9 +27,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   }
 
   void initConnectionListener() {
-    connection = InternetConnection().onStatusChange.listen((
-        status,
-        ) {
+    connection = InternetConnection().onStatusChange.listen((status) {
       final isConnected = status == InternetStatus.connected;
 
       if (isConnected && offline) {
@@ -50,9 +48,7 @@ class DashboardCubit extends Cubit<DashboardState> {
       return;
     }
 
-    timer = Timer(searchDebounceDuration, () {
-      getGames(searchQuery: query);
-    });
+    timer = Timer(searchDebounceDuration, () => getGames(searchQuery: query));
   }
 
   void clearSearch() {
@@ -116,7 +112,6 @@ class DashboardCubit extends Cubit<DashboardState> {
             currentPage: page,
             end: reachedEnd,
             errorMessage: games.isEmpty && page == 1 ? 'dashboard.noGamesFound'.tr() : null,
-            snackbarMessage: reachedEnd && loadMore && games.isNotEmpty ? 'dashboard.noMoreGames'.tr() : null,
           ),
         );
 
@@ -128,7 +123,6 @@ class DashboardCubit extends Cubit<DashboardState> {
             loading: false,
             more: false,
             errorMessage: hasExistingGames ? null : message,
-            snackbarMessage: hasExistingGames ? message : null,
           ),
         );
     }
@@ -143,10 +137,6 @@ class DashboardCubit extends Cubit<DashboardState> {
       case ApiFailure<GameOverview>():
         emit(state.copyWith(loading: false));
     }
-  }
-
-  void clearSnackbarMessage() {
-    emit(state.copyWith(snackbarMessage: null));
   }
 
   @override

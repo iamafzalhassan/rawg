@@ -6,7 +6,6 @@ class DashboardState extends Equatable {
   final bool end;
   final bool search;
   final String? errorMessage;
-  final String? snackbarMessage;
   final String? platforms;
   final String? searchQuery;
   final int currentPage;
@@ -19,7 +18,6 @@ class DashboardState extends Equatable {
     this.end = false,
     this.search = false,
     this.errorMessage,
-    this.snackbarMessage,
     this.platforms,
     this.searchQuery,
     this.currentPage = 1,
@@ -34,7 +32,6 @@ class DashboardState extends Equatable {
     bool? search,
     bool clearMessages = false,
     String? errorMessage,
-    String? snackbarMessage,
     String? platforms,
     String? searchQuery,
     int? currentPage,
@@ -46,7 +43,6 @@ class DashboardState extends Equatable {
       more: more ?? this.more,
       end: end ?? this.end,
       errorMessage: clearMessages ? null : (errorMessage ?? this.errorMessage),
-      snackbarMessage: clearMessages ? null : (snackbarMessage ?? this.snackbarMessage),
       platforms: platforms ?? this.platforms,
       searchQuery: searchQuery ?? this.searchQuery,
       search: search ?? this.search,
@@ -72,7 +68,6 @@ class DashboardState extends Equatable {
     more,
     end,
     errorMessage,
-    snackbarMessage,
     platforms,
     searchQuery,
     search,

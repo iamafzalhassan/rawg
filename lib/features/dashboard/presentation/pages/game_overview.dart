@@ -23,7 +23,7 @@ class GameOverview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         child: BlocBuilder<DashboardCubit, DashboardState>(
           builder: (context, state) {
             return Column(
