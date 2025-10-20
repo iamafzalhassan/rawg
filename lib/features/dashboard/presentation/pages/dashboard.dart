@@ -74,7 +74,7 @@ class Dashboard extends StatelessWidget {
                           state.errorMessage!,
                           textAlign: TextAlign.center,
                           style: AppFont.style(
-                            color: AppPalette.white,
+                            color: AppPalette.gray1,
                             fontSize: 16,
                           ),
                         ),
