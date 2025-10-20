@@ -5,7 +5,7 @@ import 'package:rawg/core/network/api_request.dart';
 import 'package:rawg/core/network/connection_checker.dart';
 import 'package:rawg/features/dashboard/data/datasources/dashboard_local_datasource.dart';
 import 'package:rawg/features/dashboard/data/datasources/dashboard_remote_datasource.dart';
-import 'package:rawg/features/dashboard/data/models/local/hive_game_model.dart';
+import 'package:rawg/features/dashboard/data/models/local/hive_game_overview_model.dart';
 import 'package:rawg/features/dashboard/data/repository/dashboard_repository_impl.dart';
 import 'package:rawg/features/dashboard/domain/repository/dashboard_repository.dart';
 import 'package:rawg/features/dashboard/domain/usecases/get_game_overview_use_case.dart';
@@ -36,7 +36,7 @@ Future<void> initHive() async {
   await Hive.initFlutter();
 
   if (!Hive.isAdapterRegistered(0)) {
-    Hive.registerAdapter(GameHiveModelAdapter());
+    Hive.registerAdapter(HiveGameOverviewModelAdapter());
   }
 }
 

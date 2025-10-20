@@ -18,9 +18,9 @@ abstract interface class DashboardRemoteDataSource {
 }
 
 class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
-  final ApiRequest _apiRequest;
+  final ApiRequest apiRequest;
 
-  DashboardRemoteDataSourceImpl(this._apiRequest);
+  DashboardRemoteDataSourceImpl(this.apiRequest);
 
   @override
   Future<ApiResult<List<GameModel>>> getGames({
@@ -43,7 +43,7 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
         queryParameters['search'] = searchQuery;
       }
 
-      final response = await _apiRequest.get(
+      final response = await apiRequest.get(
         ApiConstants.games,
         queryParameters: queryParameters,
       );
@@ -65,7 +65,7 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
   @override
   Future<ApiResult<GameOverviewModel>> getGameOverview(int id) async {
     try {
-      final response = await _apiRequest.get('${ApiConstants.games}/$id');
+      final response = await apiRequest.get('${ApiConstants.games}/$id');
 
       return ApiSuccess(GameOverviewModel.fromJson(response.data));
     } on DioException catch (e) {

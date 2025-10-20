@@ -1,74 +1,44 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:rawg/features/dashboard/data/models/local/hive_game_model.dart';
-import 'package:rawg/features/dashboard/data/models/remote/game_model.dart';
+import 'package:rawg/features/dashboard/data/models/local/hive_game_overview_model.dart';
+import 'package:rawg/features/dashboard/domain/entities/game_overview.dart';
 
 abstract interface class DashboardLocalDataSource {
-  Future<void> cacheGames(
-    List<GameModel> games, {
-    int page = 1,
-    String? platforms,
-  });
-
-  Future<List<GameModel>> getCachedGames({int page = 1, String? platforms});
-
+  Future<void> cacheGameOverview(GameOverview overview);
+  Future<GameOverview?> getCachedGameOverview(int id);
   Future<void> clearCache();
 }
 
 class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
-  static const String boxName = 'games-cache';
+  static const String boxName = 'game-overview-cache';
 
-  Box<HiveGameModel>? hiveGameModelBox;
+  Box<HiveGameOverviewModel>? hiveGameOverviewBox;
 
-  Future<Box<HiveGameModel>> get box async {
-    return hiveGameModelBox ??= await Hive.openBox<HiveGameModel>(boxName);
+  Future<Box<HiveGameOverviewModel>> get box async {
+    return hiveGameOverviewBox ??= await Hive.openBox<HiveGameOverviewModel>(boxName);
   }
 
   @override
-  Future<void> cacheGames(
-    List<GameModel> games, {
-    int page = 1,
-    String? platforms,
-  }) async {
-    final gamesBox = await box;
-    final cacheKey = generateCacheKey(page: page, platforms: platforms);
+  Future<void> cacheGameOverview(GameOverview overview) async {
+    final overviewBox = await box;
+    final hiveModel = HiveGameOverviewModel.fromGameOverview(overview);
+    await overviewBox.put('overview-${overview.id}', hiveModel);
+  }
 
-    await clearPageCache(cacheKey);
+  @override
+  Future<GameOverview?> getCachedGameOverview(int id) async {
+    final overviewBox = await box;
+    final cached = overviewBox.get('overview-$id');
 
-    for (var i = 0; i < games.length; i++) {
-      final hiveModel = HiveGameModel.fromGameModel(games[i]);
-      await gamesBox.put('$cacheKey-$i', hiveModel);
+    if (cached != null && !cached.isStale) {
+      return cached.toGameOverview();
     }
-  }
 
-  @override
-  Future<List<GameModel>> getCachedGames({
-    int page = 1,
-    String? platforms,
-  }) async {
-    final gamesBox = await box;
-    final cacheKey = generateCacheKey(page: page, platforms: platforms);
-
-    final cachedGames = gamesBox.values.where((game) => game.key.toString().startsWith(cacheKey)).toList();
-
-    return cachedGames.map((hiveModel) => hiveModel.toGameModel()).toList();
+    return null;
   }
 
   @override
   Future<void> clearCache() async {
-    final gamesBox = await box;
-    await gamesBox.clear();
-  }
-
-  String generateCacheKey({int page = 1, String? platforms}) {
-    return 'games-p$page-pl${platforms ?? 'none'}';
-  }
-
-  Future<void> clearPageCache(String cacheKey) async {
-    final gamesBox = await box;
-    final keysToDelete = gamesBox.keys.where((key) => key.toString().startsWith(cacheKey)).toList();
-
-    for (var key in keysToDelete) {
-      await gamesBox.delete(key);
-    }
+    final overviewBox = await box;
+    await overviewBox.clear();
   }
 }

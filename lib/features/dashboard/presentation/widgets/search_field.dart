@@ -38,12 +38,6 @@ class SearchField extends StatelessWidget {
                     )
                   : Image.asset(AssetConstants.searchIcon, width: 18.0),
             ),
-            suffixIcon: state.hasSearchQuery
-                ? IconButton(
-                    icon: const Icon(Icons.clear, color: AppPalette.gray1),
-                    onPressed: () => context.read<DashboardCubit>().clearSearch(),
-                  )
-                : null,
           ),
         );
       },
