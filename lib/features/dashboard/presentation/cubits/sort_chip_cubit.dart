@@ -9,7 +9,7 @@ part 'sort_chip_state.dart';
 
 class SortChipCubit extends Cubit<SortChipState> {
   Timer? timer;
-  Duration duration = Duration(milliseconds: 500);
+  Duration duration = Duration(seconds: 1);
 
   SortChipCubit() : super(SortChipState(platformSortList: SortOptionConstants.platforms));
 
@@ -19,28 +19,28 @@ class SortChipCubit extends Cubit<SortChipState> {
     final isCurrentlySelected = state.platformSortList.any((i) => i.isSelected && i.id == item.id);
 
     final updatedList = updateSelection(
-      state.platformSortList,
-      item.id,
       isCurrentlySelected,
+      item.id,
+      state.platformSortList,
     );
 
     emit(
       SortChipState(
         selectedPlatform: isCurrentlySelected ? null : updatedList.firstWhere((i) => i.isSelected),
         platformSortList: updatedList,
-        isFiltering: true,
+        filtering: true,
       ),
     );
 
-    timer = Timer(duration, () => emit(state.copyWith(isFiltering: false, shouldTriggerFilter: true)));
+    timer = Timer(duration, () => emit(state.copyWith(filtering: false, triggerFilter: true)));
   }
 
-  List<SortItem> updateSelection(List<SortItem> list, int id, bool deSelect) {
+  List<SortItem> updateSelection(bool deSelect, int id, List<SortItem> list) {
     return list.map((i) => SortItem(deSelect ? false : i.id == id, i.id, i.name, i.value)).toList();
   }
 
   void resetFilterTrigger() {
-    emit(state.copyWith(shouldTriggerFilter: false));
+    emit(state.copyWith(triggerFilter: false));
   }
 
   @override

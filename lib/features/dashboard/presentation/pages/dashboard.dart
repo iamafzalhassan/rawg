@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
+import 'package:rawg/core/utils/show_snackbar.dart';
 import 'package:rawg/features/common/presentation/widgets/rawg_app_bar.dart';
 import 'package:rawg/features/common/presentation/widgets/rawg_button.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/dashboard_cubit.dart';
@@ -16,12 +17,22 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SortChipCubit, SortChipState>(
-      listenWhen: (previous, current) => current.shouldTriggerFilter && !previous.shouldTriggerFilter,
-      listener: (context, state) {
-        context.read<DashboardCubit>().getGames(platforms: state.selectedPlatform?.value);
-        context.read<SortChipCubit>().resetFilterTrigger();
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<SortChipCubit, SortChipState>(
+          listenWhen: (previous, current) => current.triggerFilter && !previous.triggerFilter,
+          listener: (context, state) {
+            context.read<DashboardCubit>().getGames(platforms: state.selectedPlatform?.value);
+            context.read<SortChipCubit>().resetFilterTrigger();
+          },
+        ),
+        BlocListener<DashboardCubit, DashboardState>(
+          listenWhen: (previous, current) => current.errorMessage != null && current.hasGames,
+          listener: (context, state) {
+            showSnackBar(context, state.errorMessage!);
+          },
+        ),
+      ],
       child: Scaffold(
         appBar: const RAWGAppBar(),
         body: Padding(
@@ -45,7 +56,7 @@ class Dashboard extends StatelessWidget {
               BlocBuilder<SortChipCubit, SortChipState>(
                 builder: (context, state) => SortChip(
                   value: state.selectedPlatform?.name ?? 'dashboard.platforms'.tr(),
-                  isLoading: state.isFiltering,
+                  isLoading: state.filtering,
                 ),
               ),
               const SizedBox(height: 24.0),

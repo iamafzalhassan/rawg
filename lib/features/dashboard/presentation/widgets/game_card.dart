@@ -44,7 +44,11 @@ class GameCard extends StatelessWidget {
                   height: 135,
                   imageUrl: game.backgroundImage!,
                   width: width,
-                  memCacheWidth: (width * 2).toInt(), // Optimize memory
+                  memCacheWidth: (width * 2).toInt(),
+                  errorWidget: (context, url, error) => Container(
+                    color: AppPalette.gray5,
+                    child: Image.asset(AssetConstants.imageBrokenIcon),
+                  ),
                 ),
               ),
               const SizedBox(height: 8.0),
@@ -79,30 +83,19 @@ class GameCard extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Image.asset(AssetConstants.plusIcon, width: 8.0),
-                          const SizedBox(width: 2.0),
+                          Image.asset(AssetConstants.plusIcon, width: 12.0),
+                          const SizedBox(width: 5.0),
                           Text(
                             NumberFormat.decimalPattern().format(
                               game.ratingsCount,
                             ),
                             style: AppFont.style(
                               color: AppPalette.gray1,
-                              fontSize: 8,
+                              fontSize: 12,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(width: 5.0),
-                    Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                        color: AppPalette.gray6,
-                      ),
-                      height: 25.0,
-                      width: 25.0,
-                      alignment: Alignment.center,
-                      child: Image.asset(AssetConstants.giftIcon, width: 9.0),
                     ),
                     const Spacer(),
                     Image.asset(AssetConstants.psIcon, width: 13.0),

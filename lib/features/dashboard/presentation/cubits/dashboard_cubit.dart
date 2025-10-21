@@ -18,7 +18,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   final GetGameOverviewUseCase getGameOverviewUseCase;
 
   bool offline = false;
-  Duration duration = Duration(microseconds: 500);
+  Duration duration = Duration(seconds: 1);
   TextEditingController textEditingController = TextEditingController();
 
   Timer? timer;
@@ -54,12 +54,12 @@ class DashboardCubit extends Cubit<DashboardState> {
       emit(
         state.copyWith(
           loading: true,
-          currentPage: 1,
+          end: false,
+          search: false,
+          clearMessages: true,
           platforms: platforms,
           searchQuery: searchQuery,
-          search: false,
-          end: false,
-          clearMessages: true,
+          currentPage: 1,
         ),
       );
     }
@@ -77,27 +77,24 @@ class DashboardCubit extends Cubit<DashboardState> {
     switch (result) {
       case ApiSuccess<List<Game>>(:final data):
         final games = loadMore ? [...?state.games, ...data] : data;
-        final reachedEnd = data.isEmpty;
 
         emit(
           state.copyWith(
             loading: false,
             more: false,
-            games: games,
-            currentPage: page,
-            end: reachedEnd,
+            end: data.isEmpty,
             errorMessage: games.isEmpty && page == 1 ? 'dashboard.noGamesFound'.tr() : null,
+            currentPage: page,
+            games: games,
           ),
         );
 
       case ApiFailure<List<Game>>(:final message):
-        final hasExistingGames = state.games?.isNotEmpty ?? false;
-
         emit(
           state.copyWith(
             loading: false,
             more: false,
-            errorMessage: hasExistingGames ? null : message,
+            errorMessage: (state.games?.isNotEmpty ?? false) ? null : message,
           ),
         );
     }
@@ -111,8 +108,8 @@ class DashboardCubit extends Cubit<DashboardState> {
         emit(
           state.copyWith(
             loading: false,
-            selectedGame: data,
             errorMessage: null,
+            selectedGame: data,
           ),
         );
       case ApiFailure<GameOverview>(:final message):
@@ -123,7 +120,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   void onSearchChanged(String query) {
     timer?.cancel();
 
-    emit(state.copyWith(searchQuery: query, search: query.isNotEmpty));
+    emit(state.copyWith(search: query.isNotEmpty, searchQuery: query));
 
     if (query.isEmpty) {
       getGames(searchQuery: null);
@@ -131,13 +128,6 @@ class DashboardCubit extends Cubit<DashboardState> {
     }
 
     timer = Timer(duration, () => getGames(searchQuery: query));
-  }
-
-  void clearSearch() {
-    timer?.cancel();
-    textEditingController.clear();
-    emit(state.copyWith(searchQuery: '', search: false));
-    getGames(searchQuery: null);
   }
 
   @override

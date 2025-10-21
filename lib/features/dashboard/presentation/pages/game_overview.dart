@@ -143,10 +143,7 @@ class GameOverview extends StatelessWidget {
                     children: [
                       GameOverviewValueCard(
                         'gameOverview.website'.tr(),
-                        value: state.selectedGame!.website!.replaceFirst(
-                          RegExp(r'https?://'),
-                          '',
-                        ),
+                        value: state.selectedGame!.website!.replaceFirst(RegExp(r'https?://'), '',),
                       ),
                       SizedBox(width: 20.0),
                       GameOverviewValueCard(
@@ -160,7 +157,7 @@ class GameOverview extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: GameOverviewValueCard(
-                    'gameOverview.about'.tr(),
+                    'gameOverview.about'.tr().replaceAll('*', ''),
                     value: state.selectedGame!.shortDescription,
                     width: MediaQuery.of(context).size.width,
                   ),
@@ -197,15 +194,6 @@ class GameOverview extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 24.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: RAWGButton(
-                    icon: AssetConstants.plusIcon,
-                    'gameOverview.addToCollection'.tr(),
-                    () {},
-                  ),
-                ),
-                SizedBox(height: 16.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: RAWGButton(

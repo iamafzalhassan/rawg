@@ -58,10 +58,6 @@ class DashboardState extends Equatable {
 
   bool get showLoadMoreButton => !more && !end && hasGames;
 
-  bool get showEndMessage => end && hasGames;
-
-  bool get hasSearchQuery => searchQuery?.isNotEmpty ?? false;
-
   @override
   List<Object?> get props => [
     loading,
