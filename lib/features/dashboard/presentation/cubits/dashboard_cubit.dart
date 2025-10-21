@@ -17,7 +17,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   final GetGameOverviewUseCase getGameOverviewUseCase;
 
   bool offline = false;
-  Duration searchDebounceDuration = Duration(seconds: 1);
+  Duration duration = Duration(microseconds: 500);
 
   Timer? timer;
   StreamSubscription<InternetStatus>? connection;
@@ -48,7 +48,7 @@ class DashboardCubit extends Cubit<DashboardState> {
       return;
     }
 
-    timer = Timer(searchDebounceDuration, () => getGames(searchQuery: query));
+    timer = Timer(duration, () => getGames(searchQuery: query));
   }
 
   void clearSearch() {
