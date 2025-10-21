@@ -8,6 +8,7 @@ import 'package:rawg/core/constants/route_constants.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 import 'package:rawg/core/utils/show_loading.dart';
+import 'package:rawg/core/utils/show_snackbar.dart';
 import 'package:rawg/features/dashboard/domain/entities/game.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/dashboard_cubit.dart';
 
@@ -125,7 +126,12 @@ class GameCard extends StatelessWidget {
     await context.read<DashboardCubit>().getGameOverview(game.id!);
     if (context.mounted) {
       ShowLoading.hide(context);
-      context.pushNamed(RouteConstants.gameOverview, extra: game);
+      final state = context.read<DashboardCubit>().state;
+      if (state.errorMessage != null && state.selectedGame == null) {
+        showSnackBar(context, state.errorMessage!);
+      } else if (state.selectedGame != null) {
+        context.pushNamed(RouteConstants.gameOverview, extra: game);
+      }
     }
   }
 }

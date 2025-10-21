@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:rawg/core/network/api_result.dart';
@@ -18,6 +19,7 @@ class DashboardCubit extends Cubit<DashboardState> {
 
   bool offline = false;
   Duration duration = Duration(microseconds: 500);
+  TextEditingController textEditingController = TextEditingController();
 
   Timer? timer;
   StreamSubscription<InternetStatus>? connection;
@@ -36,25 +38,6 @@ class DashboardCubit extends Cubit<DashboardState> {
 
       offline = !isConnected;
     });
-  }
-
-  void onSearchChanged(String query) {
-    timer?.cancel();
-
-    emit(state.copyWith(searchQuery: query, search: query.isNotEmpty));
-
-    if (query.isEmpty) {
-      getGames(searchQuery: null);
-      return;
-    }
-
-    timer = Timer(duration, () => getGames(searchQuery: query));
-  }
-
-  void clearSearch() {
-    timer?.cancel();
-    emit(state.copyWith(searchQuery: '', search: false));
-    getGames(searchQuery: null);
   }
 
   Future<void> getGames({
@@ -91,14 +74,6 @@ class DashboardCubit extends Cubit<DashboardState> {
       searchQuery: queryToUse?.isEmpty ?? true ? null : queryToUse,
     );
 
-    handleGamesResult(result, loadMore, page);
-  }
-
-  void handleGamesResult(
-      ApiResult<List<Game>> result,
-      bool loadMore,
-      int page,
-      ) {
     switch (result) {
       case ApiSuccess<List<Game>>(:final data):
         final games = loadMore ? [...?state.games, ...data] : data;
@@ -133,16 +108,43 @@ class DashboardCubit extends Cubit<DashboardState> {
 
     switch (result) {
       case ApiSuccess<GameOverview>(:final data):
-        emit(state.copyWith(loading: false, selectedGame: data));
-      case ApiFailure<GameOverview>():
-        emit(state.copyWith(loading: false));
+        emit(
+          state.copyWith(
+            loading: false,
+            selectedGame: data,
+            errorMessage: null,
+          ),
+        );
+      case ApiFailure<GameOverview>(:final message):
+        emit(state.copyWith(loading: false, errorMessage: message, selectedGame: null));
     }
+  }
+
+  void onSearchChanged(String query) {
+    timer?.cancel();
+
+    emit(state.copyWith(searchQuery: query, search: query.isNotEmpty));
+
+    if (query.isEmpty) {
+      getGames(searchQuery: null);
+      return;
+    }
+
+    timer = Timer(duration, () => getGames(searchQuery: query));
+  }
+
+  void clearSearch() {
+    timer?.cancel();
+    textEditingController.clear();
+    emit(state.copyWith(searchQuery: '', search: false));
+    getGames(searchQuery: null);
   }
 
   @override
   Future<void> close() {
     timer?.cancel();
     connection?.cancel();
+    textEditingController.dispose();
     return super.close();
   }
 }

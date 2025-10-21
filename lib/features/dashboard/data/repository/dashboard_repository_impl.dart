@@ -65,7 +65,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
         final result = await remoteDataSource.getGameOverview(id);
 
         if (result case ApiSuccess<GameOverview>(data: final overview)) {
-          await localDataSource.cacheGameOverview(overview).catchError((e) => {});
+          await localDataSource.cacheGameOverview(overview);
           return result;
         }
 

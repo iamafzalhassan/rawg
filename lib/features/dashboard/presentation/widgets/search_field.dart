@@ -11,8 +11,11 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<DashboardCubit>();
+
     return TextField(
-      onChanged: (value) => context.read<DashboardCubit>().onSearchChanged(value),
+      controller: cubit.textEditingController,
+      onChanged: (value) => cubit.onSearchChanged(value),
       style: AppFont.style(color: AppPalette.white, fontSize: 18.0),
       cursorColor: AppPalette.white,
       decoration: InputDecoration(

@@ -47,7 +47,7 @@ class DashboardState extends Equatable {
       searchQuery: searchQuery ?? this.searchQuery,
       search: search ?? this.search,
       currentPage: currentPage ?? this.currentPage,
-      selectedGame: selectedGame ?? this.selectedGame,
+      selectedGame: selectedGame,
       games: games ?? this.games,
     );
   }
