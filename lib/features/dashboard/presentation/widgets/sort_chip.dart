@@ -24,14 +24,14 @@ class SortChip extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
           color: AppPalette.gray6,
         ),
-        height: 30.0,
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        height: 40.0,
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               value,
-              style: AppFont.style(color: AppPalette.white, fontSize: 12),
+              style: AppFont.style(color: AppPalette.white, fontSize: 15.0),
             ),
             const SizedBox(width: 5.0),
             if (isLoading)

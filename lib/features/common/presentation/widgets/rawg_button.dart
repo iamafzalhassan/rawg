@@ -13,12 +13,12 @@ class RAWGButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 55,
+      height: 50,
       child: ElevatedButton.icon(
-        icon: icon != null ? Image.asset(icon!, width: 20.0) : null,
+        icon: icon != null ? Image.asset(icon!, width: 18.0) : null,
         label: Text(
           label,
-          style: AppFont.style(color: AppPalette.white, fontSize: 20.0),
+          style: AppFont.style(color: AppPalette.white, fontSize: 18.0),
         ),
         onPressed: () => onTap(),
       ),

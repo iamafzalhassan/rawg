@@ -30,12 +30,14 @@ class SettingsItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
           color: AppPalette.black1,
         ),
+        height: 80.0,
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     label,

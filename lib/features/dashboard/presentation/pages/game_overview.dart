@@ -157,7 +157,7 @@ class GameOverview extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: GameOverviewValueCard(
-                    'gameOverview.about'.tr().replaceAll('*', ''),
+                    'gameOverview.about'.tr(),
                     value: state.selectedGame!.shortDescription,
                     width: MediaQuery.of(context).size.width,
                   ),

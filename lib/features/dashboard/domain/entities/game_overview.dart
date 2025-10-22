@@ -19,8 +19,10 @@ class GameOverview {
 
   String get shortDescription {
     if (descriptionRaw == null) return '';
+
     final sentences = descriptionRaw!.split(RegExp(r'(?<=[.!?])\s+'));
-    return sentences.length <= 5 ? descriptionRaw! : '${sentences.take(5).join(' ')}...';
+    final limitedText = (sentences.length <= 5 ? descriptionRaw! : sentences.take(5).join(' '));
+    return limitedText.replaceAll(RegExp(r'[^a-zA-Z0-9\s\.]'), '');
   }
 
   String get publisherNames {
