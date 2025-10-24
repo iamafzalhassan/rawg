@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
+import 'package:rawg/features/common/presentation/cubits/rawg_form_field_cubit.dart';
 
-class RAWGFormField extends StatefulWidget {
+class RAWGFormField extends StatelessWidget {
   const RAWGFormField({
     super.key,
     required this.label,
@@ -31,71 +33,63 @@ class RAWGFormField extends StatefulWidget {
   final double height;
 
   @override
-  State<RAWGFormField> createState() => _RAWGFormFieldState();
-}
-
-class _RAWGFormFieldState extends State<RAWGFormField> {
-  bool obscureText = true;
-
-  @override
-  void initState() {
-    super.initState();
-    obscureText = widget.isPassword;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: widget.height,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            widget.label,
-            style: AppFont.style(fontSize: 13, color: AppPalette.white),
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            controller: widget.controller,
-            keyboardType: widget.keyboardType,
-            obscureText: widget.isPassword ? obscureText : false,
-            enabled: widget.enabled,
-            maxLines: widget.maxLines,
-            onChanged: widget.onChanged,
-            style: AppFont.style(fontSize: 18.0, color: AppPalette.black),
-            decoration: InputDecoration(
-              hintText: widget.hintText,
-              hintStyle: AppFont.style(fontSize: 18.0, color: AppPalette.gray1),
-              filled: true,
-              fillColor: AppPalette.gray4,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 14.0,
-                vertical: 16.0,
-              ),
-              prefixIcon: widget.prefixIcon,
-              suffixIcon: widget.isPassword
-                  ? IconButton(
-                      icon: Icon(
-                        obscureText
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                        color: AppPalette.gray3,
-                        size: 20.0,
-                      ),
-                      onPressed: () {
-                        obscureText = !obscureText;
-                        setState(() {});
-                      },
-                    )
-                  : null,
+    return BlocProvider(
+      create: (_) => RAWGFormFieldCubit()..setObscureText(isPassword),
+      child: SizedBox(
+        height: height,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              label,
+              style: AppFont.style(fontSize: 13, color: AppPalette.white),
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            BlocBuilder<RAWGFormFieldCubit, RAWGFormFieldState>(
+              builder: (context, state) {
+                return TextField(
+                  controller: controller,
+                  keyboardType: keyboardType,
+                  obscureText: isPassword ? state.obscureText : false,
+                  enabled: enabled,
+                  maxLines: maxLines,
+                  onChanged: onChanged,
+                  style: AppFont.style(fontSize: 18.0, color: AppPalette.white),
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    hintStyle: AppFont.style(
+                      fontSize: 18.0,
+                      color: AppPalette.gray1,
+                    ),
+                    filled: true,
+                    fillColor: AppPalette.gray4,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 14.0,
+                      vertical: 16.0,
+                    ),
+                    prefixIcon: prefixIcon,
+                    suffixIcon: isPassword
+                        ? IconButton(
+                            icon: Icon(
+                              state.obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                              color: AppPalette.gray3,
+                              size: 20.0,
+                            ),
+                            onPressed: () => context.read<RAWGFormFieldCubit>().toggleObscureText(),
+                          )
+                        : null,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

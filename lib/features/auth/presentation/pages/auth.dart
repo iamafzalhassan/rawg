@@ -20,8 +20,8 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  final _loginEmailController = TextEditingController();
-  final _loginPasswordController = TextEditingController();
+  final _signInEmailController = TextEditingController();
+  final _signInPasswordController = TextEditingController();
 
   @override
   void initState() {
@@ -40,102 +40,107 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _loginEmailController.dispose();
-    _loginPasswordController.dispose();
+    _signInEmailController.dispose();
+    _signInPasswordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final signupHeight = 399.0;
-    final loginHeight = 303.0;
+    final signUpHeight = 399.0;
+    final signInHeight = 303.0;
 
     return Scaffold(
       backgroundColor: AppPalette.black2,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: MediaQuery.of(context).padding.top + 8.0),
-                const SizedBox(height: 24.0),
-                Text(
-                  _tabController.index == 0
-                      ? 'Create your personal account of games'
-                      : 'Welcome back! Sign in to continue',
-                  style: AppFont.style(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: AppPalette.white,
-                  ),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).padding.top + 8.0),
+                    const SizedBox(height: 24.0),
+                    Text(
+                      _tabController.index == 0
+                          ? 'Create your personal account of games'
+                          : 'Welcome back! Sign in to continue',
+                      style: AppFont.style(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: AppPalette.white,
+                      ),
+                    ),
+                    Text(
+                      _tabController.index == 0
+                          ? 'Join us today to unlock personalized features and tools.'
+                          : 'Access your account and continue where you left off.',
+                      style: AppFont.style(fontSize: 14, color: AppPalette.gray1),
+                    ),
+                  ],
                 ),
-                Text(
-                  _tabController.index == 0
-                      ? 'Join us today to unlock personalized features and tools.'
-                      : 'Access your account and continue where you left off.',
-                  style: AppFont.style(fontSize: 14, color: AppPalette.gray1),
+              ),
+              SizedBox(height: 24.0),
+              Container(
+                decoration: const BoxDecoration(
+                  color: AppPalette.gray6,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24.0)),
                 ),
-              ],
-            ),
+                height:
+                    (_tabController.index == 0 ? signUpHeight : signInHeight) + 48,
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppPalette.gray4,
+                        borderRadius: BorderRadius.circular(24.0),
+                      ),
+                      child: TabBar(
+                        controller: _tabController,
+                        onTap: (_) => setState(() {}),
+                        indicator: BoxDecoration(
+                          color: AppPalette.white,
+                          borderRadius: BorderRadius.circular(24.0),
+                        ),
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        dividerColor: Colors.transparent,
+                        labelColor: AppPalette.black,
+                        unselectedLabelColor: AppPalette.gray1,
+                        labelStyle: AppFont.style(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        unselectedLabelStyle: AppFont.style(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        tabs: const [
+                          Tab(text: 'Sign Up'),
+                          Tab(text: 'Sign In'),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: (_tabController.index == 0
+                          ? signUpHeight
+                          : signInHeight),
+                      child: TabBarView(
+                        controller: _tabController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [buildSignUpForm(), buildLoginForm()],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 24.0),
-          Container(
-            decoration: const BoxDecoration(
-              color: AppPalette.gray6,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(24.0)),
-            ),
-            height:
-                (_tabController.index == 0 ? signupHeight : loginHeight) + 48,
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppPalette.gray4,
-                    borderRadius: BorderRadius.circular(24.0),
-                  ),
-                  child: TabBar(
-                    controller: _tabController,
-                    onTap: (_) => setState(() {}),
-                    indicator: BoxDecoration(
-                      color: AppPalette.white,
-                      borderRadius: BorderRadius.circular(24.0),
-                    ),
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    dividerColor: Colors.transparent,
-                    labelColor: AppPalette.black,
-                    unselectedLabelColor: AppPalette.gray1,
-                    labelStyle: AppFont.style(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    unselectedLabelStyle: AppFont.style(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    tabs: const [
-                      Tab(text: 'Sign Up'),
-                      Tab(text: 'Sign In'),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: (_tabController.index == 0
-                      ? signupHeight
-                      : loginHeight),
-                  child: TabBarView(
-                    controller: _tabController,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [buildSignUpForm(), buildLoginForm()],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -186,14 +191,14 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
           RAWGFormField(
             label: 'Email',
             hintText: 'wadewarren@gmail.com',
-            controller: _loginEmailController,
+            controller: _signInEmailController,
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16),
           RAWGFormField(
             label: 'Password',
             hintText: '••••••••',
-            controller: _loginPasswordController,
+            controller: _signInPasswordController,
             isPassword: true,
           ),
           const SizedBox(height: 24),
