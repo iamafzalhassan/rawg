@@ -30,6 +30,7 @@ class RAWGAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       actions: buildActions(context),
+      automaticallyImplyLeading: false,
       centerTitle: true,
       leading: buildLeading(context),
       title: buildTitle(),

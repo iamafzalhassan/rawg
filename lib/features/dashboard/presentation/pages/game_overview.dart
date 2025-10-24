@@ -57,7 +57,9 @@ class GameOverview extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Text(
-                                  'gameOverview.averagePlaytime'.tr(args: ['${game.playtime}']),
+                                  'gameOverview.averagePlaytime'.tr(
+                                    args: ['${game.playtime}'],
+                                  ),
                                   style: AppFont.style(
                                     color: AppPalette.white,
                                     fontSize: 14,
@@ -109,7 +111,9 @@ class GameOverview extends StatelessWidget {
                           SizedBox(width: 20.0),
                           GameOverviewValueCard(
                             'gameOverview.releaseDate'.tr(),
-                            value: intl.DateFormat("MMM d, yyyy").format(game.released!),
+                            value: intl.DateFormat(
+                              "MMM d, yyyy",
+                            ).format(game.released!),
                           ),
                         ],
                       ),
@@ -122,7 +126,10 @@ class GameOverview extends StatelessWidget {
                         children: [
                           GameOverviewValueCard(
                             'gameOverview.website'.tr(),
-                            value: state.selectedGame!.website!.replaceFirst(RegExp(r'https?://'), '',),
+                            value: state.selectedGame!.website!.replaceFirst(
+                              RegExp(r'https?://'),
+                              '',
+                            ),
                           ),
                           SizedBox(width: 20.0),
                           GameOverviewValueCard(
@@ -175,10 +182,10 @@ class GameOverview extends StatelessWidget {
                     SizedBox(height: 24.0),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: RAWGButton(
+                      child: RAWGButton.elevated(
                         icon: AssetConstants.giftIcon,
-                        'gameOverview.addToWishlist'.tr(),
-                            () {},
+                        label: 'gameOverview.addToWishlist'.tr(),
+                        onPressed: () {},
                       ),
                     ),
                     SizedBox(height: 16.0),

@@ -91,9 +91,9 @@ class Dashboard extends StatelessWidget {
                         if (state.showLoadMoreButton)
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 24.0),
-                            child: RAWGButton(
-                              'dashboard.loadMore'.tr(),
-                              () => context.read<DashboardCubit>().getGames(loadMore: true),
+                            child: RAWGButton.elevated(
+                              label: 'dashboard.loadMore'.tr(),
+                              onPressed: () => context.read<DashboardCubit>().getGames(loadMore: true),
                             ),
                           ),
                         if (state.more)

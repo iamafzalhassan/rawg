@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:rawg/core/constants/route_constants.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
+import 'package:rawg/features/common/presentation/widgets/rawg_button.dart';
+import 'package:rawg/features/common/presentation/widgets/rawg_from_field.dart';
 
 class Auth extends StatefulWidget {
   const Auth({super.key});
@@ -20,9 +22,6 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
 
   final _loginEmailController = TextEditingController();
   final _loginPasswordController = TextEditingController();
-
-  bool _obscurePassword = true;
-  bool _obscureLoginPassword = true;
 
   @override
   void initState() {
@@ -66,7 +65,7 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
                 const SizedBox(height: 24.0),
                 Text(
                   _tabController.index == 0
-                      ? 'Create your personal account'
+                      ? 'Create your personal account of games'
                       : 'Welcome back! Sign in to continue',
                   style: AppFont.style(
                     fontSize: 28,
@@ -74,7 +73,6 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
                     color: AppPalette.white,
                   ),
                 ),
-                const SizedBox(height: 12.0),
                 Text(
                   _tabController.index == 0
                       ? 'Join us today to unlock personalized features and tools.'
@@ -148,31 +146,31 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          LabeledTextField(
+          RAWGFormField(
             label: 'Full Name',
             hintText: 'Wade Warren',
             controller: _nameController,
           ),
           const SizedBox(height: 16),
-          LabeledTextField(
+          RAWGFormField(
             label: 'Email',
             hintText: 'wadewarren@gmail.com',
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16),
-          PasswordField(
+          RAWGFormField(
             label: 'Password',
+            hintText: '••••••••',
             controller: _passwordController,
-            obscureText: _obscurePassword,
-            toggleVisibility: () {
-              setState(() => _obscurePassword = !_obscurePassword);
-            },
+            isPassword: true,
           ),
           const SizedBox(height: 24),
-          StyledButton(
+          RAWGButton.elevated(
             label: 'Register',
             onPressed: () => context.pushNamed(RouteConstants.dashboard),
+            height: 55.0,
+            backgroundColor: AppPalette.black2,
           ),
         ],
       ),
@@ -185,171 +183,27 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          LabeledTextField(
+          RAWGFormField(
             label: 'Email',
             hintText: 'wadewarren@gmail.com',
             controller: _loginEmailController,
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16),
-          PasswordField(
+          RAWGFormField(
             label: 'Password',
+            hintText: '••••••••',
             controller: _loginPasswordController,
-            obscureText: _obscureLoginPassword,
-            toggleVisibility: () {
-              setState(() => _obscureLoginPassword = !_obscureLoginPassword);
-            },
+            isPassword: true,
           ),
           const SizedBox(height: 24),
-          StyledButton(label: 'Login', onPressed: () {}),
-        ],
-      ),
-    );
-  }
-}
-
-class LabeledTextField extends StatelessWidget {
-  final String label;
-  final String hintText;
-  final TextEditingController controller;
-  final TextInputType keyboardType;
-
-  const LabeledTextField({
-    required this.label,
-    required this.hintText,
-    required this.controller,
-    this.keyboardType = TextInputType.text,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 80.0,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            label,
-            style: AppFont.style(fontSize: 13, color: AppPalette.white),
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            controller: controller,
-            keyboardType: keyboardType,
-            style: AppFont.style(fontSize: 18.0, color: AppPalette.black),
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: AppFont.style(fontSize: 18.0, color: AppPalette.gray1),
-              filled: true,
-              fillColor: AppPalette.gray4,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 14.0,
-                vertical: 16.0,
-              ),
-            ),
+          RAWGButton.elevated(
+            label: 'Login',
+            onPressed: () {},
+            height: 55.0,
+            backgroundColor: AppPalette.black2,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class PasswordField extends StatelessWidget {
-  final String label;
-  final TextEditingController controller;
-  final bool obscureText;
-  final VoidCallback toggleVisibility;
-
-  const PasswordField({
-    required this.label,
-    required this.controller,
-    required this.obscureText,
-    required this.toggleVisibility,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 80.0,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            label,
-            style: AppFont.style(fontSize: 13, color: AppPalette.white),
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            controller: controller,
-            obscureText: obscureText,
-            style: AppFont.style(fontSize: 18.0, color: AppPalette.black),
-            decoration: InputDecoration(
-              hintText: '••••••••',
-              hintStyle: AppFont.style(fontSize: 18.0, color: AppPalette.gray1),
-              filled: true,
-              fillColor: AppPalette.gray4,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 14.0,
-                vertical: 16.0,
-              ),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  obscureText
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  color: AppPalette.gray3,
-                  size: 20.0,
-                ),
-                onPressed: toggleVisibility,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class StyledButton extends StatelessWidget {
-  final String label;
-  final VoidCallback onPressed;
-
-  const StyledButton({required this.label, required this.onPressed, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 55.0,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppPalette.black2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          elevation: 0,
-        ),
-        child: Text(
-          label,
-          style: AppFont.style(
-            fontSize: 18.0,
-            fontWeight: FontWeight.w600,
-            color: AppPalette.white,
-          ),
-        ),
       ),
     );
   }
