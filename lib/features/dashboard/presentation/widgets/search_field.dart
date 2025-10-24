@@ -20,12 +20,12 @@ class SearchField extends StatelessWidget {
       cursorColor: AppPalette.white,
       decoration: InputDecoration(
         border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(50)),
+          borderRadius: BorderRadius.all(Radius.circular(50.0)),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.all(16),
+        contentPadding: const EdgeInsets.all(16.0),
         filled: true,
-        fillColor: AppPalette.gray5,
+        fillColor: AppPalette.gray4,
         hintStyle: AppFont.style(fontSize: 18.0, color: AppPalette.gray1),
         hintText: 'dashboard.searchHint'.tr(),
         prefixIcon: Padding(

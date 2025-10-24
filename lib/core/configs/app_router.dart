@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:rawg/core/constants/route_constants.dart';
+import 'package:rawg/features/auth/presentation/pages/auth.dart';
 import 'package:rawg/features/dashboard/domain/entities/game.dart';
 import 'package:rawg/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:rawg/features/dashboard/presentation/pages/game_overview.dart';
@@ -9,8 +10,13 @@ class AppRouter {
   AppRouter._();
 
   static final router = GoRouter(
-    initialLocation: '/dashboard',
+    initialLocation: '/auth',
     routes: [
+      GoRoute(
+        path: '/auth',
+        name: RouteConstants.auth,
+        builder: (context, state) => const Auth(),
+      ),
       GoRoute(
         path: '/dashboard',
         name: RouteConstants.dashboard,

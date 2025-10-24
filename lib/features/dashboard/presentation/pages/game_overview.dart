@@ -22,14 +22,14 @@ class GameOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: BlocBuilder<DashboardCubit, DashboardState>(
-          builder: (context, state) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: BlocBuilder<DashboardCubit, DashboardState>(
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CachedNetworkImage(
                       fit: BoxFit.cover,
@@ -37,176 +37,174 @@ class GameOverview extends StatelessWidget {
                       imageUrl: game.backgroundImage!,
                       width: MediaQuery.of(context).size.width,
                     ),
+                    SizedBox(height: 16.0),
                     Padding(
-                      padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).padding.top + 8.0,
-                        left: 8.0,
-                      ),
-                      child: GestureDetector(
-                        onTap: () => context.pop(),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppPalette.black.withValues(alpha: 0.5),
-                            shape: BoxShape.circle,
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  game.name!,
+                                  style: AppFont.style(
+                                    color: AppPalette.white,
+                                    fontSize: 30,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  'gameOverview.averagePlaytime'.tr(args: ['${game.playtime}']),
+                                  style: AppFont.style(
+                                    color: AppPalette.white,
+                                    fontSize: 14,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ],
+                            ),
                           ),
-                          height: 35,
-                          padding: EdgeInsets.all(8.0),
-                          width: 35,
-                          child: Image.asset(AssetConstants.leftArrowIcon),
-                        ),
+                          SizedBox(width: 12.0),
+                          Image.asset(AssetConstants.psIcon, width: 18.0),
+                          SizedBox(width: 10.0),
+                          Image.asset(AssetConstants.xboxIcon, width: 18.0),
+                          SizedBox(width: 10.0),
+                          Image.asset(AssetConstants.windowsIcon, width: 18.0),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 16.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              game.name!,
-                              style: AppFont.style(
-                                color: AppPalette.white,
-                                fontSize: 30,
-                              ),
-                              textAlign: TextAlign.left,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              'gameOverview.averagePlaytime'.tr(args: ['${game.playtime}']),
-                              style: AppFont.style(
-                                color: AppPalette.white,
-                                fontSize: 14,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 12.0),
-                      Image.asset(AssetConstants.psIcon, width: 18.0),
-                      SizedBox(width: 10.0),
-                      Image.asset(AssetConstants.xboxIcon, width: 18.0),
-                      SizedBox(width: 10.0),
-                      Image.asset(AssetConstants.windowsIcon, width: 18.0),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 24.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GameOverviewValueCard(
-                        'gameOverview.platforms'.tr(),
-                        value: game.platforms,
-                      ),
-                      SizedBox(width: 20.0),
-                      GameOverviewValueCard(
-                        'gameOverview.metascores'.tr(),
-                        child: MetaScoreBox(
-                          state.selectedGame!.metacritic ?? 0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GameOverviewValueCard(
-                        'gameOverview.genre'.tr(),
-                        value: game.getGenreNames,
-                      ),
-                      SizedBox(width: 20.0),
-                      GameOverviewValueCard(
-                        'gameOverview.releaseDate'.tr(),
-                        value: intl.DateFormat("MMM d, yyyy").format(game.released!),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GameOverviewValueCard(
-                        'gameOverview.website'.tr(),
-                        value: state.selectedGame!.website!.replaceFirst(RegExp(r'https?://'), '',),
-                      ),
-                      SizedBox(width: 20.0),
-                      GameOverviewValueCard(
-                        'gameOverview.publisher'.tr(),
-                        value: state.selectedGame!.publisherNames,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: GameOverviewValueCard(
-                    'gameOverview.about'.tr(),
-                    value: state.selectedGame!.shortDescription,
-                    width: MediaQuery.of(context).size.width,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'gameOverview.availableStores'.tr(),
-                        style: AppFont.style(
-                          color: AppPalette.gray4,
-                          fontSize: 10.0,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                      SizedBox(height: 5.0),
-                      Row(
+                    SizedBox(height: 24.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          StoreChip(
-                            AssetConstants.steamIcon,
-                            'stores.steam'.tr(),
+                          GameOverviewValueCard(
+                            'gameOverview.platforms'.tr(),
+                            value: game.platforms,
                           ),
-                          SizedBox(width: 5.0),
-                          StoreChip(
-                            AssetConstants.epicStoresIcon,
-                            'stores.epicGames'.tr(),
+                          SizedBox(width: 20.0),
+                          GameOverviewValueCard(
+                            'gameOverview.metascores'.tr(),
+                            child: MetaScoreBox(
+                              state.selectedGame!.metacritic ?? 0,
+                            ),
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 24.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: RAWGButton(
-                    icon: AssetConstants.giftIcon,
-                    'gameOverview.addToWishlist'.tr(),
-                    () {},
-                  ),
-                ),
-                SizedBox(height: 16.0),
-              ],
-            );
-          },
-        ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GameOverviewValueCard(
+                            'gameOverview.genre'.tr(),
+                            value: game.getGenreNames,
+                          ),
+                          SizedBox(width: 20.0),
+                          GameOverviewValueCard(
+                            'gameOverview.releaseDate'.tr(),
+                            value: intl.DateFormat("MMM d, yyyy").format(game.released!),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GameOverviewValueCard(
+                            'gameOverview.website'.tr(),
+                            value: state.selectedGame!.website!.replaceFirst(RegExp(r'https?://'), '',),
+                          ),
+                          SizedBox(width: 20.0),
+                          GameOverviewValueCard(
+                            'gameOverview.publisher'.tr(),
+                            value: state.selectedGame!.publisherNames,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: GameOverviewValueCard(
+                        'gameOverview.about'.tr(),
+                        value: state.selectedGame!.shortDescription,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'gameOverview.availableStores'.tr(),
+                            style: AppFont.style(
+                              color: AppPalette.gray4,
+                              fontSize: 10.0,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                          SizedBox(height: 5.0),
+                          Row(
+                            children: [
+                              StoreChip(
+                                AssetConstants.steamIcon,
+                                'stores.steam'.tr(),
+                              ),
+                              SizedBox(width: 5.0),
+                              StoreChip(
+                                AssetConstants.epicStoresIcon,
+                                'stores.epicGames'.tr(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 24.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: RAWGButton(
+                        icon: AssetConstants.giftIcon,
+                        'gameOverview.addToWishlist'.tr(),
+                            () {},
+                      ),
+                    ),
+                    SizedBox(height: 16.0),
+                  ],
+                );
+              },
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 8.0,
+            left: 8.0,
+            child: MaterialButton(
+              onPressed: () => context.pop(),
+              color: AppPalette.black.withValues(alpha: 0.5),
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(10.0),
+              minWidth: 40.0,
+              height: 40.0,
+              child: Image.asset(
+                AssetConstants.leftArrowIcon,
+                width: 20.0,
+                height: 20.0,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
