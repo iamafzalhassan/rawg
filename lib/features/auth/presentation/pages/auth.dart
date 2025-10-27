@@ -80,7 +80,10 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
                       _tabController.index == 0
                           ? 'Join us today to unlock personalized features and tools.'
                           : 'Access your account and continue where you left off.',
-                      style: AppFont.style(fontSize: 14, color: AppPalette.gray1),
+                      style: AppFont.style(
+                        fontSize: 14,
+                        color: AppPalette.gray1,
+                      ),
                     ),
                   ],
                 ),
@@ -89,10 +92,11 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
               Container(
                 decoration: const BoxDecoration(
                   color: AppPalette.gray6,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(24.0)),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(24.0),
+                  ),
                 ),
-                height:
-                    (_tabController.index == 0 ? signUpHeight : signInHeight) + 48,
+                height: (_tabController.index == 0 ? signUpHeight : signInHeight) + 48,
                 child: Column(
                   children: [
                     Container(
@@ -126,9 +130,7 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
                       ),
                     ),
                     SizedBox(
-                      height: (_tabController.index == 0
-                          ? signUpHeight
-                          : signInHeight),
+                      height: (_tabController.index == 0 ? signUpHeight : signInHeight),
                       child: TabBarView(
                         controller: _tabController,
                         physics: const NeverScrollableScrollPhysics(),
