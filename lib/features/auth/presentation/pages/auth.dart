@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +38,7 @@ class Auth extends StatelessWidget {
                         ),
                         const SizedBox(height: 24.0),
                         Text(
-                          state.currentTabIndex == 0 ? 'Create your personal account of games' : 'Welcome back! Sign in to continue',
+                          state.currentTabIndex == 0 ? 'auth.signUpTitle'.tr() : 'auth.signInTitle'.tr(),
                           style: AppFont.style(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
@@ -45,7 +46,7 @@ class Auth extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          state.currentTabIndex == 0 ? 'Join us today to unlock personalized features and tools.' : 'Access your account and continue where you left off.',
+                          state.currentTabIndex == 0 ? 'auth.signUpSubtitle'.tr() : 'auth.signInSubtitle'.tr(),
                           style: AppFont.style(
                             fontSize: 14,
                             color: AppPalette.gray1,
@@ -91,16 +92,16 @@ class Auth extends StatelessWidget {
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.normal,
                               ),
-                              tabs: const [
-                                Tab(text: 'Sign Up'),
-                                Tab(text: 'Sign In'),
+                              tabs: [
+                                Tab(text: 'auth.signUp'.tr()),
+                                Tab(text: 'auth.signIn'.tr()),
                               ],
                             ),
                           ),
                         ),
                         SizedBox(
                           height: state.currentTabIndex == 0 ? signUpHeight : signInHeight,
-                          child: state.currentTabIndex == 0 ? buildSignUpForm(context) : buildLoginForm(context),
+                          child: state.currentTabIndex == 0 ? buildSignUpForm(context, state) : buildLoginForm(context, state),
                         ),
                       ],
                     ),
@@ -114,7 +115,7 @@ class Auth extends StatelessWidget {
     );
   }
 
-  Widget buildSignUpForm(BuildContext context) {
+  Widget buildSignUpForm(BuildContext context, AuthState state) {
     final cubit = context.read<AuthCubit>();
 
     return SingleChildScrollView(
@@ -123,40 +124,42 @@ class Auth extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RAWGFormField(
-            label: 'Full Name',
-            hintText: 'Wade Warren',
+            label: 'auth.fullName'.tr(),
+            hintText: 'auth.fullNameHint'.tr(),
             controller: cubit.nameController,
           ),
           const SizedBox(height: 16),
           RAWGFormField(
-            label: 'Email',
-            hintText: 'wadewarren@gmail.com',
+            label: 'auth.email'.tr(),
+            hintText: 'auth.emailHint'.tr(),
             controller: cubit.emailController,
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16),
           RAWGFormField(
-            label: 'Password',
-            hintText: '••••••••',
+            label: 'auth.password'.tr(),
+            hintText: 'auth.passwordHint'.tr(),
             controller: cubit.passwordController,
             isPassword: true,
           ),
           const SizedBox(height: 24),
           RAWGButton.elevated(
-            label: 'Register',
-            onPressed: () {
-              cubit.signUp();
-              context.pushNamed(RouteConstants.dashboard);
-            },
+            label: 'auth.register'.tr(),
+            onPressed: state.isSignUpFormValid
+                ? () {
+                    cubit.signUp();
+                    context.pushNamed(RouteConstants.dashboard);
+                  }
+                : null,
             height: 55.0,
-            backgroundColor: AppPalette.black2,
+            backgroundColor: state.isSignUpFormValid ? AppPalette.black2 : AppPalette.gray5,
           ),
         ],
       ),
     );
   }
 
-  Widget buildLoginForm(BuildContext context) {
+  Widget buildLoginForm(BuildContext context, AuthState state) {
     final cubit = context.read<AuthCubit>();
 
     return SingleChildScrollView(
@@ -165,27 +168,29 @@ class Auth extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RAWGFormField(
-            label: 'Email',
-            hintText: 'wadewarren@gmail.com',
+            label: 'auth.email'.tr(),
+            hintText: 'auth.emailHint'.tr(),
             controller: cubit.signInEmailController,
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16),
           RAWGFormField(
-            label: 'Password',
-            hintText: '••••••••',
+            label: 'auth.password'.tr(),
+            hintText: 'auth.passwordHint'.tr(),
             controller: cubit.signInPasswordController,
             isPassword: true,
           ),
           const SizedBox(height: 24),
           RAWGButton.elevated(
-            label: 'Login',
-            onPressed: () {
-              cubit.signIn();
-              context.pushNamed(RouteConstants.dashboard);
-            },
+            label: 'auth.login'.tr(),
+            onPressed: state.isSignInFormValid
+                ? () {
+                    cubit.signIn();
+                    context.pushNamed(RouteConstants.dashboard);
+                  }
+                : null,
             height: 55.0,
-            backgroundColor: AppPalette.black2,
+            backgroundColor: state.isSignInFormValid ? AppPalette.black2 : AppPalette.gray5,
           ),
         ],
       ),

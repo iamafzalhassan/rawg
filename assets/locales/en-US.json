@@ -57,5 +57,21 @@
     "noInternet": "No internet connection. Please check your connectivity.",
     "default": "Something went wrong. Please try again.",
     "noMoreData": "No more data available. Please try connecting to Internet."
+  },
+  "auth": {
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "signUpTitle": "Create your personal account of games",
+    "signUpSubtitle": "Join us today to unlock personalized features and tools.",
+    "signInTitle": "Welcome back! Sign in to continue",
+    "signInSubtitle": "Access your account and continue where you left off.",
+    "fullName": "Full Name",
+    "fullNameHint": "Wade Warren",
+    "email": "Email",
+    "emailHint": "wadewarren@gmail.com",
+    "password": "Password",
+    "passwordHint": "••••••••",
+    "register": "Register",
+    "login": "Login"
   }
 }
