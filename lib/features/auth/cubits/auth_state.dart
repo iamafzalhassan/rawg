@@ -1,10 +1,19 @@
 part of 'auth_cubit.dart';
 
-sealed class AuthState extends Equatable {
-  const AuthState();
-}
+class AuthState extends Equatable {
+  final int currentTabIndex;
 
-final class AuthInitial extends AuthState {
+  const AuthState({this.currentTabIndex = 0});
+
+  AuthState copyWith({int? currentTabIndex}) {
+    return AuthState(
+      currentTabIndex: currentTabIndex ?? this.currentTabIndex,
+    );
+  }
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [currentTabIndex];
+
+  @override
+  bool get stringify => true;
 }

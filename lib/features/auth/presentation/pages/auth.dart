@@ -1,153 +1,122 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rawg/core/constants/route_constants.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
+import 'package:rawg/features/auth/cubits/auth_cubit.dart';
 import 'package:rawg/features/common/presentation/widgets/rawg_button.dart';
 import 'package:rawg/features/common/presentation/widgets/rawg_from_field.dart';
 
-class Auth extends StatefulWidget {
+class Auth extends StatelessWidget {
   const Auth({super.key});
 
-  @override
-  State<Auth> createState() => _AuthState();
-}
-
-class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  final _signInEmailController = TextEditingController();
-  final _signInPasswordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(() {
-      if (_tabController.indexIsChanging) {
-        setState(() {});
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _signInEmailController.dispose();
-    _signInPasswordController.dispose();
-    super.dispose();
-  }
+  static const double signUpHeight = 399.0;
+  static const double signInHeight = 303.0;
 
   @override
   Widget build(BuildContext context) {
-    final signUpHeight = 399.0;
-    final signInHeight = 303.0;
-
     return Scaffold(
       backgroundColor: AppPalette.black2,
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: MediaQuery.of(context).padding.top + 8.0),
-                    const SizedBox(height: 24.0),
-                    Text(
-                      _tabController.index == 0
-                          ? 'Create your personal account of games'
-                          : 'Welcome back! Sign in to continue',
-                      style: AppFont.style(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: AppPalette.white,
-                      ),
+          child: BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).padding.top + 8.0,
+                        ),
+                        const SizedBox(height: 24.0),
+                        Text(
+                          state.currentTabIndex == 0 ? 'Create your personal account of games' : 'Welcome back! Sign in to continue',
+                          style: AppFont.style(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: AppPalette.white,
+                          ),
+                        ),
+                        Text(
+                          state.currentTabIndex == 0 ? 'Join us today to unlock personalized features and tools.' : 'Access your account and continue where you left off.',
+                          style: AppFont.style(
+                            fontSize: 14,
+                            color: AppPalette.gray1,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      _tabController.index == 0
-                          ? 'Join us today to unlock personalized features and tools.'
-                          : 'Access your account and continue where you left off.',
-                      style: AppFont.style(
-                        fontSize: 14,
-                        color: AppPalette.gray1,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 24.0),
-              Container(
-                decoration: const BoxDecoration(
-                  color: AppPalette.gray6,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(24.0),
                   ),
-                ),
-                height: (_tabController.index == 0 ? signUpHeight : signInHeight) + 48,
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppPalette.gray4,
-                        borderRadius: BorderRadius.circular(24.0),
-                      ),
-                      child: TabBar(
-                        controller: _tabController,
-                        onTap: (_) => setState(() {}),
-                        indicator: BoxDecoration(
-                          color: AppPalette.white,
-                          borderRadius: BorderRadius.circular(24.0),
-                        ),
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        dividerColor: Colors.transparent,
-                        labelColor: AppPalette.black,
-                        unselectedLabelColor: AppPalette.gray1,
-                        labelStyle: AppFont.style(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        unselectedLabelStyle: AppFont.style(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.normal,
-                        ),
-                        tabs: const [
-                          Tab(text: 'Sign Up'),
-                          Tab(text: 'Sign In'),
-                        ],
+                  const SizedBox(height: 24.0),
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: AppPalette.gray6,
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(24.0),
                       ),
                     ),
-                    SizedBox(
-                      height: (_tabController.index == 0 ? signUpHeight : signInHeight),
-                      child: TabBarView(
-                        controller: _tabController,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: [buildSignUpForm(), buildLoginForm()],
-                      ),
+                    height: (state.currentTabIndex == 0 ? signUpHeight : signInHeight) + 48,
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppPalette.gray4,
+                            borderRadius: BorderRadius.circular(24.0),
+                          ),
+                          child: DefaultTabController(
+                            length: 2,
+                            initialIndex: state.currentTabIndex,
+                            child: TabBar(
+                              onTap: (index) => context.read<AuthCubit>().switchTab(index),
+                              indicator: BoxDecoration(
+                                color: AppPalette.white,
+                                borderRadius: BorderRadius.circular(24.0),
+                              ),
+                              indicatorSize: TabBarIndicatorSize.tab,
+                              dividerColor: Colors.transparent,
+                              labelColor: AppPalette.black,
+                              unselectedLabelColor: AppPalette.gray1,
+                              labelStyle: AppFont.style(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              unselectedLabelStyle: AppFont.style(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              tabs: const [
+                                Tab(text: 'Sign Up'),
+                                Tab(text: 'Sign In'),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: state.currentTabIndex == 0 ? signUpHeight : signInHeight,
+                          child: state.currentTabIndex == 0 ? buildSignUpForm(context) : buildLoginForm(context),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ],
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
     );
   }
 
-  Widget buildSignUpForm() {
+  Widget buildSignUpForm(BuildContext context) {
+    final cubit = context.read<AuthCubit>();
+
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
       child: Column(
@@ -156,26 +125,29 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
           RAWGFormField(
             label: 'Full Name',
             hintText: 'Wade Warren',
-            controller: _nameController,
+            controller: cubit.nameController,
           ),
           const SizedBox(height: 16),
           RAWGFormField(
             label: 'Email',
             hintText: 'wadewarren@gmail.com',
-            controller: _emailController,
+            controller: cubit.emailController,
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16),
           RAWGFormField(
             label: 'Password',
             hintText: '••••••••',
-            controller: _passwordController,
+            controller: cubit.passwordController,
             isPassword: true,
           ),
           const SizedBox(height: 24),
           RAWGButton.elevated(
             label: 'Register',
-            onPressed: () => context.pushNamed(RouteConstants.dashboard),
+            onPressed: () {
+              cubit.signUp();
+              context.pushNamed(RouteConstants.dashboard);
+            },
             height: 55.0,
             backgroundColor: AppPalette.black2,
           ),
@@ -184,7 +156,9 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget buildLoginForm() {
+  Widget buildLoginForm(BuildContext context) {
+    final cubit = context.read<AuthCubit>();
+
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
       child: Column(
@@ -193,20 +167,23 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
           RAWGFormField(
             label: 'Email',
             hintText: 'wadewarren@gmail.com',
-            controller: _signInEmailController,
+            controller: cubit.signInEmailController,
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16),
           RAWGFormField(
             label: 'Password',
             hintText: '••••••••',
-            controller: _signInPasswordController,
+            controller: cubit.signInPasswordController,
             isPassword: true,
           ),
           const SizedBox(height: 24),
           RAWGButton.elevated(
             label: 'Login',
-            onPressed: () {},
+            onPressed: () {
+              cubit.signIn();
+              context.pushNamed(RouteConstants.dashboard);
+            },
             height: 55.0,
             backgroundColor: AppPalette.black2,
           ),

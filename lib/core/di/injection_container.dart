@@ -3,6 +3,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:rawg/core/network/api_request.dart';
 import 'package:rawg/core/network/connection_checker.dart';
+import 'package:rawg/features/auth/cubits/auth_cubit.dart';
 import 'package:rawg/features/dashboard/data/datasources/dashboard_local_datasource.dart';
 import 'package:rawg/features/dashboard/data/datasources/dashboard_remote_datasource.dart';
 import 'package:rawg/features/dashboard/data/models/local/hive_game_overview_model.dart';
@@ -26,6 +27,8 @@ Future<void> initCommon() async {
   sl.registerLazySingleton<ApiRequest>(() => ApiRequest());
 
   sl.registerLazySingleton<ConnectionChecker>(() => ConnectionCheckerImpl(InternetConnection()));
+
+  sl.registerFactory(() => AuthCubit());
 
   sl.registerFactory(() => SortChipCubit());
 
