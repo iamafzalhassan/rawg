@@ -21,10 +21,29 @@
     "publisher": "Publisher",
     "about": "About"
   },
+  "auth": {
+    "loading": "Loading...",
+    "signUpTitle": "Create Account",
+    "signUpSubtitle": "Join us and discover amazing games",
+    "signInTitle": "Welcome Back",
+    "signInSubtitle": "Sign in to continue",
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "fullName": "Full Name",
+    "fullNameHint": "Enter your full name",
+    "email": "Email",
+    "emailHint": "Enter your email",
+    "password": "Password",
+    "passwordHint": "Enter your password",
+    "register": "Register",
+    "login": "Login"
+  },
   "settings": {
     "title": "Settings",
     "language": "Language",
     "notifications": "Notifications",
+    "signOut": "Sign Out",
+    "signingOut": "Signing Out...",
     "selectLanguage": "Select Language"
   },
   "languages": {
@@ -57,21 +76,5 @@
     "noInternet": "No internet connection. Please check your connectivity.",
     "default": "Something went wrong. Please try again.",
     "noMoreData": "No more data available. Please try connecting to Internet."
-  },
-  "auth": {
-    "signUp": "Sign Up",
-    "signIn": "Sign In",
-    "signUpTitle": "Create your personal account of games",
-    "signUpSubtitle": "Join us today to unlock personalized features and tools.",
-    "signInTitle": "Welcome back! Sign in to continue",
-    "signInSubtitle": "Access your account and continue where you left off.",
-    "fullName": "Full Name",
-    "fullNameHint": "Wade Warren",
-    "email": "Email",
-    "emailHint": "wadewarren@gmail.com",
-    "password": "Password",
-    "passwordHint": "••••••••",
-    "register": "Register",
-    "login": "Login"
   }
 }
