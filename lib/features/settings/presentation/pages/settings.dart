@@ -43,8 +43,9 @@ class Settings extends StatelessWidget {
                 children: [
                   SettingsItem(
                     'settings.language'.tr(),
+                    showDropDown: true,
                     value: getCurrentLanguageName(context),
-                    onTap: () => showLanguageBottomSheet(context),
+                    onTap: () => showBottomSheet(context, const LanguageBottomSheet()),
                   ),
                   const SizedBox(height: 12.0),
                   SettingsItem(
@@ -53,12 +54,16 @@ class Settings extends StatelessWidget {
                     toggleValue: state.notificationsEnabled,
                     onToggleChanged: (value) => context.read<SettingsCubit>().setNotificationsEnabled(value),
                   ),
+                  const SizedBox(height: 12.0),
+                  SettingsItem('App Version', value: '1.0'),
                   const Spacer(),
                   RAWGButton.elevated(
-                    label: state.isLoading ? 'settings.signingOut'.tr() : 'settings.signOut'.tr(),
-                    onPressed: state.isLoading ? null : () => context.read<SettingsCubit>().signOut(),
-                    backgroundColor: AppPalette.gray4,
+                    label: 'settings.signOut'.tr(),
+                    isLoading: state.isLoading,
+                    onPressed: () => context.read<SettingsCubit>().signOut(),
+                    backgroundColor: AppPalette.black1,
                     height: 55.0,
+                    textColor: AppPalette.red1,
                   ),
                   const SizedBox(height: 16.0),
                 ],
@@ -77,9 +82,5 @@ class Settings extends StatelessWidget {
       return 'languages.sinhala'.tr();
     }
     return 'languages.english'.tr();
-  }
-
-  void showLanguageBottomSheet(BuildContext context) {
-    showBottomSheet(context, const LanguageBottomSheet());
   }
 }

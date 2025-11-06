@@ -74,7 +74,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           state.copyWith(
             isLoading: false,
-            successMessage: 'Sign up successful! Welcome!',
+            successMessage: 'Sign up successful!',
             user: result.data,
           ),
         );

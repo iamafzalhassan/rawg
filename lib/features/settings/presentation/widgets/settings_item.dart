@@ -10,6 +10,7 @@ class SettingsItem extends StatelessWidget {
     this.value,
     this.showToggle = false,
     this.toggleValue = false,
+    this.showDropDown = false,
     this.onTap,
     this.onToggleChanged,
   });
@@ -18,6 +19,7 @@ class SettingsItem extends StatelessWidget {
   final String? value;
   final bool showToggle;
   final bool toggleValue;
+  final bool showDropDown;
   final VoidCallback? onTap;
   final ValueChanged<bool>? onToggleChanged;
 
@@ -67,8 +69,8 @@ class SettingsItem extends StatelessWidget {
                 activeTrackColor: AppPalette.green1,
                 inactiveThumbColor: AppPalette.gray1,
                 inactiveTrackColor: AppPalette.gray4,
-              )
-            else
+              ),
+            if (showDropDown)
               Image.asset(AssetConstants.chevronIcon, width: 20.0),
           ],
         ),

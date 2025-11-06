@@ -22,7 +22,6 @@
     "about": "About"
   },
   "auth": {
-    "loading": "Loading...",
     "signUpTitle": "Create Account",
     "signUpSubtitle": "Join us and discover amazing games",
     "signInTitle": "Welcome Back",
@@ -35,15 +34,13 @@
     "emailHint": "Enter your email",
     "password": "Password",
     "passwordHint": "Enter your password",
-    "register": "Register",
-    "login": "Login"
+    "register": "Register"
   },
   "settings": {
     "title": "Settings",
     "language": "Language",
     "notifications": "Notifications",
     "signOut": "Sign Out",
-    "signingOut": "Signing Out...",
     "selectLanguage": "Select Language"
   },
   "languages": {
@@ -68,7 +65,7 @@
     "sendTimeout": "Send timeout. Please try again.",
     "receiveTimeout": "Receive timeout. Please try again.",
     "badRequest": "Bad request. Please check your input.",
-    "unauthorized": "Unauthorized. Please login again.",
+    "unauthorized": "Unauthorized. Please sign in again.",
     "accessDenied": "Access denied.",
     "notFound": "Resource not found.",
     "serverError": "Internal server error. Please try again later.",

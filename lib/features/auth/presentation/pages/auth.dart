@@ -26,7 +26,6 @@ class Auth extends StatelessWidget {
         }
 
         if (state.successMessage != null) {
-          showSnackBar(context, state.successMessage!);
           context.pushReplacementNamed(RouteConstants.dashboard);
         }
       },
@@ -114,7 +113,7 @@ class Auth extends StatelessWidget {
                           ),
                           SizedBox(
                             height: state.currentTabIndex == 0 ? signUpHeight : signInHeight,
-                            child: state.currentTabIndex == 0 ? buildSignUpForm(context, state) : buildLoginForm(context, state),
+                            child: state.currentTabIndex == 0 ? buildSignUpForm(context, state) : buildSignInForm(context, state),
                           ),
                         ],
                       ),
@@ -161,17 +160,18 @@ class Auth extends StatelessWidget {
           ),
           const SizedBox(height: 48.0),
           RAWGButton.elevated(
-            label: state.isLoading ? 'auth.loading'.tr() : 'auth.register'.tr(),
-            onPressed: state.isSignUpFormValid && !state.isLoading ? () => showSnackBar(context, 'Hi, is there any problem?') : null,
+            label: 'auth.register'.tr(),
+            isLoading: state.isLoading,
+            onPressed: state.isSignUpFormValid && !state.isLoading ? () => cubit.signUp() : null,
             height: 55.0,
-            backgroundColor: state.isSignUpFormValid && !state.isLoading ? AppPalette.black2 : AppPalette.gray5,
+            backgroundColor: state.isSignUpFormValid && !state.isLoading ? AppPalette.black2 : AppPalette.gray6,
           ),
         ],
       ),
     );
   }
 
-  Widget buildLoginForm(BuildContext context, AuthState state) {
+  Widget buildSignInForm(BuildContext context, AuthState state) {
     final cubit = context.read<AuthCubit>();
 
     return SingleChildScrollView(
@@ -196,10 +196,11 @@ class Auth extends StatelessWidget {
           ),
           const SizedBox(height: 48.0),
           RAWGButton.elevated(
-            label: state.isLoading ? 'auth.loading'.tr() : 'auth.login'.tr(),
+            label: 'auth.signIn'.tr(),
+            isLoading: state.isLoading,
             onPressed: state.isSignInFormValid && !state.isLoading ? () => cubit.signIn() : null,
             height: 55.0,
-            backgroundColor: state.isSignInFormValid && !state.isLoading ? AppPalette.black2 : AppPalette.gray5,
+            backgroundColor: state.isSignInFormValid && !state.isLoading ? AppPalette.black2 : AppPalette.gray6,
           ),
         ],
       ),

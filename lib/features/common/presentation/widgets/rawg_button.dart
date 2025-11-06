@@ -7,7 +7,6 @@ class RAWGButton extends StatelessWidget {
     super.key,
     required this.label,
     required this.onPressed,
-
     this.icon,
     this.width = double.infinity,
     this.height = 50.0,
@@ -16,13 +15,13 @@ class RAWGButton extends StatelessWidget {
     this.elevation = 0.0,
     this.backgroundColor,
     this.textColor,
+    this.isLoading = false,
   }) : isOutlined = false;
 
   const RAWGButton.outlined({
     super.key,
     required this.label,
     required this.onPressed,
-
     this.icon,
     this.width = double.infinity,
     this.height = 50.0,
@@ -31,11 +30,11 @@ class RAWGButton extends StatelessWidget {
     this.elevation = 0.0,
     this.backgroundColor,
     this.textColor,
+    this.isLoading = false,
   }) : isOutlined = true;
 
   final String label;
   final VoidCallback? onPressed;
-
   final bool isOutlined;
   final String? icon;
   final double width;
@@ -45,6 +44,7 @@ class RAWGButton extends StatelessWidget {
   final double elevation;
   final Color? backgroundColor;
   final Color? textColor;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +53,11 @@ class RAWGButton extends StatelessWidget {
         width: width,
         height: height,
         child: OutlinedButton(
-          onPressed: onPressed,
+          onPressed: isLoading ? null : onPressed,
           style: OutlinedButton.styleFrom(
             side: BorderSide(
               color: backgroundColor ?? AppPalette.gray6,
-              width: 4,
+              width: 2,
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
@@ -72,7 +72,7 @@ class RAWGButton extends StatelessWidget {
       width: width,
       height: height,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor ?? AppPalette.gray6,
           shape: RoundedRectangleBorder(
@@ -86,6 +86,19 @@ class RAWGButton extends StatelessWidget {
   }
 
   Widget buildChild() {
+    if (isLoading) {
+      return SizedBox(
+        width: 24.0,
+        height: 24.0,
+        child: CircularProgressIndicator(
+          strokeWidth: 2.5,
+          valueColor: AlwaysStoppedAnimation<Color>(
+            textColor ?? AppPalette.white,
+          ),
+        ),
+      );
+    }
+
     if (icon != null) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,

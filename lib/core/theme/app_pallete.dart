@@ -15,4 +15,5 @@ class AppPalette {
   static const Color black1 = Color(0xFF202020);
   static const Color black2 = Color(0xFF151515);
   static const Color green1 = Color(0xFF7ECE42);
+  static const Color red1 = Color(0xFFC0392B);
 }

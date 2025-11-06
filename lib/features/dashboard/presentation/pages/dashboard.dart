@@ -93,13 +93,9 @@ class Dashboard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 24.0),
                             child: RAWGButton.elevated(
                               label: 'dashboard.loadMore'.tr(),
+                              isLoading: state.more,
                               onPressed: () => context.read<DashboardCubit>().getGames(loadMore: true),
                             ),
-                          ),
-                        if (state.more)
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 24.0),
-                            child: Center(child: CircularProgressIndicator()),
                           ),
                       ],
                     );

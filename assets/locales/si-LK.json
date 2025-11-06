@@ -22,7 +22,6 @@
     "about": "පිළිබඳව"
   },
   "auth": {
-    "loading": "පූරණය වෙමින්...",
     "signUpTitle": "ගිණුමක් සාදන්න",
     "signUpSubtitle": "අප හා එක්වී විශිෂ්ට ක්‍රීඩා සොයා ගන්න",
     "signInTitle": "නැවත සාදරයෙන් පිළිගනිමු",
@@ -35,15 +34,13 @@
     "emailHint": "ඔබගේ විද්‍යුත් තැපෑල ඇතුළත් කරන්න",
     "password": "මුරපදය",
     "passwordHint": "ඔබගේ මුරපදය ඇතුළත් කරන්න",
-    "register": "ලියාපදිංචි වන්න",
-    "login": "පුරනය වන්න"
+    "register": "ලියාපදිංචි වන්න"
   },
   "settings": {
     "title": "සැකසුම්",
     "language": "භාෂාව",
     "notifications": "දැනුම්දීම්",
     "signOut": "පිටවීම",
-    "signingOut": "පිටවෙමින්...",
     "selectLanguage": "භාෂාව තෝරන්න"
   },
   "languages": {
