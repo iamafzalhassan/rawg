@@ -25,9 +25,9 @@ void run() {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => sl<SortChipCubit>()),
+          BlocProvider(create: (_) => sl<AuthCubit>()),
           BlocProvider(create: (_) => sl<DashboardCubit>()..getGames()),
           BlocProvider(create: (_) => sl<SettingsCubit>()),
-          BlocProvider(create: (_) => sl<AuthCubit>()),
         ],
         child: const App(),
       ),

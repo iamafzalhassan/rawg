@@ -13,8 +13,8 @@ import 'package:rawg/features/common/presentation/widgets/rawg_from_field.dart';
 class Auth extends StatelessWidget {
   const Auth({super.key});
 
-  static const double signUpHeight = 399.0;
-  static const double signInHeight = 303.0;
+  static const double signUpHeight = 423.0;
+  static const double signInHeight = 327.0;
 
   @override
   Widget build(BuildContext context) {
@@ -159,10 +159,10 @@ class Auth extends StatelessWidget {
             isPassword: true,
             enabled: !state.isLoading,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 48.0),
           RAWGButton.elevated(
             label: state.isLoading ? 'auth.loading'.tr() : 'auth.register'.tr(),
-            onPressed: state.isSignUpFormValid && !state.isLoading ? () => cubit.signUp() : null,
+            onPressed: state.isSignUpFormValid && !state.isLoading ? () => showSnackBar(context, 'Hi, is there any problem?') : null,
             height: 55.0,
             backgroundColor: state.isSignUpFormValid && !state.isLoading ? AppPalette.black2 : AppPalette.gray5,
           ),
@@ -194,7 +194,7 @@ class Auth extends StatelessWidget {
             isPassword: true,
             enabled: !state.isLoading,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 48.0),
           RAWGButton.elevated(
             label: state.isLoading ? 'auth.loading'.tr() : 'auth.login'.tr(),
             onPressed: state.isSignInFormValid && !state.isLoading ? () => cubit.signIn() : null,
