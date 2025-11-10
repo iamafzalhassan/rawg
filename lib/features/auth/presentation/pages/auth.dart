@@ -52,16 +52,16 @@ class Auth extends StatelessWidget {
                           Text(
                             state.currentTabIndex == 0 ? 'auth.signUpTitle'.tr() : 'auth.signInTitle'.tr(),
                             style: AppFont.style(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
                               color: AppPalette.white,
+                              fontSize: 28.0,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
                             state.currentTabIndex == 0 ? 'auth.signUpSubtitle'.tr() : 'auth.signInSubtitle'.tr(),
                             style: AppFont.style(
-                              fontSize: 14,
                               color: AppPalette.gray1,
+                              fontSize: 14.0,
                             ),
                           ),
                         ],
@@ -70,44 +70,44 @@ class Auth extends StatelessWidget {
                     const SizedBox(height: 24.0),
                     Container(
                       decoration: const BoxDecoration(
-                        color: AppPalette.gray6,
                         borderRadius: BorderRadius.vertical(
                           top: Radius.circular(24.0),
                         ),
+                        color: AppPalette.gray6,
                       ),
                       height: (state.currentTabIndex == 0 ? signUpHeight : signInHeight) + 48,
                       child: Column(
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                              color: AppPalette.gray4,
                               borderRadius: BorderRadius.circular(24.0),
+                              color: AppPalette.gray4,
                             ),
                             child: DefaultTabController(
-                              length: 2,
                               initialIndex: state.currentTabIndex,
+                              length: 2,
                               child: TabBar(
-                                onTap: (index) => context.read<AuthCubit>().switchTab(index),
+                                dividerColor: Colors.transparent,
                                 indicator: BoxDecoration(
-                                  color: AppPalette.white,
                                   borderRadius: BorderRadius.circular(24.0),
+                                  color: AppPalette.white,
                                 ),
                                 indicatorSize: TabBarIndicatorSize.tab,
-                                dividerColor: Colors.transparent,
                                 labelColor: AppPalette.black,
-                                unselectedLabelColor: AppPalette.gray1,
                                 labelStyle: AppFont.style(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w600,
                                 ),
-                                unselectedLabelStyle: AppFont.style(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                                onTap: (index) => context.read<AuthCubit>().switchTab(index),
                                 tabs: [
                                   Tab(text: 'auth.signUp'.tr()),
                                   Tab(text: 'auth.signIn'.tr()),
                                 ],
+                                unselectedLabelColor: AppPalette.gray1,
+                                unselectedLabelStyle: AppFont.style(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                             ),
                           ),
@@ -132,39 +132,38 @@ class Auth extends StatelessWidget {
     final cubit = context.read<AuthCubit>();
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RAWGFormField(
-            label: 'auth.fullName'.tr(),
-            hintText: 'auth.fullNameHint'.tr(),
             controller: cubit.nameController,
             enabled: !state.isLoading,
+            hintText: 'auth.fullNameHint'.tr(),
+            label: 'auth.fullName'.tr(),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 16.0),
           RAWGFormField(
-            label: 'auth.email'.tr(),
-            hintText: 'auth.emailHint'.tr(),
             controller: cubit.emailController,
+            enabled: !state.isLoading,
+            hintText: 'auth.emailHint'.tr(),
             keyboardType: TextInputType.emailAddress,
-            enabled: !state.isLoading,
+            label: 'auth.email'.tr(),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 16.0),
           RAWGFormField(
-            label: 'auth.password'.tr(),
-            hintText: 'auth.passwordHint'.tr(),
             controller: cubit.passwordController,
-            isPassword: true,
             enabled: !state.isLoading,
+            hintText: 'auth.passwordHint'.tr(),
+            isPassword: true,
+            label: 'auth.password'.tr(),
           ),
           const SizedBox(height: 48.0),
           RAWGButton.elevated(
-            label: 'auth.register'.tr(),
-            isLoading: state.isLoading,
-            onPressed: state.isSignUpFormValid && !state.isLoading ? () => cubit.signUp() : null,
-            height: 55.0,
             backgroundColor: state.isSignUpFormValid && !state.isLoading ? AppPalette.black2 : AppPalette.gray6,
+            isLoading: state.isLoading,
+            label: 'auth.register'.tr(),
+            onPressed: state.isSignUpFormValid && !state.isLoading ? () => cubit.signUp() : null,
           ),
         ],
       ),
@@ -175,32 +174,31 @@ class Auth extends StatelessWidget {
     final cubit = context.read<AuthCubit>();
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RAWGFormField(
-            label: 'auth.email'.tr(),
-            hintText: 'auth.emailHint'.tr(),
             controller: cubit.signInEmailController,
+            enabled: !state.isLoading,
+            hintText: 'auth.emailHint'.tr(),
             keyboardType: TextInputType.emailAddress,
-            enabled: !state.isLoading,
+            label: 'auth.email'.tr(),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 16.0),
           RAWGFormField(
-            label: 'auth.password'.tr(),
-            hintText: 'auth.passwordHint'.tr(),
             controller: cubit.signInPasswordController,
-            isPassword: true,
             enabled: !state.isLoading,
+            hintText: 'auth.passwordHint'.tr(),
+            isPassword: true,
+            label: 'auth.password'.tr(),
           ),
           const SizedBox(height: 48.0),
           RAWGButton.elevated(
-            label: 'auth.signIn'.tr(),
-            isLoading: state.isLoading,
-            onPressed: state.isSignInFormValid && !state.isLoading ? () => cubit.signIn() : null,
-            height: 55.0,
             backgroundColor: state.isSignInFormValid && !state.isLoading ? AppPalette.black2 : AppPalette.gray6,
+            isLoading: state.isLoading,
+            label: 'auth.signIn'.tr(),
+            onPressed: state.isSignInFormValid && !state.isLoading ? () => cubit.signIn() : null,
           ),
         ],
       ),

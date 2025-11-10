@@ -24,7 +24,7 @@ class SortBottomSheet extends StatelessWidget {
               margin: const EdgeInsets.only(left: 16.0),
               child: Text(
                 'dashboard.platforms'.tr(),
-                style: AppFont.style(color: AppPalette.white, fontSize: 25),
+                style: AppFont.style(color: AppPalette.white, fontSize: 25.0),
                 textAlign: TextAlign.left,
               ),
             ),
@@ -48,18 +48,18 @@ class SortBottomSheet extends StatelessWidget {
               children: [
                 Text(
                   item.name,
-                  style: AppFont.style(color: AppPalette.white, fontSize: 18),
+                  style: AppFont.style(color: AppPalette.white, fontSize: 18.0),
                   textAlign: TextAlign.left,
                 ),
                 const Spacer(),
                 Container(
                   decoration: BoxDecoration(
+                    border: item.isSelected ? null : Border.all(color: AppPalette.gray2),
                     color: item.isSelected ? AppPalette.green1 : null,
                     shape: BoxShape.circle,
-                    border: item.isSelected ? null : Border.all(color: AppPalette.gray2),
                   ),
-                  height: 20,
-                  width: 20,
+                  height: 20.0,
+                  width: 20.0,
                   padding: const EdgeInsets.all(2.0),
                   child: item.isSelected ? Image.asset(AssetConstants.tickIcon) : null,
                 ),

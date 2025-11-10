@@ -30,10 +30,10 @@ class Settings extends StatelessWidget {
       },
       child: Scaffold(
         appBar: RAWGAppBar(
-          showLogo: false,
-          title: 'settings.title'.tr(),
           showBackButton: true,
+          showLogo: false,
           showSettingsButton: false,
+          title: 'settings.title'.tr(),
         ),
         body: BlocBuilder<SettingsCubit, SettingsState>(
           builder: (context, state) {
@@ -58,11 +58,10 @@ class Settings extends StatelessWidget {
                   SettingsItem('App Version', value: '1.0'),
                   const Spacer(),
                   RAWGButton.elevated(
-                    label: 'settings.signOut'.tr(),
-                    isLoading: state.isLoading,
-                    onPressed: () => context.read<SettingsCubit>().signOut(),
                     backgroundColor: AppPalette.black1,
-                    height: 55.0,
+                    isLoading: state.isLoading,
+                    label: 'settings.signOut'.tr(),
+                    onPressed: () => context.read<SettingsCubit>().signOut(),
                     textColor: AppPalette.red1,
                   ),
                   const SizedBox(height: 16.0),

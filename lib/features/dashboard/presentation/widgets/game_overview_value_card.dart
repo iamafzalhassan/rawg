@@ -23,7 +23,7 @@ class GameOverviewValueCard extends StatelessWidget {
       children: [
         Text(
           label,
-          style: AppFont.style(color: AppPalette.gray4, fontSize: 10),
+          style: AppFont.style(color: AppPalette.gray4, fontSize: 10.0),
           textAlign: TextAlign.left,
         ),
         SizedBox(height: 2.0),
@@ -33,7 +33,7 @@ class GameOverviewValueCard extends StatelessWidget {
             width: width ?? (((MediaQuery.of(context).size.width - 32) / 2) - 10),
             child: Text(
               value!,
-              style: AppFont.style(color: AppPalette.white, fontSize: 12),
+              style: AppFont.style(color: AppPalette.white, fontSize: 12.0),
               textAlign: TextAlign.left,
             ),
           ),

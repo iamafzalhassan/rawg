@@ -49,8 +49,8 @@ class GameOverview extends StatelessWidget {
                                 Text(
                                   game.name!,
                                   style: AppFont.style(
+                                    fontSize: 30.0,
                                     color: AppPalette.white,
-                                    fontSize: 30,
                                   ),
                                   textAlign: TextAlign.left,
                                   maxLines: 1,
@@ -61,8 +61,8 @@ class GameOverview extends StatelessWidget {
                                     args: ['${game.playtime}'],
                                   ),
                                   style: AppFont.style(
+                                    fontSize: 14.0,
                                     color: AppPalette.white,
-                                    fontSize: 14,
                                   ),
                                   textAlign: TextAlign.left,
                                 ),
@@ -126,10 +126,7 @@ class GameOverview extends StatelessWidget {
                         children: [
                           GameOverviewValueCard(
                             'gameOverview.website'.tr(),
-                            value: state.selectedGame!.website!.replaceFirst(
-                              RegExp(r'https?://'),
-                              '',
-                            ),
+                            value: state.selectedGame!.website!.replaceFirst(RegExp(r'https?://'), ''),
                           ),
                           SizedBox(width: 20.0),
                           GameOverviewValueCard(
@@ -157,8 +154,8 @@ class GameOverview extends StatelessWidget {
                           Text(
                             'gameOverview.availableStores'.tr(),
                             style: AppFont.style(
-                              color: AppPalette.gray4,
                               fontSize: 10.0,
+                              color: AppPalette.gray4,
                             ),
                             textAlign: TextAlign.left,
                           ),
@@ -195,19 +192,19 @@ class GameOverview extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).padding.top + 8.0,
             left: 8.0,
+            top: MediaQuery.of(context).padding.top + 8.0,
             child: MaterialButton(
-              onPressed: () => context.pop(),
               color: AppPalette.black.withValues(alpha: 0.5),
-              shape: const CircleBorder(),
-              padding: const EdgeInsets.all(10.0),
-              minWidth: 40.0,
               height: 40.0,
+              minWidth: 40.0,
+              onPressed: () => context.pop(),
+              padding: const EdgeInsets.all(10.0),
+              shape: const CircleBorder(),
               child: Image.asset(
                 AssetConstants.leftArrowIcon,
-                width: 20.0,
                 height: 20.0,
+                width: 20.0,
               ),
             ),
           ),

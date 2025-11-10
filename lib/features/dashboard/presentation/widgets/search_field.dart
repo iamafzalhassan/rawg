@@ -15,8 +15,6 @@ class SearchField extends StatelessWidget {
 
     return TextField(
       controller: cubit.textEditingController,
-      onChanged: (value) => cubit.onSearchChanged(value),
-      style: AppFont.style(color: AppPalette.white, fontSize: 18.0),
       cursorColor: AppPalette.white,
       decoration: InputDecoration(
         border: const OutlineInputBorder(
@@ -33,6 +31,8 @@ class SearchField extends StatelessWidget {
           child: Image.asset(AssetConstants.searchIcon, width: 18.0),
         ),
       ),
+      onChanged: (value) => cubit.onSearchChanged(value),
+      style: AppFont.style(color: AppPalette.white, fontSize: 18.0),
     );
   }
 }

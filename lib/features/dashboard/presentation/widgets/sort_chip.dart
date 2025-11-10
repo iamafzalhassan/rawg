@@ -36,9 +36,9 @@ class SortChip extends StatelessWidget {
             const SizedBox(width: 5.0),
             if (isLoading)
               const SizedBox(
-                width: 15,
                 height: 15,
-                child: CircularProgressIndicator(strokeWidth: 2),
+                width: 15,
+                child: CircularProgressIndicator(strokeWidth: 2.0),
               )
             else
               Image.asset(AssetConstants.chevronIcon, width: 15.0),

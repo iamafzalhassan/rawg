@@ -7,60 +7,50 @@ class RAWGButton extends StatelessWidget {
     super.key,
     required this.label,
     required this.onPressed,
+    this.isLoading = false,
+    this.isOutlined = false,
     this.icon,
-    this.width = double.infinity,
-    this.height = 50.0,
-    this.fontSize = 18.0,
     this.borderRadius = 8.0,
-    this.elevation = 0.0,
     this.backgroundColor,
     this.textColor,
-    this.isLoading = false,
-  }) : isOutlined = false;
+  });
 
   const RAWGButton.outlined({
     super.key,
     required this.label,
     required this.onPressed,
+    this.isLoading = false,
+    this.isOutlined = true,
     this.icon,
-    this.width = double.infinity,
-    this.height = 50.0,
-    this.fontSize = 18.0,
     this.borderRadius = 8.0,
-    this.elevation = 0.0,
     this.backgroundColor,
     this.textColor,
-    this.isLoading = false,
-  }) : isOutlined = true;
+  });
 
   final String label;
   final VoidCallback? onPressed;
+  final bool isLoading;
   final bool isOutlined;
   final String? icon;
-  final double width;
-  final double height;
-  final double fontSize;
   final double borderRadius;
-  final double elevation;
   final Color? backgroundColor;
   final Color? textColor;
-  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     if (isOutlined) {
       return SizedBox(
-        width: width,
-        height: height,
+        height: 55.0,
+        width: double.infinity,
         child: OutlinedButton(
           onPressed: isLoading ? null : onPressed,
           style: OutlinedButton.styleFrom(
-            side: BorderSide(
-              color: backgroundColor ?? AppPalette.gray6,
-              width: 2,
-            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
+            ),
+            side: BorderSide(
+              color: backgroundColor ?? AppPalette.gray6,
+              width: 2.0,
             ),
           ),
           child: buildChild(),
@@ -69,8 +59,8 @@ class RAWGButton extends StatelessWidget {
     }
 
     return SizedBox(
-      width: width,
-      height: height,
+      height: 55.0,
+      width: double.infinity,
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
@@ -78,7 +68,7 @@ class RAWGButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),
           ),
-          elevation: elevation,
+          elevation: 0.0,
         ),
         child: buildChild(),
       ),
@@ -88,8 +78,8 @@ class RAWGButton extends StatelessWidget {
   Widget buildChild() {
     if (isLoading) {
       return SizedBox(
-        width: 24.0,
         height: 24.0,
+        width: 24.0,
         child: CircularProgressIndicator(
           strokeWidth: 2.5,
           valueColor: AlwaysStoppedAnimation<Color>(
@@ -110,7 +100,7 @@ class RAWGButton extends StatelessWidget {
             label,
             style: AppFont.style(
               color: textColor ?? AppPalette.white,
-              fontSize: fontSize,
+              fontSize: 18.0,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -122,7 +112,7 @@ class RAWGButton extends StatelessWidget {
       label,
       style: AppFont.style(
         color: textColor ?? AppPalette.white,
-        fontSize: fontSize,
+        fontSize: 18.0,
         fontWeight: FontWeight.w600,
       ),
     );

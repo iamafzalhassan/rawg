@@ -74,7 +74,7 @@ class RAWGAppBar extends StatelessWidget implements PreferredSizeWidget {
     } else if (title != null) {
       return Text(
         title!,
-        style: AppFont.style(color: AppPalette.white, fontSize: 20),
+        style: AppFont.style(color: AppPalette.white, fontSize: 20.0),
       );
     }
     return null;

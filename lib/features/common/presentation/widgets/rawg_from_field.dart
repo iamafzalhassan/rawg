@@ -44,9 +44,9 @@ class RAWGFormField extends StatelessWidget {
           children: [
             Text(
               label,
-              style: AppFont.style(fontSize: 13, color: AppPalette.white),
+              style: AppFont.style(fontSize: 13.0, color: AppPalette.white),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 8.0),
             BlocBuilder<RAWGFormFieldCubit, RAWGFormFieldState>(
               builder: (context, state) {
                 return TextField(
@@ -66,7 +66,7 @@ class RAWGFormField extends StatelessWidget {
                     filled: true,
                     fillColor: AppPalette.gray4,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.0),
                       borderSide: BorderSide.none,
                     ),
                     contentPadding: const EdgeInsets.symmetric(

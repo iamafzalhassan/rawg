@@ -46,17 +46,17 @@ class Dashboard extends StatelessWidget {
               ),
               Text(
                 'dashboard.title'.tr(),
-                style: AppFont.style(color: AppPalette.white, fontSize: 30),
+                style: AppFont.style(color: AppPalette.white, fontSize: 30.0),
               ),
               Text(
                 'dashboard.subtitle'.tr(),
-                style: AppFont.style(color: AppPalette.white, fontSize: 15),
+                style: AppFont.style(color: AppPalette.white, fontSize: 15.0),
               ),
               const SizedBox(height: 24.0),
               BlocBuilder<SortChipCubit, SortChipState>(
                 builder: (context, state) => SortChip(
-                  value: state.selectedPlatform?.name ?? 'dashboard.platforms'.tr(),
                   isLoading: state.filtering,
+                  value: state.selectedPlatform?.name ?? 'dashboard.platforms'.tr(),
                 ),
               ),
               const SizedBox(height: 24.0),
@@ -71,11 +71,11 @@ class Dashboard extends StatelessWidget {
                       return Center(
                         child: Text(
                           state.errorMessage!,
-                          textAlign: TextAlign.center,
                           style: AppFont.style(
                             color: AppPalette.gray1,
-                            fontSize: 16,
+                            fontSize: 16.0,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       );
                     }
@@ -84,8 +84,8 @@ class Dashboard extends StatelessWidget {
                       physics: const ClampingScrollPhysics(),
                       children: [
                         Wrap(
-                          spacing: 10.0,
                           runSpacing: 10.0,
+                          spacing: 10.0,
                           children: state.games!.map((game) => GameCard(game)).toList(),
                         ),
                         if (state.showLoadMoreButton)
@@ -96,6 +96,11 @@ class Dashboard extends StatelessWidget {
                               isLoading: state.more,
                               onPressed: () => context.read<DashboardCubit>().getGames(loadMore: true),
                             ),
+                          ),
+                        if (state.more)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 24.0),
+                            child: Center(child: CircularProgressIndicator()),
                           ),
                       ],
                     );

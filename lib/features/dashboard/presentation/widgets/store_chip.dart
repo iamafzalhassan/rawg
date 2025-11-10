@@ -23,8 +23,8 @@ class StoreChip extends StatelessWidget {
           SizedBox(width: 5.0),
           RichText(
             text: TextSpan(
+              style: AppFont.style(color: AppPalette.gray3, fontSize: 12.0),
               text: label,
-              style: AppFont.style(color: AppPalette.gray3, fontSize: 12),
             ),
           ),
         ],

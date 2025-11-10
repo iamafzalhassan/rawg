@@ -64,11 +64,11 @@ class SettingsItem extends StatelessWidget {
             ),
             if (showToggle)
               CupertinoSwitch(
-                value: toggleValue,
-                onChanged: onToggleChanged,
                 activeTrackColor: AppPalette.green1,
                 inactiveThumbColor: AppPalette.gray1,
                 inactiveTrackColor: AppPalette.gray4,
+                onChanged: onToggleChanged,
+                value: toggleValue,
               ),
             if (showDropDown)
               Image.asset(AssetConstants.chevronIcon, width: 20.0),
