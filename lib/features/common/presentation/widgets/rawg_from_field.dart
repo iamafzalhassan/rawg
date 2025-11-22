@@ -7,30 +7,30 @@ import 'package:rawg/features/common/presentation/cubits/rawg_form_field_cubit.d
 class RAWGFormField extends StatelessWidget {
   const RAWGFormField({
     super.key,
+    this.enabled = true,
+    this.isPassword = false,
     required this.label,
     required this.hintText,
+    this.maxLines = 1,
+    this.height = 80.0,
     this.controller,
     this.keyboardType = TextInputType.text,
-    this.isPassword = false,
-    this.validator,
     this.onChanged,
-    this.enabled = true,
-    this.maxLines = 1,
+    this.validator,
     this.prefixIcon,
-    this.height = 80.0,
   });
 
+  final bool enabled;
+  final bool isPassword;
   final String label;
   final String hintText;
+  final int maxLines;
+  final double height;
   final TextEditingController? controller;
   final TextInputType keyboardType;
-  final bool isPassword;
-  final String? Function(String?)? validator;
   final void Function(String)? onChanged;
-  final bool enabled;
-  final int maxLines;
+  final String? Function(String?)? validator;
   final Widget? prefixIcon;
-  final double height;
 
   @override
   Widget build(BuildContext context) {

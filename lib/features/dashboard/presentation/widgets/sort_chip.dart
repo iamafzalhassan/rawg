@@ -7,13 +7,13 @@ import 'package:rawg/features/dashboard/presentation/widgets/sort_bottom_sheet.d
 
 class SortChip extends StatelessWidget {
   const SortChip({
-    required this.value,
     this.isLoading = false,
+    required this.value,
     super.key,
   });
 
-  final String value;
   final bool isLoading;
+  final String value;
 
   @override
   Widget build(BuildContext context) {

@@ -8,16 +8,16 @@ import 'package:rawg/core/theme/app_pallete.dart';
 class RAWGAppBar extends StatelessWidget implements PreferredSizeWidget {
   const RAWGAppBar({
     super.key,
-    this.showLogo = true,
     this.showBackButton = false,
+    this.showLogo = true,
     this.showSettingsButton = true,
     this.title,
     this.onBackPressed,
     this.actions,
   });
 
-  final bool showLogo;
   final bool showBackButton;
+  final bool showLogo;
   final bool showSettingsButton;
   final String? title;
   final VoidCallback? onBackPressed;

@@ -7,19 +7,19 @@ class SettingsItem extends StatelessWidget {
   const SettingsItem(
     this.label, {
     super.key,
-    this.value,
+    this.showDropDown = false,
     this.showToggle = false,
     this.toggleValue = false,
-    this.showDropDown = false,
+    this.value,
     this.onTap,
     this.onToggleChanged,
   });
 
-  final String label;
-  final String? value;
+  final bool showDropDown;
   final bool showToggle;
   final bool toggleValue;
-  final bool showDropDown;
+  final String label;
+  final String? value;
   final VoidCallback? onTap;
   final ValueChanged<bool>? onToggleChanged;
 

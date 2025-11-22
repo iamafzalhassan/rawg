@@ -5,36 +5,36 @@ import 'package:rawg/core/theme/app_pallete.dart';
 class RAWGButton extends StatelessWidget {
   const RAWGButton.elevated({
     super.key,
-    required this.label,
-    required this.onPressed,
     this.isLoading = false,
     this.isOutlined = false,
+    required this.label,
     this.icon,
     this.borderRadius = 8.0,
     this.backgroundColor,
     this.textColor,
+    required this.onPressed,
   });
 
   const RAWGButton.outlined({
     super.key,
-    required this.label,
-    required this.onPressed,
     this.isLoading = false,
     this.isOutlined = true,
+    required this.label,
     this.icon,
     this.borderRadius = 8.0,
     this.backgroundColor,
     this.textColor,
+    required this.onPressed,
   });
 
-  final String label;
-  final VoidCallback? onPressed;
   final bool isLoading;
   final bool isOutlined;
+  final String label;
   final String? icon;
   final double borderRadius;
   final Color? backgroundColor;
   final Color? textColor;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
