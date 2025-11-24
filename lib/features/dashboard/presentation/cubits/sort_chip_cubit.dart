@@ -36,7 +36,7 @@ class SortChipCubit extends Cubit<SortChipState> {
   }
 
   List<SortItem> updateSelection(bool deSelect, int id, List<SortItem> list) {
-    return list.map((i) => SortItem(deSelect ? false : i.id == id, i.id, i.name, i.value)).toList();
+    return list.map((i) => SortItem(deSelect ? false : i.id == id, i.name, i.value, i.id)).toList();
   }
 
   void resetFilterTrigger() {
