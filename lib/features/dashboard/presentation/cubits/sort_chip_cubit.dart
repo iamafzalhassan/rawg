@@ -16,17 +16,17 @@ class SortChipCubit extends Cubit<SortChipState> {
   void onItemSelected(SortItem item) {
     timer?.cancel();
 
-    final isCurrentlySelected = state.platformSortList.any((i) => i.isSelected && i.id == item.id);
+    final isCurrentlySelected = state.platformSortList.any((i) => i.isSelected! && i.id == item.id);
 
     final updatedList = updateSelection(
       isCurrentlySelected,
-      item.id,
+      item.id!,
       state.platformSortList,
     );
 
     emit(
       SortChipState(
-        selectedPlatform: isCurrentlySelected ? null : updatedList.firstWhere((i) => i.isSelected),
+        selectedPlatform: isCurrentlySelected ? null : updatedList.firstWhere((i) => i.isSelected!),
         platformSortList: updatedList,
         filtering: true,
       ),
@@ -36,7 +36,7 @@ class SortChipCubit extends Cubit<SortChipState> {
   }
 
   List<SortItem> updateSelection(bool deSelect, int id, List<SortItem> list) {
-    return list.map((i) => SortItem(deSelect ? false : i.id == id, i.name, i.value, i.id)).toList();
+    return list.map((i) => SortItem(isSelected: deSelect ? false : i.id == id, name: i.name, value: i.value, id: i.id)).toList();
   }
 
   void resetFilterTrigger() {
