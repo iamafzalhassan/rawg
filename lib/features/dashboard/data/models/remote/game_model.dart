@@ -70,21 +70,31 @@ class GameModel extends Game {
   );
 
   factory GameModel.fromJson(Map<String, dynamic> json) => GameModel(
-    id: json["id"],
-    slug: json["slug"] ?? '',
-    name: json["name"] ?? '',
-    released: json["released"] != null ? DateTime.parse(json["released"]) : DateTime.now(),
     tba: json["tba"] ?? false,
-    backgroundImage: json["background_image"] ?? '',
-    ratingsCount: json["ratings_count"] ?? 0,
-    reviewsTextCount: json["reviews_text_count"] ?? 0,
     added: json["added"] ?? 0,
+    id: json["id"],
     metacritic: json["metacritic"] ?? 0,
     playtime: json["playtime"] ?? 0,
-    suggestionsCount: json["suggestions_count"] ?? 0,
+    ratingsCount: json["ratings_count"] ?? 0,
     reviewsCount: json["reviews_count"] ?? 0,
-    saturatedColor: json["saturated_color"] ?? '0f0f0f',
+    reviewsTextCount: json["reviews_text_count"] ?? 0,
+    suggestionsCount: json["suggestions_count"] ?? 0,
+    backgroundImage: json["background_image"] ?? '',
     dominantColor: json["dominant_color"] ?? '0f0f0f',
+    name: json["name"] ?? '',
+    saturatedColor: json["saturated_color"] ?? '0f0f0f',
+    slug: json["slug"] ?? '',
+    released: json["released"] != null
+        ? DateTime.parse(json["released"])
+        : DateTime.now(),
+    esrbRating: json["esrb_rating"] != null
+        ? EsrbRatingModel.fromJson(json["esrb_rating"])
+        : null,
+    genres: json["genres"] != null
+        ? List<GenreModel>.from(
+            json["genres"].map((x) => GenreModel.fromJson(x)),
+          )
+        : [],
     parentPlatforms: json["parent_platforms"] != null
         ? List<ParentPlatformModel>.from(
             json["parent_platforms"].map(
@@ -92,18 +102,10 @@ class GameModel extends Game {
             ),
           )
         : [],
-    genres: json["genres"] != null
-        ? List<GenreModel>.from(
-            json["genres"].map((x) => GenreModel.fromJson(x)),
-          )
-        : [],
     stores: json["stores"] != null
         ? List<StoreModel>.from(
             json["stores"].map((x) => StoreModel.fromJson(x)),
           )
         : [],
-    esrbRating: json["esrb_rating"] != null
-        ? EsrbRatingModel.fromJson(json["esrb_rating"])
-        : null,
   );
 }

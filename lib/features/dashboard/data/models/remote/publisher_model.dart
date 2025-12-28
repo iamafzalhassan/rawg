@@ -24,10 +24,10 @@ class PublisherModel extends Publisher {
   );
 
   factory PublisherModel.fromJson(Map<String, dynamic> json) => PublisherModel(
+    gamesCount: json["games_count"],
     id: json["id"],
+    imageBackground: json["image_background"],
     name: json["name"],
     slug: json["slug"],
-    gamesCount: json["games_count"],
-    imageBackground: json["image_background"],
   );
 }

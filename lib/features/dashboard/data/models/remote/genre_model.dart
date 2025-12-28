@@ -24,10 +24,10 @@ class GenreModel extends Genre {
   );
 
   factory GenreModel.fromJson(Map<String, dynamic> json) => GenreModel(
+    gamesCount: json["games_count"],
     id: json["id"],
+    imageBackground: json["image_background"],
     name: json["name"],
     slug: json["slug"],
-    gamesCount: json["games_count"],
-    imageBackground: json["image_background"],
   );
 }
