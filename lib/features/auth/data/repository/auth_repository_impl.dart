@@ -11,13 +11,13 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<ApiResult<User>> signUp({
     required String email,
-    required String password,
     required String name,
+    required String password,
   }) async {
     return await remoteDataSource.signUp(
       email: email,
-      password: password,
       name: name,
+      password: password,
     );
   }
 
@@ -26,7 +26,10 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    return await remoteDataSource.signIn(email: email, password: password);
+    return await remoteDataSource.signIn(
+      email: email,
+      password: password,
+    );
   }
 
   @override

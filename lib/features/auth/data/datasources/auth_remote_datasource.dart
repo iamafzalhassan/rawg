@@ -4,8 +4,8 @@ import 'package:rawg/core/network/api_result.dart';
 abstract interface class AuthRemoteDataSource {
   Future<ApiResult<User>> signUp({
     required String email,
-    required String password,
     required String name,
+    required String password,
   });
 
   Future<ApiResult<User>> signIn({
@@ -26,8 +26,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<ApiResult<User>> signUp({
     required String email,
-    required String password,
     required String name,
+    required String password,
   }) async {
     try {
       final response = await supabaseClient.auth.signUp(

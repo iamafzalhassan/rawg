@@ -1,52 +1,52 @@
 part of 'dashboard_cubit.dart';
 
 class DashboardState extends Equatable {
+  final bool end;
   final bool loading;
   final bool more;
-  final bool end;
   final bool search;
+  final int currentPage;
   final String? errorMessage;
   final String? platforms;
   final String? searchQuery;
-  final int currentPage;
   final GameOverview? selectedGame;
   final List<Game>? games;
 
   const DashboardState({
+    this.end = false,
     this.loading = true,
     this.more = false,
-    this.end = false,
     this.search = false,
+    this.currentPage = 1,
     this.errorMessage,
     this.platforms,
     this.searchQuery,
-    this.currentPage = 1,
     this.selectedGame,
     this.games,
   });
 
   DashboardState copyWith({
+    bool? end,
     bool? loading,
     bool? more,
-    bool? end,
     bool? search,
     bool clearMessages = false,
+    int? currentPage,
     String? errorMessage,
     String? platforms,
     String? searchQuery,
-    int? currentPage,
     GameOverview? selectedGame,
     List<Game>? games,
   }) {
     return DashboardState(
+      end: end ?? this.end,
       loading: loading ?? this.loading,
       more: more ?? this.more,
-      end: end ?? this.end,
+      search: search ?? this.search,
+      currentPage: currentPage ?? this.currentPage,
       errorMessage: clearMessages ? null : (errorMessage ?? this.errorMessage),
       platforms: platforms ?? this.platforms,
       searchQuery: searchQuery ?? this.searchQuery,
-      search: search ?? this.search,
-      currentPage: currentPage ?? this.currentPage,
       selectedGame: selectedGame,
       games: games ?? this.games,
     );

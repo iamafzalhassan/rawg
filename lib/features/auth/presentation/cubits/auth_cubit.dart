@@ -10,9 +10,15 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  final SignUpUseCase signUpUseCase;
-  final SignInUseCase signInUseCase;
   final GetCurrentUserUseCase getCurrentUserUseCase;
+  final SignInUseCase signInUseCase;
+  final SignUpUseCase signUpUseCase;
+
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final signInEmailController = TextEditingController();
+  final signInPasswordController = TextEditingController();
 
   AuthCubit(this.signUpUseCase, this.signInUseCase, this.getCurrentUserUseCase) : super(const AuthState()) {
     nameController.addListener(validateSignUpForm);
@@ -21,12 +27,6 @@ class AuthCubit extends Cubit<AuthState> {
     signInEmailController.addListener(validateSignInForm);
     signInPasswordController.addListener(validateSignInForm);
   }
-
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final signInEmailController = TextEditingController();
-  final signInPasswordController = TextEditingController();
 
   void validateSignUpForm() {
     final isValid = nameController.text.trim().isNotEmpty && emailController.text.trim().isNotEmpty && passwordController.text.trim().isNotEmpty;
@@ -65,8 +65,8 @@ class AuthCubit extends Cubit<AuthState> {
 
     final result = await signUpUseCase(
       email: email,
-      password: password,
       name: name,
+      password: password,
     );
 
     switch (result) {

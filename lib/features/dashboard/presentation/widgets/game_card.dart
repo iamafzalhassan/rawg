@@ -13,9 +13,9 @@ import 'package:rawg/features/dashboard/domain/entities/game.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/dashboard_cubit.dart';
 
 class GameCard extends StatelessWidget {
-  const GameCard(this.game, {super.key});
-
   final Game game;
+
+  const GameCard(this.game, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,14 +58,20 @@ class GameCard extends StatelessWidget {
                   game.name!,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppFont.style(color: AppPalette.white, fontSize: 14.0),
+                  style: AppFont.style(
+                    fontSize: 14.0,
+                    color: AppPalette.white,
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
                   DateFormat("MMM d, yyyy").format(game.released!),
-                  style: AppFont.style(color: AppPalette.gray1, fontSize: 11.0),
+                  style: AppFont.style(
+                    fontSize: 11.0,
+                    color: AppPalette.gray1,
+                  ),
                 ),
               ),
               const Spacer(),

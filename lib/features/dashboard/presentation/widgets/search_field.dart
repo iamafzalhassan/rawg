@@ -16,6 +16,11 @@ class SearchField extends StatelessWidget {
     return TextField(
       controller: cubit.textEditingController,
       cursorColor: AppPalette.white,
+      onChanged: (value) => cubit.onSearchChanged(value),
+      style: AppFont.style(
+        fontSize: 18.0,
+        color: AppPalette.white,
+      ),
       decoration: InputDecoration(
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -24,15 +29,16 @@ class SearchField extends StatelessWidget {
         contentPadding: const EdgeInsets.all(16.0),
         filled: true,
         fillColor: AppPalette.gray4,
-        hintStyle: AppFont.style(fontSize: 18.0, color: AppPalette.gray1),
+        hintStyle: AppFont.style(
+          fontSize: 18.0,
+          color: AppPalette.gray1,
+        ),
         hintText: 'dashboard.searchHint'.tr(),
         prefixIcon: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Image.asset(AssetConstants.searchIcon, width: 18.0),
         ),
       ),
-      onChanged: (value) => cubit.onSearchChanged(value),
-      style: AppFont.style(color: AppPalette.white, fontSize: 18.0),
     );
   }
 }

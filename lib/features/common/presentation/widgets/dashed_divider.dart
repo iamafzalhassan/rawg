@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class DashedDivider extends StatelessWidget {
-  final double height;
-  final double dashWidth;
   final double dashSpace;
+  final double dashWidth;
+  final double height;
   final Color color;
 
   const DashedDivider({
     super.key,
-    this.height = 1,
-    this.dashWidth = 6,
     this.dashSpace = 4,
+    this.dashWidth = 6,
+    this.height = 1,
     this.color = Colors.grey,
   });
 

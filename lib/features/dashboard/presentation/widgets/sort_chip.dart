@@ -6,14 +6,14 @@ import 'package:rawg/core/utils/show_bottom_sheet.dart';
 import 'package:rawg/features/dashboard/presentation/widgets/sort_bottom_sheet.dart';
 
 class SortChip extends StatelessWidget {
-  const SortChip({
-    this.isLoading = false,
-    required this.value,
-    super.key,
-  });
-
   final bool isLoading;
   final String value;
+
+  const SortChip({
+    super.key,
+    this.isLoading = false,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,10 @@ class SortChip extends StatelessWidget {
           children: [
             Text(
               value,
-              style: AppFont.style(color: AppPalette.white, fontSize: 15.0),
+              style: AppFont.style(
+                fontSize: 15.0,
+                color: AppPalette.white,
+              ),
             ),
             const SizedBox(width: 5.0),
             if (isLoading)

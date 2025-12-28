@@ -53,8 +53,8 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
       return ApiSuccess(games);
     } on DioException catch (e) {
       return ApiFailure(
-        message: Exceptions.handleError(e),
         statusCode: e.response?.statusCode,
+        message: Exceptions.handleError(e),
         dioException: e,
       );
     } catch (e) {
@@ -70,8 +70,8 @@ class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
       return ApiSuccess(GameOverviewModel.fromJson(response.data));
     } on DioException catch (e) {
       return ApiFailure(
-        message: Exceptions.handleError(e),
         statusCode: e.response?.statusCode,
+        message: Exceptions.handleError(e),
         dioException: e,
       );
     } catch (e) {

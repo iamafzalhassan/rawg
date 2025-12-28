@@ -1,17 +1,17 @@
 class Genre {
+  int? gamesCount;
   int? id;
+  String? domain;
+  String? imageBackground;
   String? name;
   String? slug;
-  int? gamesCount;
-  String? imageBackground;
-  String? domain;
 
   Genre({
+    this.gamesCount,
     this.id,
+    this.domain,
+    this.imageBackground,
     this.name,
     this.slug,
-    this.gamesCount,
-    this.imageBackground,
-    this.domain,
   });
 }

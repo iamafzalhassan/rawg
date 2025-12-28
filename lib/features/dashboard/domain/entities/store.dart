@@ -4,5 +4,8 @@ class Store {
   int? id;
   Genre? store;
 
-  Store({this.id, this.store});
+  Store({
+    this.id,
+    this.store,
+  });
 }

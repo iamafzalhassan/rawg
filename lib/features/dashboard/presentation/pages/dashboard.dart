@@ -20,14 +20,18 @@ class Dashboard extends StatelessWidget {
     return MultiBlocListener(
       listeners: [
         BlocListener<SortChipCubit, SortChipState>(
-          listenWhen: (previous, current) => current.triggerFilter && !previous.triggerFilter,
+          listenWhen: (previous, current) =>
+          current.triggerFilter && !previous.triggerFilter,
           listener: (context, state) {
-            context.read<DashboardCubit>().getGames(platforms: state.selectedPlatform?.value);
+            context.read<DashboardCubit>().getGames(
+              platforms: state.selectedPlatform?.value,
+            );
             context.read<SortChipCubit>().resetFilterTrigger();
           },
         ),
         BlocListener<DashboardCubit, DashboardState>(
-          listenWhen: (previous, current) => current.errorMessage != null && current.hasGames,
+          listenWhen: (previous, current) =>
+          current.errorMessage != null && current.hasGames,
           listener: (context, state) {
             showSnackBar(context, state.errorMessage!);
           },
@@ -46,11 +50,17 @@ class Dashboard extends StatelessWidget {
               ),
               Text(
                 'dashboard.title'.tr(),
-                style: AppFont.style(color: AppPalette.white, fontSize: 30.0),
+                style: AppFont.style(
+                  fontSize: 30.0,
+                  color: AppPalette.white,
+                ),
               ),
               Text(
                 'dashboard.subtitle'.tr(),
-                style: AppFont.style(color: AppPalette.white, fontSize: 15.0),
+                style: AppFont.style(
+                  fontSize: 15.0,
+                  color: AppPalette.white,
+                ),
               ),
               const SizedBox(height: 24.0),
               BlocBuilder<SortChipCubit, SortChipState>(
@@ -72,8 +82,8 @@ class Dashboard extends StatelessWidget {
                         child: Text(
                           state.errorMessage!,
                           style: AppFont.style(
-                            color: AppPalette.gray1,
                             fontSize: 16.0,
+                            color: AppPalette.gray1,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -92,9 +102,11 @@ class Dashboard extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 24.0),
                             child: RAWGButton.elevated(
-                              label: 'dashboard.loadMore'.tr(),
                               isLoading: state.more,
-                              onPressed: () => context.read<DashboardCubit>().getGames(loadMore: true),
+                              label: 'dashboard.loadMore'.tr(),
+                              onPressed: () => context.read<DashboardCubit>().getGames(
+                                loadMore: true,
+                              ),
                             ),
                           ),
                         if (state.more)

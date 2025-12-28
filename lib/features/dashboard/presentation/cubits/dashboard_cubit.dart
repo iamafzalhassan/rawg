@@ -14,8 +14,8 @@ import 'package:rawg/features/dashboard/domain/usecases/get_games_use_case.dart'
 part 'dashboard_state.dart';
 
 class DashboardCubit extends Cubit<DashboardState> {
-  final GetGamesUseCase getGamesUseCase;
   final GetGameOverviewUseCase getGameOverviewUseCase;
+  final GetGamesUseCase getGamesUseCase;
 
   bool offline = false;
   Duration duration = Duration(seconds: 1);
@@ -41,8 +41,8 @@ class DashboardCubit extends Cubit<DashboardState> {
   }
 
   Future<void> getGames({
-    bool loadMore = false,
     bool forceRefresh = false,
+    bool loadMore = false,
     String? platforms,
     String? searchQuery,
   }) async {
@@ -53,13 +53,13 @@ class DashboardCubit extends Cubit<DashboardState> {
     } else {
       emit(
         state.copyWith(
-          loading: true,
           end: false,
+          loading: true,
           search: false,
           clearMessages: true,
+          currentPage: 1,
           platforms: platforms,
           searchQuery: searchQuery,
-          currentPage: 1,
         ),
       );
     }
@@ -80,11 +80,11 @@ class DashboardCubit extends Cubit<DashboardState> {
 
         emit(
           state.copyWith(
+            end: data.isEmpty,
             loading: false,
             more: false,
-            end: data.isEmpty,
-            errorMessage: games.isEmpty && page == 1 ? 'dashboard.noGamesFound'.tr() : null,
             currentPage: page,
+            errorMessage: games.isEmpty && page == 1 ? 'dashboard.noGamesFound'.tr() : null,
             games: games,
           ),
         );
@@ -113,7 +113,13 @@ class DashboardCubit extends Cubit<DashboardState> {
           ),
         );
       case ApiFailure<GameOverview>(:final message):
-        emit(state.copyWith(loading: false, errorMessage: message, selectedGame: null));
+        emit(
+          state.copyWith(
+            loading: false,
+            errorMessage: message,
+            selectedGame: null,
+          ),
+        );
     }
   }
 

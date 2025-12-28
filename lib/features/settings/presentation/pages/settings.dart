@@ -45,7 +45,8 @@ class Settings extends StatelessWidget {
                     'settings.language'.tr(),
                     showDropDown: true,
                     value: getCurrentLanguageName(context),
-                    onTap: () => showBottomSheet(context, const LanguageBottomSheet()),
+                    onTap: () =>
+                        showBottomSheet(context, const LanguageBottomSheet()),
                   ),
                   const SizedBox(height: 12.0),
                   SettingsItem(

@@ -3,18 +3,18 @@ import 'package:rawg/features/dashboard/domain/entities/publisher.dart';
 class GameOverview {
   int? id;
   int? metacritic;
-  String? website;
   int? playtime;
-  List<Publisher>? publishers;
   String? descriptionRaw;
+  String? website;
+  List<Publisher>? publishers;
 
   GameOverview({
     this.id,
     this.metacritic,
-    this.website,
     this.playtime,
-    this.publishers,
     this.descriptionRaw,
+    this.website,
+    this.publishers,
   });
 
   String get shortDescription {

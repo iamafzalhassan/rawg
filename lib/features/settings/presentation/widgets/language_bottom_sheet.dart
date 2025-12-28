@@ -24,14 +24,15 @@ class LanguageBottomSheet extends StatelessWidget {
               margin: const EdgeInsets.only(left: 16.0),
               child: Text(
                 'settings.selectLanguage'.tr(),
-                style: AppFont.style(color: AppPalette.white, fontSize: 25),
+                style: AppFont.style(
+                  fontSize: 25,
+                  color: AppPalette.white,
+                ),
                 textAlign: TextAlign.left,
               ),
             ),
             const SizedBox(height: 16.0),
-            ...List.generate(
-              languages.length,
-              (i) => buildLanguageItem(
+            ...List.generate(languages.length, (i) => buildLanguageItem(
                 context,
                 languages[i]['locale'] as Locale,
                 languages[i]['name'] as String,
@@ -47,12 +48,12 @@ class LanguageBottomSheet extends StatelessWidget {
   }
 
   Widget buildLanguageItem(
-    BuildContext context,
-    Locale locale,
-    String name,
-    int index,
-    int length,
-  ) {
+      BuildContext context,
+      Locale locale,
+      String name,
+      int index,
+      int length,
+      ) {
     final isSelected = context.locale == locale;
 
     return GestureDetector(
@@ -65,20 +66,25 @@ class LanguageBottomSheet extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  style: AppFont.style(color: AppPalette.white, fontSize: 18),
+                  style: AppFont.style(
+                    fontSize: 18,
+                    color: AppPalette.white,
+                  ),
                   textAlign: TextAlign.left,
                 ),
                 const Spacer(),
                 Container(
                   decoration: BoxDecoration(
+                    border: isSelected ? null : Border.all(color: AppPalette.gray2),
                     color: isSelected ? AppPalette.green1 : null,
                     shape: BoxShape.circle,
-                    border: isSelected ? null : Border.all(color: AppPalette.gray2),
                   ),
                   height: 20,
                   padding: const EdgeInsets.all(2.0),
                   width: 20,
-                  child: isSelected ? Image.asset(AssetConstants.tickIcon) : null,
+                  child: isSelected
+                      ? Image.asset(AssetConstants.tickIcon)
+                      : null,
                 ),
               ],
             ),

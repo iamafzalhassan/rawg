@@ -2,25 +2,25 @@ import 'package:rawg/features/dashboard/domain/entities/genre.dart';
 
 class GenreModel extends Genre {
   GenreModel({
+    required super.gamesCount,
     required super.id,
+    required super.imageBackground,
     required super.name,
     required super.slug,
-    required super.gamesCount,
-    required super.imageBackground,
   });
 
   GenreModel copyWith({
+    int? gamesCount,
     int? id,
+    String? imageBackground,
     String? name,
     String? slug,
-    int? gamesCount,
-    String? imageBackground,
   }) => GenreModel(
+    gamesCount: gamesCount ?? this.gamesCount,
     id: id ?? this.id,
+    imageBackground: imageBackground ?? this.imageBackground,
     name: name ?? this.name,
     slug: slug ?? this.slug,
-    gamesCount: gamesCount ?? this.gamesCount,
-    imageBackground: imageBackground ?? this.imageBackground,
   );
 
   factory GenreModel.fromJson(Map<String, dynamic> json) => GenreModel(

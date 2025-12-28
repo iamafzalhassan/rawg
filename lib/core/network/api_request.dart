@@ -29,12 +29,12 @@ class ApiRequest {
   void setupInterceptors() {
     dio.interceptors.add(
       PrettyDioLogger(
-        requestHeader: true,
+        compact: true,
+        error: true,
         requestBody: true,
+        requestHeader: true,
         responseBody: true,
         responseHeader: false,
-        error: true,
-        compact: true,
       ),
     );
 
@@ -52,7 +52,8 @@ class ApiRequest {
           if (error.response?.statusCode == 401) {
             final newToken = await refreshToken();
             if (newToken != null) {
-              error.requestOptions.headers['Authorization'] = 'Bearer $newToken';
+              error.requestOptions.headers['Authorization'] =
+                  'Bearer $newToken';
               final response = await dio.fetch(error.requestOptions);
               return handler.resolve(response);
             }

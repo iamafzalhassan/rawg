@@ -8,15 +8,18 @@ import 'package:rawg/features/dashboard/domain/entities/sort_item.dart';
 part 'sort_chip_state.dart';
 
 class SortChipCubit extends Cubit<SortChipState> {
-  Timer? timer;
   Duration duration = Duration(seconds: 1);
+  Timer? timer;
 
-  SortChipCubit() : super(SortChipState(platformSortList: SortOptionConstants.platforms));
+  SortChipCubit()
+    : super(SortChipState(platformSortList: SortOptionConstants.platforms));
 
   void onItemSelected(SortItem item) {
     timer?.cancel();
 
-    final isCurrentlySelected = state.platformSortList.any((i) => i.isSelected! && i.id == item.id);
+    final isCurrentlySelected = state.platformSortList.any(
+      (i) => i.isSelected! && i.id == item.id,
+    );
 
     final updatedList = updateSelection(
       isCurrentlySelected,
@@ -26,17 +29,29 @@ class SortChipCubit extends Cubit<SortChipState> {
 
     emit(
       SortChipState(
-        selectedPlatform: isCurrentlySelected ? null : updatedList.firstWhere((i) => i.isSelected!),
-        platformSortList: updatedList,
         filtering: true,
+        selectedPlatform: isCurrentlySelected
+            ? null
+            : updatedList.firstWhere((i) => i.isSelected!),
+        platformSortList: updatedList,
       ),
     );
 
-    timer = Timer(duration, () => emit(state.copyWith(filtering: false, triggerFilter: true)));
+    timer = Timer(
+      duration,
+      () => emit(state.copyWith(filtering: false, triggerFilter: true)),
+    );
   }
 
   List<SortItem> updateSelection(bool deSelect, int id, List<SortItem> list) {
-    return list.map((i) => SortItem(isSelected: deSelect ? false : i.id == id, name: i.name, value: i.value, id: i.id)).toList();
+    return list.map(
+          (i) => SortItem(
+            isSelected: deSelect ? false : i.id == id,
+            id: i.id,
+            name: i.name,
+            value: i.value,
+          ),
+        ).toList();
   }
 
   void resetFilterTrigger() {

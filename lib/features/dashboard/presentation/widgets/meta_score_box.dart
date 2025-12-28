@@ -3,9 +3,9 @@ import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 
 class MetaScoreBox extends StatelessWidget {
-  const MetaScoreBox(this.metacritic, {super.key});
-
   final int metacritic;
+
+  const MetaScoreBox(this.metacritic, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,10 @@ class MetaScoreBox extends StatelessWidget {
       width: 35.0,
       child: Text(
         '$metacritic',
-        style: AppFont.style(color: AppPalette.green1, fontSize: 12.0),
+        style: AppFont.style(
+          fontSize: 12.0,
+          color: AppPalette.green1,
+        ),
         textAlign: TextAlign.center,
       ),
     );

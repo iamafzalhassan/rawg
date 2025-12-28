@@ -6,28 +6,27 @@ class GameOverviewModel extends GameOverview {
   GameOverviewModel({
     required super.id,
     required super.metacritic,
-    required super.website,
     required super.playtime,
-    required super.publishers,
     required super.descriptionRaw,
+    required super.website,
+    required super.publishers,
   });
 
   GameOverviewModel copyWith({
     int? id,
     int? metacritic,
-    String? website,
     int? playtime,
-    List<Publisher>? publishers,
     String? descriptionRaw,
-  }) =>
-      GameOverviewModel(
-        id: id ?? this.id,
-        metacritic: metacritic ?? this.metacritic,
-        website: website ?? this.website,
-        playtime: playtime ?? this.playtime,
-        publishers: publishers ?? this.publishers,
-        descriptionRaw: descriptionRaw ?? this.descriptionRaw,
-      );
+    String? website,
+    List<Publisher>? publishers,
+  }) => GameOverviewModel(
+    id: id ?? this.id,
+    metacritic: metacritic ?? this.metacritic,
+    playtime: playtime ?? this.playtime,
+    descriptionRaw: descriptionRaw ?? this.descriptionRaw,
+    website: website ?? this.website,
+    publishers: publishers ?? this.publishers,
+  );
 
   factory GameOverviewModel.fromJson(Map<String, dynamic> json) =>
       GameOverviewModel(
@@ -35,7 +34,9 @@ class GameOverviewModel extends GameOverview {
         metacritic: json["metacritic"],
         website: json["website"],
         playtime: json["playtime"],
-        publishers: List<PublisherModel>.from(json["publishers"].map((x) => PublisherModel.fromJson(x))),
+        publishers: List<PublisherModel>.from(
+          json["publishers"].map((x) => PublisherModel.fromJson(x)),
+        ),
         descriptionRaw: json["description_raw"],
       );
 }

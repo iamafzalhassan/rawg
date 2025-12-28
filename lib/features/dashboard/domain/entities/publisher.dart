@@ -1,15 +1,15 @@
 class Publisher {
+  int? gamesCount;
   int? id;
+  String? imageBackground;
   String? name;
   String? slug;
-  int? gamesCount;
-  String? imageBackground;
 
   Publisher({
+    this.gamesCount,
     this.id,
+    this.imageBackground,
     this.name,
     this.slug,
-    this.gamesCount,
-    this.imageBackground,
   });
 }

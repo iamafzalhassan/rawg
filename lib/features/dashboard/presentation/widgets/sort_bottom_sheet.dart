@@ -24,12 +24,23 @@ class SortBottomSheet extends StatelessWidget {
               margin: const EdgeInsets.only(left: 16.0),
               child: Text(
                 'dashboard.platforms'.tr(),
-                style: AppFont.style(color: AppPalette.white, fontSize: 25.0),
+                style: AppFont.style(
+                  fontSize: 25.0,
+                  color: AppPalette.white,
+                ),
                 textAlign: TextAlign.left,
               ),
             ),
             const SizedBox(height: 16.0),
-            ...List.generate(platformList!.length, (i) => buildPlatformItem(context, platformList[i], i, platformList.length)),
+            ...List.generate(
+              platformList.length,
+                  (i) => buildPlatformItem(
+                context,
+                platformList[i],
+                i,
+                platformList.length,
+              ),
+            ),
             const SizedBox(height: 16.0),
           ],
         );
@@ -37,7 +48,12 @@ class SortBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget buildPlatformItem(BuildContext context, SortItem item, int index, int length) {
+  Widget buildPlatformItem(
+      BuildContext context,
+      SortItem item,
+      int index,
+      int length,
+      ) {
     return GestureDetector(
       onTap: () => onTap(context, item),
       child: Padding(
@@ -48,7 +64,10 @@ class SortBottomSheet extends StatelessWidget {
               children: [
                 Text(
                   item.name!,
-                  style: AppFont.style(color: AppPalette.white, fontSize: 18.0),
+                  style: AppFont.style(
+                    fontSize: 18.0,
+                    color: AppPalette.white,
+                  ),
                   textAlign: TextAlign.left,
                 ),
                 const Spacer(),
@@ -59,9 +78,11 @@ class SortBottomSheet extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   height: 20.0,
-                  width: 20.0,
                   padding: const EdgeInsets.all(2.0),
-                  child: item.isSelected! ? Image.asset(AssetConstants.tickIcon) : null,
+                  width: 20.0,
+                  child: item.isSelected!
+                      ? Image.asset(AssetConstants.tickIcon)
+                      : null,
                 ),
               ],
             ),

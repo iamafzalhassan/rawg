@@ -4,8 +4,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 abstract interface class AuthRepository {
   Future<ApiResult<User>> signUp({
     required String email,
-    required String password,
     required String name,
+    required String password,
   });
 
   Future<ApiResult<User>> signIn({

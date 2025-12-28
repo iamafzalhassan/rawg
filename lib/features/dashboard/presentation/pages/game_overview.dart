@@ -15,9 +15,9 @@ import 'package:rawg/features/dashboard/presentation/widgets/meta_score_box.dart
 import 'package:rawg/features/dashboard/presentation/widgets/store_chip.dart';
 
 class GameOverview extends StatelessWidget {
-  const GameOverview(this.game, {super.key});
-
   final Game game;
+
+  const GameOverview(this.game, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +111,7 @@ class GameOverview extends StatelessWidget {
                           SizedBox(width: 20.0),
                           GameOverviewValueCard(
                             'gameOverview.releaseDate'.tr(),
-                            value: intl.DateFormat(
-                              "MMM d, yyyy",
-                            ).format(game.released!),
+                            value: intl.DateFormat("MMM d, yyyy").format(game.released!),
                           ),
                         ],
                       ),
@@ -126,7 +124,10 @@ class GameOverview extends StatelessWidget {
                         children: [
                           GameOverviewValueCard(
                             'gameOverview.website'.tr(),
-                            value: state.selectedGame!.website!.replaceFirst(RegExp(r'https?://'), ''),
+                            value: state.selectedGame!.website!.replaceFirst(
+                              RegExp(r'https?://'),
+                              '',
+                            ),
                           ),
                           SizedBox(width: 20.0),
                           GameOverviewValueCard(

@@ -5,32 +5,32 @@ import 'package:rawg/core/theme/app_pallete.dart';
 import 'package:rawg/features/common/presentation/cubits/rawg_form_field_cubit.dart';
 
 class RAWGFormField extends StatelessWidget {
+  final bool enabled;
+  final bool isPassword;
+  final double height;
+  final int maxLines;
+  final String hintText;
+  final String label;
+  final TextEditingController? controller;
+  final TextInputType keyboardType;
+  final Widget? prefixIcon;
+  final void Function(String)? onChanged;
+  final String? Function(String?)? validator;
+
   const RAWGFormField({
     super.key,
     this.enabled = true,
     this.isPassword = false,
-    required this.label,
-    required this.hintText,
-    this.maxLines = 1,
     this.height = 80.0,
+    this.maxLines = 1,
+    required this.hintText,
+    required this.label,
     this.controller,
     this.keyboardType = TextInputType.text,
+    this.prefixIcon,
     this.onChanged,
     this.validator,
-    this.prefixIcon,
   });
-
-  final bool enabled;
-  final bool isPassword;
-  final String label;
-  final String hintText;
-  final int maxLines;
-  final double height;
-  final TextEditingController? controller;
-  final TextInputType keyboardType;
-  final void Function(String)? onChanged;
-  final String? Function(String?)? validator;
-  final Widget? prefixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -51,20 +51,13 @@ class RAWGFormField extends StatelessWidget {
               builder: (context, state) {
                 return TextField(
                   controller: controller,
-                  keyboardType: keyboardType,
-                  obscureText: isPassword ? state.obscureText : false,
                   enabled: enabled,
+                  keyboardType: keyboardType,
                   maxLines: maxLines,
+                  obscureText: isPassword ? state.obscureText : false,
                   onChanged: onChanged,
                   style: AppFont.style(fontSize: 18.0, color: AppPalette.white),
                   decoration: InputDecoration(
-                    hintText: hintText,
-                    hintStyle: AppFont.style(
-                      fontSize: 18.0,
-                      color: AppPalette.gray1,
-                    ),
-                    filled: true,
-                    fillColor: AppPalette.gray4,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide: BorderSide.none,
@@ -73,6 +66,13 @@ class RAWGFormField extends StatelessWidget {
                       horizontal: 14.0,
                       vertical: 16.0,
                     ),
+                    filled: true,
+                    fillColor: AppPalette.gray4,
+                    hintStyle: AppFont.style(
+                      fontSize: 18.0,
+                      color: AppPalette.gray1,
+                    ),
+                    hintText: hintText,
                     prefixIcon: prefixIcon,
                     suffixIcon: isPassword
                         ? IconButton(

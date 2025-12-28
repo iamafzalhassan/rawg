@@ -13,8 +13,8 @@ import 'package:rawg/features/common/presentation/widgets/rawg_from_field.dart';
 class Auth extends StatelessWidget {
   const Auth({super.key});
 
-  static const double signUpHeight = 423.0;
   static const double signInHeight = 327.0;
+  static const double signUpHeight = 423.0;
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +52,16 @@ class Auth extends StatelessWidget {
                           Text(
                             state.currentTabIndex == 0 ? 'auth.signUpTitle'.tr() : 'auth.signInTitle'.tr(),
                             style: AppFont.style(
-                              color: AppPalette.white,
                               fontSize: 28.0,
+                              color: AppPalette.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
                             state.currentTabIndex == 0 ? 'auth.signUpSubtitle'.tr() : 'auth.signInSubtitle'.tr(),
                             style: AppFont.style(
-                              color: AppPalette.gray1,
                               fontSize: 14.0,
+                              color: AppPalette.gray1,
                             ),
                           ),
                         ],

@@ -9,13 +9,13 @@ class SignUpUseCase {
 
   Future<ApiResult<User>> call({
     required String email,
-    required String password,
     required String name,
+    required String password,
   }) async {
     return await authRepository.signUp(
       email: email,
-      password: password,
       name: name,
+      password: password,
     );
   }
 }

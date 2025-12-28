@@ -9,15 +9,15 @@ import 'package:rawg/features/dashboard/domain/entities/game_overview.dart';
 import 'package:rawg/features/dashboard/domain/repository/dashboard_repository.dart';
 
 class DashboardRepositoryImpl implements DashboardRepository {
-  final DashboardRemoteDataSource remoteDataSource;
-  final DashboardLocalDataSource localDataSource;
   final ConnectionChecker connectionChecker;
+  final DashboardLocalDataSource localDataSource;
+  final DashboardRemoteDataSource remoteDataSource;
 
   DashboardRepositoryImpl(
-      this.remoteDataSource,
-      this.localDataSource,
-      this.connectionChecker,
-      );
+    this.remoteDataSource,
+    this.localDataSource,
+    this.connectionChecker,
+  );
 
   @override
   Future<ApiResult<List<Game>>> getGames({

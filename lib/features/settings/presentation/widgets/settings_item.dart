@@ -4,17 +4,6 @@ import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 
 class SettingsItem extends StatelessWidget {
-  const SettingsItem(
-    this.label, {
-    super.key,
-    this.showDropDown = false,
-    this.showToggle = false,
-    this.toggleValue = false,
-    this.value,
-    this.onTap,
-    this.onToggleChanged,
-  });
-
   final bool showDropDown;
   final bool showToggle;
   final bool toggleValue;
@@ -22,6 +11,17 @@ class SettingsItem extends StatelessWidget {
   final String? value;
   final VoidCallback? onTap;
   final ValueChanged<bool>? onToggleChanged;
+
+  const SettingsItem(
+      this.label, {
+        super.key,
+        this.showDropDown = false,
+        this.showToggle = false,
+        this.toggleValue = false,
+        this.value,
+        this.onTap,
+        this.onToggleChanged,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +44,8 @@ class SettingsItem extends StatelessWidget {
                   Text(
                     label,
                     style: AppFont.style(
-                      color: AppPalette.white,
                       fontSize: 18,
+                      color: AppPalette.white,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -54,8 +54,8 @@ class SettingsItem extends StatelessWidget {
                     Text(
                       value!,
                       style: AppFont.style(
-                        color: AppPalette.gray1,
                         fontSize: 14,
+                        color: AppPalette.gray1,
                       ),
                     ),
                   ],

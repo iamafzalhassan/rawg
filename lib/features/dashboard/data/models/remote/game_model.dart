@@ -6,67 +6,67 @@ import 'package:rawg/features/dashboard/domain/entities/game.dart';
 
 class GameModel extends Game {
   GameModel({
-    required super.id,
-    required super.slug,
-    required super.name,
-    required super.released,
     required super.tba,
-    required super.backgroundImage,
-    required super.ratingsCount,
-    required super.reviewsTextCount,
     required super.added,
+    required super.id,
     required super.metacritic,
     required super.playtime,
-    required super.suggestionsCount,
+    required super.ratingsCount,
     required super.reviewsCount,
-    required super.saturatedColor,
+    required super.reviewsTextCount,
+    required super.suggestionsCount,
+    required super.backgroundImage,
     required super.dominantColor,
-    required super.parentPlatforms,
-    required super.genres,
-    required super.stores,
+    required super.name,
+    required super.saturatedColor,
+    required super.slug,
+    required super.released,
     required super.esrbRating,
+    required super.genres,
+    required super.parentPlatforms,
+    required super.stores,
   });
 
   GameModel copyWith({
-    int? id,
-    String? slug,
-    String? name,
-    DateTime? released,
     bool? tba,
-    String? backgroundImage,
-    int? ratingsCount,
-    int? reviewsTextCount,
     int? added,
+    int? id,
     int? metacritic,
     int? playtime,
-    int? suggestionsCount,
+    int? ratingsCount,
     int? reviewsCount,
-    String? saturatedColor,
+    int? reviewsTextCount,
+    int? suggestionsCount,
+    String? backgroundImage,
     String? dominantColor,
-    List<ParentPlatformModel>? parentPlatforms,
-    List<GenreModel>? genres,
-    List<StoreModel>? stores,
+    String? name,
+    String? saturatedColor,
+    String? slug,
+    DateTime? released,
     EsrbRatingModel? esrbRating,
+    List<GenreModel>? genres,
+    List<ParentPlatformModel>? parentPlatforms,
+    List<StoreModel>? stores,
   }) => GameModel(
-    id: id ?? this.id,
-    slug: slug ?? this.slug,
-    name: name ?? this.name,
-    released: released ?? this.released,
     tba: tba ?? this.tba,
-    backgroundImage: backgroundImage ?? this.backgroundImage,
-    ratingsCount: ratingsCount ?? this.ratingsCount,
-    reviewsTextCount: reviewsTextCount ?? this.reviewsTextCount,
     added: added ?? this.added,
+    id: id ?? this.id,
     metacritic: metacritic ?? this.metacritic,
     playtime: playtime ?? this.playtime,
-    suggestionsCount: suggestionsCount ?? this.suggestionsCount,
+    ratingsCount: ratingsCount ?? this.ratingsCount,
     reviewsCount: reviewsCount ?? this.reviewsCount,
-    saturatedColor: saturatedColor ?? this.saturatedColor,
+    reviewsTextCount: reviewsTextCount ?? this.reviewsTextCount,
+    suggestionsCount: suggestionsCount ?? this.suggestionsCount,
+    backgroundImage: backgroundImage ?? this.backgroundImage,
     dominantColor: dominantColor ?? this.dominantColor,
-    parentPlatforms: parentPlatforms ?? this.parentPlatforms,
-    genres: genres ?? this.genres,
-    stores: stores ?? this.stores,
+    name: name ?? this.name,
+    saturatedColor: saturatedColor ?? this.saturatedColor,
+    slug: slug ?? this.slug,
+    released: released ?? this.released,
     esrbRating: esrbRating ?? this.esrbRating,
+    genres: genres ?? this.genres,
+    parentPlatforms: parentPlatforms ?? this.parentPlatforms,
+    stores: stores ?? this.stores,
   );
 
   factory GameModel.fromJson(Map<String, dynamic> json) => GameModel(
@@ -85,9 +85,25 @@ class GameModel extends Game {
     reviewsCount: json["reviews_count"] ?? 0,
     saturatedColor: json["saturated_color"] ?? '0f0f0f',
     dominantColor: json["dominant_color"] ?? '0f0f0f',
-    parentPlatforms: json["parent_platforms"] != null ? List<ParentPlatformModel>.from(json["parent_platforms"].map((x) => ParentPlatformModel.fromJson(x))) : [],
-    genres: json["genres"] != null ? List<GenreModel>.from(json["genres"].map((x) => GenreModel.fromJson(x))) : [],
-    stores: json["stores"] != null ? List<StoreModel>.from(json["stores"].map((x) => StoreModel.fromJson(x))) : [],
-    esrbRating: json["esrb_rating"] != null ? EsrbRatingModel.fromJson(json["esrb_rating"]) : null,
+    parentPlatforms: json["parent_platforms"] != null
+        ? List<ParentPlatformModel>.from(
+            json["parent_platforms"].map(
+              (x) => ParentPlatformModel.fromJson(x),
+            ),
+          )
+        : [],
+    genres: json["genres"] != null
+        ? List<GenreModel>.from(
+            json["genres"].map((x) => GenreModel.fromJson(x)),
+          )
+        : [],
+    stores: json["stores"] != null
+        ? List<StoreModel>.from(
+            json["stores"].map((x) => StoreModel.fromJson(x)),
+          )
+        : [],
+    esrbRating: json["esrb_rating"] != null
+        ? EsrbRatingModel.fromJson(json["esrb_rating"])
+        : null,
   );
 }

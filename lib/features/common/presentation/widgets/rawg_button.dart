@@ -3,13 +3,22 @@ import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 
 class RAWGButton extends StatelessWidget {
+  final bool isLoading;
+  final bool isOutlined;
+  final double borderRadius;
+  final String label;
+  final String? icon;
+  final Color? backgroundColor;
+  final Color? textColor;
+  final VoidCallback? onPressed;
+
   const RAWGButton.elevated({
     super.key,
     this.isLoading = false,
     this.isOutlined = false,
+    this.borderRadius = 8.0,
     required this.label,
     this.icon,
-    this.borderRadius = 8.0,
     this.backgroundColor,
     this.textColor,
     required this.onPressed,
@@ -19,22 +28,13 @@ class RAWGButton extends StatelessWidget {
     super.key,
     this.isLoading = false,
     this.isOutlined = true,
+    this.borderRadius = 8.0,
     required this.label,
     this.icon,
-    this.borderRadius = 8.0,
     this.backgroundColor,
     this.textColor,
     required this.onPressed,
   });
-
-  final bool isLoading;
-  final bool isOutlined;
-  final String label;
-  final String? icon;
-  final double borderRadius;
-  final Color? backgroundColor;
-  final Color? textColor;
-  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +65,10 @@ class RAWGButton extends StatelessWidget {
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor ?? AppPalette.gray6,
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),
           ),
-          elevation: 0.0,
         ),
         child: buildChild(),
       ),
@@ -99,8 +99,8 @@ class RAWGButton extends StatelessWidget {
           Text(
             label,
             style: AppFont.style(
-              color: textColor ?? AppPalette.white,
               fontSize: 18.0,
+              color: textColor ?? AppPalette.white,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -111,8 +111,8 @@ class RAWGButton extends StatelessWidget {
     return Text(
       label,
       style: AppFont.style(
-        color: textColor ?? AppPalette.white,
         fontSize: 18.0,
+        color: textColor ?? AppPalette.white,
         fontWeight: FontWeight.w600,
       ),
     );

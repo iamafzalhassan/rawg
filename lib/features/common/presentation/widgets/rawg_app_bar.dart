@@ -6,6 +6,13 @@ import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 
 class RAWGAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final bool showBackButton;
+  final bool showLogo;
+  final bool showSettingsButton;
+  final String? title;
+  final VoidCallback? onBackPressed;
+  final List<Widget>? actions;
+
   const RAWGAppBar({
     super.key,
     this.showBackButton = false,
@@ -15,13 +22,6 @@ class RAWGAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onBackPressed,
     this.actions,
   });
-
-  final bool showBackButton;
-  final bool showLogo;
-  final bool showSettingsButton;
-  final String? title;
-  final VoidCallback? onBackPressed;
-  final List<Widget>? actions;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -74,7 +74,7 @@ class RAWGAppBar extends StatelessWidget implements PreferredSizeWidget {
     } else if (title != null) {
       return Text(
         title!,
-        style: AppFont.style(color: AppPalette.white, fontSize: 20.0),
+        style: AppFont.style(fontSize: 20.0, color: AppPalette.white),
       );
     }
     return null;

@@ -1,8 +1,13 @@
 class SortItem {
   final bool? isSelected;
+  final int? id;
   final String? name;
   final String? value;
-  final int? id;
 
-  const SortItem({this.isSelected, this.name, this.value, this.id});
+  const SortItem({
+    this.isSelected,
+    this.id,
+    this.name,
+    this.value,
+  });
 }

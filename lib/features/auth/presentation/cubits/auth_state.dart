@@ -1,38 +1,38 @@
 part of 'auth_cubit.dart';
 
 class AuthState extends Equatable {
-  final int currentTabIndex;
-  final bool isSignUpFormValid;
-  final bool isSignInFormValid;
   final bool isLoading;
+  final bool isSignInFormValid;
+  final bool isSignUpFormValid;
+  final int currentTabIndex;
   final String? errorMessage;
   final String? successMessage;
   final User? user;
 
   const AuthState({
-    this.currentTabIndex = 0,
-    this.isSignUpFormValid = false,
-    this.isSignInFormValid = false,
     this.isLoading = false,
+    this.isSignInFormValid = false,
+    this.isSignUpFormValid = false,
+    this.currentTabIndex = 0,
     this.errorMessage,
     this.successMessage,
     this.user,
   });
 
   AuthState copyWith({
-    int? currentTabIndex,
-    bool? isSignUpFormValid,
-    bool? isSignInFormValid,
     bool? isLoading,
+    bool? isSignInFormValid,
+    bool? isSignUpFormValid,
+    int? currentTabIndex,
     String? errorMessage,
     String? successMessage,
     User? user,
   }) {
     return AuthState(
-      currentTabIndex: currentTabIndex ?? this.currentTabIndex,
-      isSignUpFormValid: isSignUpFormValid ?? this.isSignUpFormValid,
-      isSignInFormValid: isSignInFormValid ?? this.isSignInFormValid,
       isLoading: isLoading ?? this.isLoading,
+      isSignInFormValid: isSignInFormValid ?? this.isSignInFormValid,
+      isSignUpFormValid: isSignUpFormValid ?? this.isSignUpFormValid,
+      currentTabIndex: currentTabIndex ?? this.currentTabIndex,
       errorMessage: errorMessage,
       successMessage: successMessage,
       user: user ?? this.user,

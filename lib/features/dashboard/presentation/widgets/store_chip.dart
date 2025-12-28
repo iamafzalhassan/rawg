@@ -3,9 +3,14 @@ import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 
 class StoreChip extends StatelessWidget {
-  const StoreChip(this.icon, this.label, {super.key});
+  final String icon;
+  final String label;
 
-  final String icon, label;
+  const StoreChip(
+      this.icon,
+      this.label, {
+        super.key,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,10 @@ class StoreChip extends StatelessWidget {
           SizedBox(width: 5.0),
           RichText(
             text: TextSpan(
-              style: AppFont.style(color: AppPalette.gray3, fontSize: 12.0),
+              style: AppFont.style(
+                fontSize: 12.0,
+                color: AppPalette.gray3,
+              ),
               text: label,
             ),
           ),
