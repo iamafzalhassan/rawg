@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rawg/core/di/injection_container.dart';
 import 'package:rawg/core/network/api_result.dart';
+import 'package:rawg/core/services/onesignal_service.dart';
 import 'package:rawg/features/auth/domain/usecases/get_current_user_use_case.dart';
 import 'package:rawg/features/auth/domain/usecases/sign_in_use_case.dart';
 import 'package:rawg/features/auth/domain/usecases/sign_up_use_case.dart';
@@ -14,15 +16,15 @@ class AuthCubit extends Cubit<AuthState> {
   final SignInUseCase signInUseCase;
   final SignUpUseCase signUpUseCase;
 
-  final nameController = TextEditingController();
   final emailController = TextEditingController();
+  final nameController = TextEditingController();
   final passwordController = TextEditingController();
   final signInEmailController = TextEditingController();
   final signInPasswordController = TextEditingController();
 
   AuthCubit(this.signUpUseCase, this.signInUseCase, this.getCurrentUserUseCase) : super(const AuthState()) {
-    nameController.addListener(validateSignUpForm);
     emailController.addListener(validateSignUpForm);
+    nameController.addListener(validateSignUpForm);
     passwordController.addListener(validateSignUpForm);
     signInEmailController.addListener(validateSignInForm);
     signInPasswordController.addListener(validateSignInForm);
@@ -55,8 +57,8 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signUp() async {
-    final name = nameController.text.trim();
     final email = emailController.text.trim();
+    final name = nameController.text.trim();
     final password = passwordController.text.trim();
 
     emit(
@@ -71,6 +73,8 @@ class AuthCubit extends Cubit<AuthState> {
 
     switch (result) {
       case ApiSuccess<User>():
+        await setOneSignalUserId(result.data.id);
+
         emit(
           state.copyWith(
             isLoading: false,
@@ -96,6 +100,8 @@ class AuthCubit extends Cubit<AuthState> {
 
     switch (result) {
       case ApiSuccess<User>():
+        await setOneSignalUserId(result.data.id);
+
         emit(
           state.copyWith(
             isLoading: false,
@@ -113,12 +119,22 @@ class AuthCubit extends Cubit<AuthState> {
     final user = getCurrentUserUseCase();
     if (user != null) {
       emit(state.copyWith(user: user));
+      setOneSignalUserId(user.id);
+    }
+  }
+
+  Future<void> setOneSignalUserId(String userId) async {
+    try {
+      final oneSignalService = sl<OneSignalService>();
+      await oneSignalService.setExternalUserId(userId);
+    } catch (e) {
+      debugPrint('Failed to set OneSignal user ID: $e');
     }
   }
 
   void clearSignUpFields() {
-    nameController.clear();
     emailController.clear();
+    nameController.clear();
     passwordController.clear();
   }
 
@@ -129,8 +145,8 @@ class AuthCubit extends Cubit<AuthState> {
 
   @override
   Future<void> close() {
-    nameController.dispose();
     emailController.dispose();
+    nameController.dispose();
     passwordController.dispose();
     signInEmailController.dispose();
     signInPasswordController.dispose();

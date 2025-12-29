@@ -3,6 +3,8 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:rawg/core/network/api_request.dart';
 import 'package:rawg/core/network/connection_checker.dart';
+import 'package:rawg/core/secrets/app_secret.dart';
+import 'package:rawg/core/services/onesignal_service.dart';
 import 'package:rawg/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:rawg/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:rawg/features/auth/domain/repository/auth_repository.dart';
@@ -28,21 +30,10 @@ final sl = GetIt.instance;
 Future<void> init() async {
   await initHive();
   await initSupabase();
+  await initOnesignal();
   await initCommon();
   await initAuth();
   await initDashboard();
-}
-
-Future<void> initCommon() async {
-  sl.registerLazySingleton<ApiRequest>(() => ApiRequest());
-
-  sl.registerLazySingleton<ConnectionChecker>(
-    () => ConnectionCheckerImpl(InternetConnection()),
-  );
-
-  sl.registerFactory(() => SortChipCubit());
-
-  sl.registerFactory(() => SettingsCubit(sl()));
 }
 
 Future<void> initHive() async {
@@ -55,11 +46,27 @@ Future<void> initHive() async {
 
 Future<void> initSupabase() async {
   await Supabase.initialize(
-    url: 'https://ukuvjfpdadbsvcrsnjem.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrdXZqZnBkYWRic3ZjcnNuamVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3OTk2NTMsImV4cCI6MjA3NzM3NTY1M30.toCHdP6GgBNsh5-0Y2BogfmTBmHVQ2kpz-EHBMlHzKQ',
+    url: AppSecret.supaBaseUrl,
+    anonKey: AppSecret.supaBaseApiKey,
   );
 
   sl.registerLazySingleton<SupabaseClient>(() => Supabase.instance.client);
+}
+
+Future<void> initOnesignal() async {
+  sl.registerLazySingleton<OneSignalService>(() => OneSignalService());
+}
+
+Future<void> initCommon() async {
+  sl.registerLazySingleton<ApiRequest>(() => ApiRequest());
+
+  sl.registerLazySingleton<ConnectionChecker>(
+    () => ConnectionCheckerImpl(InternetConnection()),
+  );
+
+  sl.registerFactory(() => SortChipCubit());
+
+  sl.registerFactory(() => SettingsCubit(sl(), sl()));
 }
 
 Future<void> initAuth() async {
