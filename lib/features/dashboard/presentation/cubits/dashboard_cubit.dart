@@ -18,9 +18,9 @@ class DashboardCubit extends Cubit<DashboardState> {
   final GetGamesUseCase getGamesUseCase;
 
   bool offline = false;
+
   Duration duration = Duration(seconds: 1);
   TextEditingController textEditingController = TextEditingController();
-
   Timer? timer;
   StreamSubscription<InternetStatus>? connection;
 
