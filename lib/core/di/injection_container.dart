@@ -28,15 +28,15 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
-  await initHive();
-  await initSupabase();
-  await initOnesignal();
-  await initCommon();
-  await initAuth();
-  await initDashboard();
+  await setupHive();
+  await setupSupabase();
+  await setupOnesignal();
+  await setupCommon();
+  await setupAuth();
+  await setupDashboard();
 }
 
-Future<void> initHive() async {
+Future<void> setupHive() async {
   await Hive.initFlutter();
 
   if (!Hive.isAdapterRegistered(0)) {
@@ -44,7 +44,7 @@ Future<void> initHive() async {
   }
 }
 
-Future<void> initSupabase() async {
+Future<void> setupSupabase() async {
   await Supabase.initialize(
     url: AppSecret.supaBaseUrl,
     anonKey: AppSecret.supaBaseApiKey,
@@ -53,11 +53,11 @@ Future<void> initSupabase() async {
   sl.registerLazySingleton<SupabaseClient>(() => Supabase.instance.client);
 }
 
-Future<void> initOnesignal() async {
+Future<void> setupOnesignal() async {
   sl.registerLazySingleton<OneSignalService>(() => OneSignalService());
 }
 
-Future<void> initCommon() async {
+Future<void> setupCommon() async {
   sl.registerLazySingleton<ApiRequest>(() => ApiRequest());
 
   sl.registerLazySingleton<ConnectionChecker>(
@@ -69,7 +69,7 @@ Future<void> initCommon() async {
   sl.registerFactory(() => SettingsCubit(sl(), sl()));
 }
 
-Future<void> initAuth() async {
+Future<void> setupAuth() async {
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(sl()),
   );
@@ -84,7 +84,7 @@ Future<void> initAuth() async {
   sl.registerFactory(() => AuthCubit(sl(), sl(), sl()));
 }
 
-Future<void> initDashboard() async {
+Future<void> setupDashboard() async {
   sl.registerLazySingleton<DashboardRemoteDataSource>(
     () => DashboardRemoteDataSourceImpl(sl()),
   );

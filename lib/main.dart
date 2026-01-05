@@ -15,12 +15,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await initDependencies();
-  await initOnesignal();
+  initOneSignal();
   run();
 }
 
-Future<void> initOneSignal() async {
-  final oneSignal = await sl<OneSignalService>();
+void initOneSignal() {
+  final oneSignal = sl<OneSignalService>();
   oneSignal.initialize(router: AppRouter.router);
 }
 
