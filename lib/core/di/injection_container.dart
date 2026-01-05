@@ -27,7 +27,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final sl = GetIt.instance;
 
-Future<void> init() async {
+Future<void> initDependencies() async {
   await initHive();
   await initSupabase();
   await initOnesignal();
