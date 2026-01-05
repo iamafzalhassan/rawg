@@ -14,9 +14,14 @@ import 'app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await init();
-  await sl<OneSignalService>().initialize(router: AppRouter.router);
+  await initDependencies();
+  await initOnesignal();
   run();
+}
+
+Future<void> initOneSignal() async {
+  final oneSignal = await sl<OneSignalService>();
+  oneSignal.initialize(router: AppRouter.router);
 }
 
 void run() {
