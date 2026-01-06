@@ -20,8 +20,7 @@ class Dashboard extends StatelessWidget {
     return MultiBlocListener(
       listeners: [
         BlocListener<SortChipCubit, SortChipState>(
-          listenWhen: (previous, current) =>
-          current.triggerFilter && !previous.triggerFilter,
+          listenWhen: (previous, current) => current.triggerFilter && !previous.triggerFilter,
           listener: (context, state) {
             context.read<DashboardCubit>().getGames(
               platforms: state.selectedPlatform?.value,
@@ -30,8 +29,7 @@ class Dashboard extends StatelessWidget {
           },
         ),
         BlocListener<DashboardCubit, DashboardState>(
-          listenWhen: (previous, current) =>
-          current.errorMessage != null && current.hasGames,
+          listenWhen: (previous, current) => current.errorMessage != null && current.hasGames,
           listener: (context, state) {
             showSnackBar(context, state.errorMessage!);
           },
