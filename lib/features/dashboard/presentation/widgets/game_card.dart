@@ -58,20 +58,14 @@ class GameCard extends StatelessWidget {
                   game.name!,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppFont.style(
-                    fontSize: 14.0,
-                    color: AppPalette.white,
-                  ),
+                  style: AppFont.style(fontSize: 14.0, color: AppPalette.white),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
                   DateFormat("MMM d, yyyy").format(game.released!),
-                  style: AppFont.style(
-                    fontSize: 11.0,
-                    color: AppPalette.gray1,
-                  ),
+                  style: AppFont.style(fontSize: 11.0, color: AppPalette.gray1),
                 ),
               ),
               const Spacer(),
@@ -126,10 +120,10 @@ class GameCard extends StatelessWidget {
     if (context.mounted) {
       ShowLoading.hide(context);
       final state = context.read<DashboardCubit>().state;
-      if (state.errorMessage != null && state.selectedGame == null) {
-        showSnackBar(context, state.errorMessage!);
-      } else if (state.selectedGame != null) {
+      if (state.selectedGame != null) {
         context.pushNamed(RouteConstants.gameOverview, extra: game);
+      } else if (state.errorMessage != null && state.selectedGame == null) {
+        showSnackBar(context, state.errorMessage!);
       }
     }
   }
