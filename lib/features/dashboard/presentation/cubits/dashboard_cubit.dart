@@ -17,21 +17,28 @@ class DashboardCubit extends Cubit<DashboardState> {
   final GetGameOverviewUseCase getGameOverviewUseCase;
   final GetGamesUseCase getGamesUseCase;
 
-  bool offline = false;
-  Duration duration = Duration(seconds: 1);
+  bool? offline;
+  Duration? duration;
   StreamSubscription<InternetStatus>? connection;
-  TextEditingController textEditingController = TextEditingController();
+  TextEditingController? textEditingController;
   Timer? timer;
 
   DashboardCubit(this.getGamesUseCase, this.getGameOverviewUseCase) : super(const DashboardState()) {
+    initVariables();
     initConnectionListener();
+  }
+
+  void initVariables() {
+    offline = false;
+    duration = Duration(seconds: 1);
+    textEditingController = TextEditingController();
   }
 
   void initConnectionListener() {
     connection = InternetConnection().onStatusChange.listen((status) {
       final isConnected = status == InternetStatus.connected;
 
-      if (isConnected && offline) {
+      if (isConnected && offline!) {
         getGames(forceRefresh: true);
       }
 
@@ -132,14 +139,14 @@ class DashboardCubit extends Cubit<DashboardState> {
       return;
     }
 
-    timer = Timer(duration, () => getGames(searchQuery: query));
+    timer = Timer(duration!, () => getGames(searchQuery: query));
   }
 
   @override
   Future<void> close() {
-    timer?.cancel();
     connection?.cancel();
-    textEditingController.dispose();
+    textEditingController!.dispose();
+    timer?.cancel();
     return super.close();
   }
 }

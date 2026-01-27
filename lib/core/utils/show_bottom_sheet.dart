@@ -20,8 +20,8 @@ void showBottomSheet(BuildContext context, Widget child) {
               height: 5,
               width: 60,
               decoration: BoxDecoration(
-                color: AppPalette.gray2,
                 borderRadius: BorderRadius.circular(2),
+                color: AppPalette.gray2,
               ),
             ),
             const SizedBox(height: 16.0),

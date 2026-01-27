@@ -4,10 +4,10 @@ import 'package:rawg/core/theme/app_pallete.dart';
 class AppFont {
   static TextStyle style({
     double fontSize = 14,
-    Color color = AppPalette.white,
-    FontWeight fontWeight = FontWeight.normal,
     double? height = 1.25,
+    Color color = AppPalette.white,
     FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.normal,
     TextDecoration? decoration,
   }) {
     return TextStyle(

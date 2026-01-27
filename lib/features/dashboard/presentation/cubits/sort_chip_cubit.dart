@@ -8,11 +8,16 @@ import 'package:rawg/features/dashboard/domain/entities/sort_item.dart';
 part 'sort_chip_state.dart';
 
 class SortChipCubit extends Cubit<SortChipState> {
-  Duration duration = Duration(seconds: 1);
+  Duration? duration;
   Timer? timer;
 
-  SortChipCubit()
-    : super(SortChipState(platformSortList: SortOptionConstants.platforms));
+  SortChipCubit() : super(SortChipState(platformSortList: SortOptionConstants.platforms)) {
+    initVariables();
+  }
+
+  void initVariables() {
+    duration = Duration(seconds: 1);
+  }
 
   void onItemSelected(SortItem item) {
     timer?.cancel();
@@ -38,7 +43,7 @@ class SortChipCubit extends Cubit<SortChipState> {
     );
 
     timer = Timer(
-      duration,
+      duration!,
       () => emit(state.copyWith(filtering: false, triggerFilter: true)),
     );
   }

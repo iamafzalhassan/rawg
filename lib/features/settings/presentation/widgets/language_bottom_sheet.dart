@@ -33,11 +33,11 @@ class LanguageBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 16.0),
             ...List.generate(languages.length, (i) => buildLanguageItem(
-                context,
-                languages[i]['locale'] as Locale,
-                languages[i]['name'] as String,
                 i,
                 languages.length,
+                languages[i]['name'] as String,
+                context,
+                languages[i]['locale'] as Locale,
               ),
             ),
             const SizedBox(height: 16.0),
@@ -48,11 +48,11 @@ class LanguageBottomSheet extends StatelessWidget {
   }
 
   Widget buildLanguageItem(
-      BuildContext context,
-      Locale locale,
-      String name,
       int index,
       int length,
+      String name,
+      BuildContext context,
+      Locale locale,
       ) {
     final isSelected = context.locale == locale;
 

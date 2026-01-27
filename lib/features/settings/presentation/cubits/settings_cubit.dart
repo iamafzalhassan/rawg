@@ -16,8 +16,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   Future<void> loadSettings() async {
-    final notificationsEnabled = await oneSignalService
-        .getNotificationsEnabled();
+    final notificationsEnabled = await oneSignalService.getNotificationsEnabled();
     emit(state.copyWith(notificationsEnabled: notificationsEnabled));
   }
 
