@@ -26,11 +26,11 @@ class DashboardState extends Equatable {
   });
 
   DashboardState copyWith({
+    bool clearMessages = false,
     bool? end,
     bool? loading,
     bool? more,
     bool? search,
-    bool clearMessages = false,
     int? currentPage,
     String? errorMessage,
     String? platforms,
@@ -60,14 +60,14 @@ class DashboardState extends Equatable {
 
   @override
   List<Object?> get props => [
+    end,
     loading,
     more,
-    end,
+    search,
+    currentPage,
     errorMessage,
     platforms,
     searchQuery,
-    search,
-    currentPage,
     selectedGame,
     games,
   ];

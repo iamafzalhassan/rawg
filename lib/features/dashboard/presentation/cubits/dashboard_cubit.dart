@@ -18,11 +18,10 @@ class DashboardCubit extends Cubit<DashboardState> {
   final GetGamesUseCase getGamesUseCase;
 
   bool offline = false;
-
   Duration duration = Duration(seconds: 1);
+  StreamSubscription<InternetStatus>? connection;
   TextEditingController textEditingController = TextEditingController();
   Timer? timer;
-  StreamSubscription<InternetStatus>? connection;
 
   DashboardCubit(this.getGamesUseCase, this.getGameOverviewUseCase) : super(const DashboardState()) {
     initConnectionListener();
@@ -49,14 +48,14 @@ class DashboardCubit extends Cubit<DashboardState> {
     if (!forceRefresh && loadMore && (state.more || state.end)) return;
 
     if (loadMore) {
-      emit(state.copyWith(more: true, clearMessages: true));
+      emit(state.copyWith(clearMessages: true, more: true));
     } else {
       emit(
         state.copyWith(
+          clearMessages: true,
           end: false,
           loading: true,
           search: false,
-          clearMessages: true,
           currentPage: 1,
           platforms: platforms,
           searchQuery: searchQuery,

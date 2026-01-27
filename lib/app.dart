@@ -14,8 +14,8 @@ class App extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       routerConfig: AppRouter.router,
       supportedLocales: context.supportedLocales,
-      title: 'appTitle'.tr(),
       theme: AppTheme.darkMode,
+      title: 'appTitle'.tr(),
     );
   }
 }

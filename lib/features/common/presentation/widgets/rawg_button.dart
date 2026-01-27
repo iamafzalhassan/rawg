@@ -6,8 +6,8 @@ class RAWGButton extends StatelessWidget {
   final bool isLoading;
   final bool isOutlined;
   final double borderRadius;
-  final String label;
   final String? icon;
+  final String label;
   final Color? backgroundColor;
   final Color? textColor;
   final VoidCallback? onPressed;
@@ -17,8 +17,8 @@ class RAWGButton extends StatelessWidget {
     this.isLoading = false,
     this.isOutlined = false,
     this.borderRadius = 8.0,
-    required this.label,
     this.icon,
+    required this.label,
     this.backgroundColor,
     this.textColor,
     required this.onPressed,
@@ -29,8 +29,8 @@ class RAWGButton extends StatelessWidget {
     this.isLoading = false,
     this.isOutlined = true,
     this.borderRadius = 8.0,
-    required this.label,
     this.icon,
+    required this.label,
     this.backgroundColor,
     this.textColor,
     required this.onPressed,
