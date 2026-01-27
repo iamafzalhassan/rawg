@@ -33,8 +33,8 @@ class SettingsState extends Equatable {
 
   @override
   List<Object?> get props => [
-    notificationsEnabled,
     isLoading,
+    notificationsEnabled,
     signedOut,
     errorMessage,
     currentLocale,

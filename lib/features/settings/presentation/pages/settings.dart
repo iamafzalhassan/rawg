@@ -44,16 +44,15 @@ class Settings extends StatelessWidget {
                   SettingsItem(
                     'settings.language'.tr(),
                     showDropDown: true,
+                    onTap: () => showBottomSheet(context, const LanguageBottomSheet()),
                     value: getCurrentLanguageName(context),
-                    onTap: () =>
-                        showBottomSheet(context, const LanguageBottomSheet()),
                   ),
                   const SizedBox(height: 12.0),
                   SettingsItem(
                     'settings.notifications'.tr(),
+                    onToggleChanged: (value) => context.read<SettingsCubit>().setNotificationsEnabled(value),
                     showToggle: true,
                     toggleValue: state.notificationsEnabled,
-                    onToggleChanged: (value) => context.read<SettingsCubit>().setNotificationsEnabled(value),
                   ),
                   const SizedBox(height: 12.0),
                   SettingsItem('App Version', value: '1.0'),

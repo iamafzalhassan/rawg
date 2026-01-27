@@ -9,8 +9,8 @@ class SettingsItem extends StatelessWidget {
   final bool toggleValue;
   final String label;
   final String? value;
-  final VoidCallback? onTap;
   final ValueChanged<bool>? onToggleChanged;
+  final VoidCallback? onTap;
 
   const SettingsItem(
       this.label, {
@@ -19,8 +19,8 @@ class SettingsItem extends StatelessWidget {
         this.showToggle = false,
         this.toggleValue = false,
         this.value,
-        this.onTap,
         this.onToggleChanged,
+        this.onTap,
       });
 
   @override
