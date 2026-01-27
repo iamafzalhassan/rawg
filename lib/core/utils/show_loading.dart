@@ -6,7 +6,6 @@ import 'package:rawg/core/theme/app_pallete.dart';
 class ShowLoading {
   static void show(BuildContext context) {
     showDialog(
-      context: context,
       barrierDismissible: false,
       barrierColor: AppPalette.black.withValues(alpha: 0.5),
       builder: (BuildContext context) {
@@ -21,8 +20,8 @@ class ShowLoading {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(
-                    width: 50, // Fixed width
-                    height: 50, // Fixed height
+                    height: 50,
+                    width: 50,
                     child: CircularProgressIndicator(),
                   ),
                 ],
@@ -31,6 +30,7 @@ class ShowLoading {
           ),
         );
       },
+      context: context,
     );
   }
 

@@ -19,7 +19,6 @@ class Auth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
-      listenWhen: (previous, current) => previous.errorMessage != current.errorMessage || previous.successMessage != current.successMessage || (previous.user == null && current.user != null),
       listener: (context, state) {
         if (state.errorMessage != null) {
           showSnackBar(context, state.errorMessage!);
@@ -29,6 +28,7 @@ class Auth extends StatelessWidget {
           context.pushReplacementNamed(RouteConstants.dashboard);
         }
       },
+      listenWhen: (previous, current) => previous.errorMessage != current.errorMessage || previous.successMessage != current.successMessage || (previous.user == null && current.user != null),
       child: Scaffold(
         backgroundColor: AppPalette.black2,
         body: SingleChildScrollView(

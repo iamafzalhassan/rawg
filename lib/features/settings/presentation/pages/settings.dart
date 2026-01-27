@@ -18,7 +18,6 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SettingsCubit, SettingsState>(
-      listenWhen: (previous, current) => previous.signedOut != current.signedOut || previous.errorMessage != current.errorMessage,
       listener: (context, state) {
         if (state.errorMessage != null) {
           showSnackBar(context, state.errorMessage!);
@@ -28,6 +27,7 @@ class Settings extends StatelessWidget {
           context.goNamed(RouteConstants.auth);
         }
       },
+      listenWhen: (previous, current) => previous.signedOut != current.signedOut || previous.errorMessage != current.errorMessage,
       child: Scaffold(
         appBar: RAWGAppBar(
           showBackButton: true,
