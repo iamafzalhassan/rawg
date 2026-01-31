@@ -20,7 +20,7 @@ class Settings extends StatelessWidget {
     return BlocListener<SettingsCubit, SettingsState>(
       listener: (context, state) {
         if (state.errorMessage != null) {
-          showSnackBar(context, state.errorMessage!);
+          showSnackBar(state.errorMessage!, context);
         }
 
         if (state.signedOut) {

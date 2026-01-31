@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rawg/core/theme/app_font.dart';
 import 'package:rawg/core/theme/app_pallete.dart';
 
-void showSnackBar(BuildContext context, String content) {
+void showSnackBar(String content, BuildContext context) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
