@@ -123,7 +123,7 @@ class GameCard extends StatelessWidget {
       if (state.selectedGame != null) {
         context.pushNamed(RouteConstants.gameOverview, extra: game);
       } else if (state.errorMessage != null && state.selectedGame == null) {
-        showSnackBar(context, state.errorMessage!);
+        showSnackBar(state.errorMessage!, context);
       }
     }
   }

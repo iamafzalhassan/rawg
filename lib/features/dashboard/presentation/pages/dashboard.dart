@@ -30,7 +30,7 @@ class Dashboard extends StatelessWidget {
         ),
         BlocListener<DashboardCubit, DashboardState>(
           listener: (context, state) {
-            showSnackBar(context, state.errorMessage!);
+            showSnackBar(state.errorMessage!, context);
           },
           listenWhen: (previous, current) => current.errorMessage != null && current.hasGames,
         ),
