@@ -9,6 +9,7 @@ part 'settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
   final OneSignalService oneSignalService;
+
   final SignOutUseCase signOutUseCase;
 
   SettingsCubit(this.oneSignalService, this.signOutUseCase) : super(const SettingsState()) {
@@ -25,9 +26,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     await oneSignalService.setNotificationsEnabled(enabled);
   }
 
-  void setCurrentLocale(Locale locale) {
-    emit(state.copyWith(currentLocale: locale));
-  }
+  void setCurrentLocale(Locale locale) => emit(state.copyWith(currentLocale: locale));
 
   Future<void> signOut() async {
     emit(state.copyWith(isLoading: true));

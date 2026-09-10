@@ -7,13 +7,5 @@ class SignInUseCase {
 
   SignInUseCase(this.authRepository);
 
-  Future<ApiResult<User>> call({
-    required String email,
-    required String password,
-  }) async {
-    return await authRepository.signIn(
-      email: email,
-      password: password,
-    );
-  }
+  Future<ApiResult<User>> call({required String email, required String password}) async => await authRepository.signIn(email: email, password: password);
 }

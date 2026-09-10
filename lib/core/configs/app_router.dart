@@ -8,8 +8,6 @@ import 'package:rawg/features/settings/presentation/pages/settings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppRouter {
-  AppRouter._();
-
   static final router = GoRouter(
     initialLocation: '/auth',
     redirect: (context, state) {
@@ -27,31 +25,25 @@ class AppRouter {
       return null;
     },
     routes: [
+      GoRoute(builder: (context, state) => const Auth(), name: RouteConstants.auth, path: '/auth'),
       GoRoute(
-        path: '/auth',
-        name: RouteConstants.auth,
-        builder: (context, state) => const Auth(),
-      ),
-      GoRoute(
-        path: '/dashboard',
-        name: RouteConstants.dashboard,
         builder: (context, state) => const Dashboard(),
+        name: RouteConstants.dashboard,
+        path: '/dashboard',
         routes: [
           GoRoute(
-            path: 'game-overview',
-            name: RouteConstants.gameOverview,
             builder: (context, state) {
               final game = state.extra as Game;
               return GameOverview(game);
             },
+            name: RouteConstants.gameOverview,
+            path: 'game-overview',
           ),
         ],
       ),
-      GoRoute(
-        path: '/settings',
-        name: RouteConstants.settings,
-        builder: (context, state) => const Settings(),
-      ),
+      GoRoute(builder: (context, state) => const Settings(), name: RouteConstants.settings, path: '/settings'),
     ],
   );
+
+  AppRouter._();
 }

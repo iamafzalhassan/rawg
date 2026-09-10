@@ -5,13 +5,11 @@ class RAWGFormFieldState extends Equatable {
 
   const RAWGFormFieldState({this.obscureText = true});
 
-  RAWGFormFieldState copyWith({bool? obscureText}) {
-    return RAWGFormFieldState(obscureText: obscureText ?? this.obscureText);
-  }
-
-  @override
-  List<Object?> get props => [obscureText];
+  RAWGFormFieldState copyWith({bool? obscureText}) => RAWGFormFieldState(obscureText: obscureText ?? this.obscureText);
 
   @override
   bool get stringify => true;
+
+  @override
+  List<Object?> get props => [obscureText];
 }

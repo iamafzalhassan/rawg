@@ -34,7 +34,7 @@ void run() {
         providers: [
           BlocProvider(create: (_) => sl<SortChipCubit>()),
           BlocProvider(create: (_) => sl<AuthCubit>()..checkCurrentUser()),
-          BlocProvider(create: (_) => sl<DashboardCubit>()..getGames()),
+          BlocProvider(create: (_) => sl<DashboardCubit>()),
           BlocProvider(create: (_) => sl<SettingsCubit>()),
         ],
         child: const App(),

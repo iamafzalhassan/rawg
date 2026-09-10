@@ -7,7 +7,5 @@ class GetGameOverviewUseCase {
 
   GetGameOverviewUseCase(this.dashboardRepository);
 
-  Future<ApiResult<GameOverview>> call(int id) async {
-    return await dashboardRepository.getGameOverview(id);
-  }
+  Future<ApiResult<GameOverview>> call(int id) async => await dashboardRepository.getGameOverview(id);
 }

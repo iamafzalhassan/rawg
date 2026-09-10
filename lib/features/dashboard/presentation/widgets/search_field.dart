@@ -17,27 +17,15 @@ class SearchField extends StatelessWidget {
       controller: cubit.textEditingController,
       cursorColor: AppPalette.white,
       onChanged: (value) => cubit.onSearchChanged(value),
-      style: AppFont.style(
-        fontSize: 18.0,
-        color: AppPalette.white,
-      ),
+      style: AppFont.style(color: AppPalette.white, fontSize: 18.0),
       decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(50.0)),
-          borderSide: BorderSide.none,
-        ),
+        border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(50.0)), borderSide: BorderSide.none),
         contentPadding: const EdgeInsets.all(16.0),
         filled: true,
         fillColor: AppPalette.gray4,
-        hintStyle: AppFont.style(
-          fontSize: 18.0,
-          color: AppPalette.gray1,
-        ),
+        hintStyle: AppFont.style(color: AppPalette.gray1, fontSize: 18.0),
         hintText: 'dashboard.searchHint'.tr(),
-        prefixIcon: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Image.asset(AssetConstants.searchIcon, width: 18.0),
-        ),
+        prefixIcon: Padding(padding: const EdgeInsets.all(12.0), child: Image.asset(AssetConstants.searchIcon, width: 18.0)),
       ),
     );
   }

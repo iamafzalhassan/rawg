@@ -13,60 +13,64 @@ import 'package:rawg/features/dashboard/domain/entities/game.dart';
 import 'package:rawg/features/dashboard/presentation/cubits/dashboard_cubit.dart';
 
 class GameCard extends StatelessWidget {
+  const GameCard(this.game, {super.key});
+
   final Game game;
 
-  const GameCard(this.game, {super.key});
+  Future<void> onTap(BuildContext context) async {
+    final id = game.id;
+
+    if (id == null) return;
+
+    ShowLoading.show(context);
+    await context.read<DashboardCubit>().getGameOverview(id);
+    if (context.mounted) {
+      ShowLoading.hide(context);
+      final state = context.read<DashboardCubit>().state;
+      if (state.selectedGame != null) {
+        context.pushNamed(RouteConstants.gameOverview, extra: game);
+      } else if (state.errorMessage != null && state.selectedGame == null) {
+        showSnackBar(state.errorMessage!, context);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final width = (MediaQuery.of(context).size.width - 32) / 2 - 5;
+    final cellWidth = (MediaQuery.of(context).size.width - 42) / 2;
 
     return RepaintBoundary(
       child: GestureDetector(
         onTap: () => onTap(context),
         child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            color: AppPalette.black1,
-          ),
-          height: 220.0,
-          width: width,
+          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0)), color: AppPalette.black1),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8.0),
-                  topRight: Radius.circular(8.0),
-                ),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
                 child: CachedNetworkImage(
-                  errorWidget: (context, url, error) => Container(
-                    color: AppPalette.gray5,
-                    child: Image.asset(AssetConstants.imageBrokenIcon),
-                  ),
+                  errorWidget: (context, url, error) => Container(color: AppPalette.gray5, child: Image.asset(AssetConstants.imageBrokenIcon)),
                   fit: BoxFit.cover,
                   height: 135.0,
-                  imageUrl: game.backgroundImage!,
-                  memCacheWidth: (width * 2).toInt(),
-                  width: width,
+                  imageUrl: AssetConstants.placeholderImageUrl,
+                  memCacheWidth: (cellWidth * 2).toInt(),
+                  width: double.infinity,
                 ),
               ),
               const SizedBox(height: 8.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
-                  game.name!,
+                  game.name ?? '',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppFont.style(fontSize: 14.0, color: AppPalette.white),
+                  style: AppFont.style(color: AppPalette.white, fontSize: 14.0),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  DateFormat("MMM d, yyyy").format(game.released!),
-                  style: AppFont.style(fontSize: 11.0, color: AppPalette.gray1),
-                ),
+                child: Text(game.released == null ? '' : DateFormat("MMM d, yyyy").format(game.released!), style: AppFont.style(color: AppPalette.gray1, fontSize: 11.0)),
               ),
               const Spacer(),
               Padding(
@@ -74,10 +78,7 @@ class GameCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                        color: AppPalette.gray6,
-                      ),
+                      decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(2.0)), color: AppPalette.gray6),
                       height: 25.0,
                       padding: const EdgeInsets.symmetric(horizontal: 5.0),
                       child: Row(
@@ -85,15 +86,7 @@ class GameCard extends StatelessWidget {
                         children: [
                           Image.asset(AssetConstants.plusIcon, width: 12.0),
                           const SizedBox(width: 5.0),
-                          Text(
-                            NumberFormat.decimalPattern().format(
-                              game.ratingsCount,
-                            ),
-                            style: AppFont.style(
-                              fontSize: 12.0,
-                              color: AppPalette.gray1,
-                            ),
-                          ),
+                          Text(NumberFormat.decimalPattern().format(game.ratingsCount), style: AppFont.style(color: AppPalette.gray1, fontSize: 12.0)),
                         ],
                       ),
                     ),
@@ -112,19 +105,5 @@ class GameCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> onTap(BuildContext context) async {
-    ShowLoading.show(context);
-    await context.read<DashboardCubit>().getGameOverview(game.id!);
-    if (context.mounted) {
-      ShowLoading.hide(context);
-      final state = context.read<DashboardCubit>().state;
-      if (state.selectedGame != null) {
-        context.pushNamed(RouteConstants.gameOverview, extra: game);
-      } else if (state.errorMessage != null && state.selectedGame == null) {
-        showSnackBar(state.errorMessage!, context);
-      }
-    }
   }
 }

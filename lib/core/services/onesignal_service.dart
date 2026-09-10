@@ -11,13 +11,48 @@ class OneSignalService {
 
   static final OneSignalService instance = OneSignalService._internal();
 
-  factory OneSignalService() => instance;
-
-  OneSignalService._internal();
-
   bool initialized = false;
 
   GoRouter? router;
+
+  OneSignalService._internal();
+
+  factory OneSignalService() => instance;
+
+  Future<void> addTags(Map<String, String> tags) async {
+    try {
+      OneSignal.User.addTags(tags);
+      if (kDebugMode) {
+        log('Tags added: $tags');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        log('Error adding tags: $e');
+      }
+    }
+  }
+
+  Future<bool> getNotificationPermissionStatus() async {
+    try {
+      return OneSignal.Notifications.permission;
+    } catch (e) {
+      if (kDebugMode) {
+        log('Error getting permission status: $e');
+      }
+      return false;
+    }
+  }
+
+  Future<String?> getPlayerId() async {
+    try {
+      return OneSignal.User.pushSubscription.id;
+    } catch (e) {
+      if (kDebugMode) {
+        log('Error getting player ID: $e');
+      }
+      return null;
+    }
+  }
 
   Future<void> initialize({GoRouter? router}) async {
     if (initialized) return;
@@ -79,6 +114,76 @@ class OneSignalService {
     }
   }
 
+  Future<void> syncNotificationSettings() async {
+    final enabled = await getNotificationsEnabled();
+    if (enabled) {
+      OneSignal.User.pushSubscription.optIn();
+    } else {
+      OneSignal.User.pushSubscription.optOut();
+    }
+  }
+
+  Future<bool> getNotificationsEnabled() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getBool(notificationEnabledKey) ?? true;
+    } catch (e) {
+      if (kDebugMode) {
+        log('Error getting notification preference: $e');
+      }
+      return true;
+    }
+  }
+
+  Future<void> promptForPushNotificationPermission() async {
+    try {
+      await OneSignal.Notifications.requestPermission(true);
+    } catch (e) {
+      if (kDebugMode) {
+        log('Error requesting permission: $e');
+      }
+    }
+  }
+
+  Future<void> removeExternalUserId() async {
+    try {
+      await OneSignal.logout();
+      if (kDebugMode) {
+        log('External user ID removed');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        log('Error removing external user ID: $e');
+      }
+    }
+  }
+
+  Future<void> removeTags(List<String> tagKeys) async {
+    try {
+      OneSignal.User.removeTags(tagKeys);
+      if (kDebugMode) {
+        log('Tags removed: $tagKeys');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        log('Error removing tags: $e');
+      }
+    }
+  }
+
+  Future<void> setExternalUserId(String userId) async {
+    try {
+      await OneSignal.login(userId);
+      if (kDebugMode) {
+        log('External user ID set: $userId');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        log('Error setting external user ID: $e');
+      }
+    }
+  }
+
   Future<void> setNotificationsEnabled(bool enabled) async {
     try {
       OneSignal.User.pushSubscription.optIn();
@@ -98,111 +203,6 @@ class OneSignalService {
     } catch (e) {
       if (kDebugMode) {
         log('Error setting notification preference: $e');
-      }
-    }
-  }
-
-  Future<bool> getNotificationsEnabled() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      return prefs.getBool(notificationEnabledKey) ?? true;
-    } catch (e) {
-      if (kDebugMode) {
-        log('Error getting notification preference: $e');
-      }
-      return true;
-    }
-  }
-
-  Future<void> syncNotificationSettings() async {
-    final enabled = await getNotificationsEnabled();
-    if (enabled) {
-      OneSignal.User.pushSubscription.optIn();
-    } else {
-      OneSignal.User.pushSubscription.optOut();
-    }
-  }
-
-  Future<void> setExternalUserId(String userId) async {
-    try {
-      await OneSignal.login(userId);
-      if (kDebugMode) {
-        log('External user ID set: $userId');
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        log('Error setting external user ID: $e');
-      }
-    }
-  }
-
-  Future<void> removeExternalUserId() async {
-    try {
-      await OneSignal.logout();
-      if (kDebugMode) {
-        log('External user ID removed');
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        log('Error removing external user ID: $e');
-      }
-    }
-  }
-
-  Future<String?> getPlayerId() async {
-    try {
-      return OneSignal.User.pushSubscription.id;
-    } catch (e) {
-      if (kDebugMode) {
-        log('Error getting player ID: $e');
-      }
-      return null;
-    }
-  }
-
-  Future<void> addTags(Map<String, String> tags) async {
-    try {
-      OneSignal.User.addTags(tags);
-      if (kDebugMode) {
-        log('Tags added: $tags');
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        log('Error adding tags: $e');
-      }
-    }
-  }
-
-  Future<void> removeTags(List<String> tagKeys) async {
-    try {
-      OneSignal.User.removeTags(tagKeys);
-      if (kDebugMode) {
-        log('Tags removed: $tagKeys');
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        log('Error removing tags: $e');
-      }
-    }
-  }
-
-  Future<bool> getNotificationPermissionStatus() async {
-    try {
-      return OneSignal.Notifications.permission;
-    } catch (e) {
-      if (kDebugMode) {
-        log('Error getting permission status: $e');
-      }
-      return false;
-    }
-  }
-
-  Future<void> promptForPushNotificationPermission() async {
-    try {
-      await OneSignal.Notifications.requestPermission(true);
-    } catch (e) {
-      if (kDebugMode) {
-        log('Error requesting permission: $e');
       }
     }
   }

@@ -13,6 +13,8 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
 
   Box<HiveGameOverviewModel>? hiveGameOverviewBox;
 
+  Future<Box<HiveGameOverviewModel>> get box async => hiveGameOverviewBox ??= await Hive.openBox<HiveGameOverviewModel>(boxName);
+
   @override
   Future<void> cacheGameOverview(GameOverview overview) async {
     final overviewBox = await box;
@@ -20,6 +22,12 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
     final hiveModel = HiveGameOverviewModel.fromGameOverview(overview);
 
     await overviewBox.put('overview-${overview.id}', hiveModel);
+  }
+
+  @override
+  Future<void> clearCache() async {
+    final overviewBox = await box;
+    await overviewBox.clear();
   }
 
   @override
@@ -33,15 +41,5 @@ class DashboardLocalDataSourceImpl implements DashboardLocalDataSource {
     }
 
     return null;
-  }
-
-  @override
-  Future<void> clearCache() async {
-    final overviewBox = await box;
-    await overviewBox.clear();
-  }
-
-  Future<Box<HiveGameOverviewModel>> get box async {
-    return hiveGameOverviewBox ??= await Hive.openBox<HiveGameOverviewModel>(boxName);
   }
 }

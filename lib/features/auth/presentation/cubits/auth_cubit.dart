@@ -13,7 +13,9 @@ part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final GetCurrentUserUseCase getCurrentUserUseCase;
+
   final SignInUseCase signInUseCase;
+
   final SignUpUseCase signUpUseCase;
 
   final emailController = TextEditingController();
@@ -46,45 +48,11 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void switchTab(int index) {
-    emit(
-      state.copyWith(
-        currentTabIndex: index,
-        errorMessage: null,
-        successMessage: null,
-      ),
-    );
-  }
-
-  Future<void> signUp() async {
-    final email = emailController.text.trim();
-    final name = nameController.text.trim();
-    final password = passwordController.text.trim();
-
-    emit(
-      state.copyWith(isLoading: true, errorMessage: null, successMessage: null),
-    );
-
-    final result = await signUpUseCase(
-      email: email,
-      name: name,
-      password: password,
-    );
-
-    switch (result) {
-      case ApiSuccess<User>():
-        await setOneSignalUserId(result.data.id);
-
-        emit(
-          state.copyWith(
-            isLoading: false,
-            successMessage: 'Sign up successful!',
-            user: result.data,
-          ),
-        );
-        clearSignUpFields();
-      case ApiFailure<User>(:final message):
-        emit(state.copyWith(isLoading: false, errorMessage: message));
+  void checkCurrentUser() {
+    final user = getCurrentUserUseCase();
+    if (user != null) {
+      emit(state.copyWith(user: user));
+      setOneSignalUserId(user.id);
     }
   }
 
@@ -92,9 +60,7 @@ class AuthCubit extends Cubit<AuthState> {
     final email = signInEmailController.text.trim();
     final password = signInPasswordController.text.trim();
 
-    emit(
-      state.copyWith(isLoading: true, errorMessage: null, successMessage: null),
-    );
+    emit(state.copyWith(isLoading: true, errorMessage: null, successMessage: null));
 
     final result = await signInUseCase(email: email, password: password);
 
@@ -102,24 +68,35 @@ class AuthCubit extends Cubit<AuthState> {
       case ApiSuccess<User>():
         await setOneSignalUserId(result.data.id);
 
-        emit(
-          state.copyWith(
-            isLoading: false,
-            successMessage: 'Sign in successful!',
-            user: result.data,
-          ),
-        );
+        emit(state.copyWith(isLoading: false, successMessage: 'Sign in successful!', user: result.data));
         clearSignInFields();
       case ApiFailure<User>(:final message):
         emit(state.copyWith(isLoading: false, errorMessage: message));
     }
   }
 
-  void checkCurrentUser() {
-    final user = getCurrentUserUseCase();
-    if (user != null) {
-      emit(state.copyWith(user: user));
-      setOneSignalUserId(user.id);
+  void clearSignInFields() {
+    signInEmailController.clear();
+    signInPasswordController.clear();
+  }
+
+  Future<void> signUp() async {
+    final email = emailController.text.trim();
+    final name = nameController.text.trim();
+    final password = passwordController.text.trim();
+
+    emit(state.copyWith(isLoading: true, errorMessage: null, successMessage: null));
+
+    final result = await signUpUseCase(email: email, name: name, password: password);
+
+    switch (result) {
+      case ApiSuccess<User>():
+        await setOneSignalUserId(result.data.id);
+
+        emit(state.copyWith(isLoading: false, successMessage: 'Sign up successful!', user: result.data));
+        clearSignUpFields();
+      case ApiFailure<User>(:final message):
+        emit(state.copyWith(isLoading: false, errorMessage: message));
     }
   }
 
@@ -138,10 +115,7 @@ class AuthCubit extends Cubit<AuthState> {
     passwordController.clear();
   }
 
-  void clearSignInFields() {
-    signInEmailController.clear();
-    signInPasswordController.clear();
-  }
+  void switchTab(int index) => emit(state.copyWith(currentTabIndex: index, errorMessage: null, successMessage: null));
 
   @override
   Future<void> close() {

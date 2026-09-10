@@ -3,57 +3,30 @@ import 'package:rawg/core/network/api_result.dart';
 import 'package:rawg/core/network/connection_checker.dart';
 import 'package:rawg/features/dashboard/data/datasources/dashboard_local_datasource.dart';
 import 'package:rawg/features/dashboard/data/datasources/dashboard_remote_datasource.dart';
-import 'package:rawg/features/dashboard/data/models/remote/game_model.dart';
-import 'package:rawg/features/dashboard/domain/entities/game.dart';
 import 'package:rawg/features/dashboard/domain/entities/game_overview.dart';
+import 'package:rawg/features/dashboard/domain/entities/game_page.dart';
 import 'package:rawg/features/dashboard/domain/repository/dashboard_repository.dart';
 
 class DashboardRepositoryImpl implements DashboardRepository {
   final ConnectionChecker connectionChecker;
+
   final DashboardLocalDataSource localDataSource;
+
   final DashboardRemoteDataSource remoteDataSource;
 
-  DashboardRepositoryImpl(
-    this.remoteDataSource,
-    this.localDataSource,
-    this.connectionChecker,
-  );
+  DashboardRepositoryImpl(this.remoteDataSource, this.localDataSource, this.connectionChecker);
 
-  @override
-  Future<ApiResult<List<Game>>> getGames({
-    int page = 1,
-    int pageSize = 20,
-    String? platforms,
-    String? searchQuery,
-  }) async {
+  Future<ApiResult<GameOverview>> getCachedGameOverview(int id) async {
     try {
-      final isConnected = await connectionChecker.isConnected;
+      final cachedOverview = await localDataSource.getCachedGameOverview(id);
 
-      if (!isConnected) {
-        return ApiFailure(message: "errors.noInternet".tr());
+      if (cachedOverview != null) {
+        return ApiSuccess(cachedOverview);
       }
 
-      final result = await remoteDataSource.getGames(
-        page: page,
-        pageSize: pageSize,
-        platforms: platforms,
-        searchQuery: searchQuery,
-      );
-
-      if (result case ApiSuccess<List<GameModel>>(data: final games)) {
-        final filteredGames = games.where((game) {
-          final playTime = game.playtime ?? 0;
-          final metacritic = game.metacritic ?? 0;
-          final releaseYear = game.released?.year ?? 0;
-          return playTime > 0 && metacritic > 75 && releaseYear >= 2015;
-        }).toList();
-
-        return ApiSuccess<List<Game>>(filteredGames);
-      }
-
-      return result as ApiFailure<List<Game>>;
+      return ApiFailure(message: 'errors.noCache'.tr());
     } catch (e) {
-      return ApiFailure(message: "errors.default".tr());
+      return ApiFailure(message: 'errors.noCache'.tr());
     }
   }
 
@@ -79,17 +52,18 @@ class DashboardRepositoryImpl implements DashboardRepository {
     }
   }
 
-  Future<ApiResult<GameOverview>> getCachedGameOverview(int id) async {
+  @override
+  Future<ApiResult<GamePage>> getGames({int page = 1, int pageSize = 20, String? platforms, String? searchQuery}) async {
     try {
-      final cachedOverview = await localDataSource.getCachedGameOverview(id);
+      final isConnected = await connectionChecker.isConnected;
 
-      if (cachedOverview != null) {
-        return ApiSuccess(cachedOverview);
+      if (!isConnected) {
+        return ApiFailure(message: "errors.noInternet".tr());
       }
 
-      return ApiFailure(message: 'errors.noCache'.tr());
+      return await remoteDataSource.getGames(page: page, pageSize: pageSize, platforms: platforms, searchQuery: searchQuery);
     } catch (e) {
-      return ApiFailure(message: 'errors.noCache'.tr());
+      return ApiFailure(message: "errors.default".tr());
     }
   }
 }

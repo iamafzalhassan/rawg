@@ -45,10 +45,7 @@ Future<void> setupHive() async {
 }
 
 Future<void> setupSupabase() async {
-  await Supabase.initialize(
-    url: AppSecret.supaBaseUrl,
-    anonKey: AppSecret.supaBaseApiKey,
-  );
+  await Supabase.initialize(url: AppSecret.supaBaseUrl, anonKey: AppSecret.supaBaseApiKey);
 
   sl.registerLazySingleton<SupabaseClient>(() => Supabase.instance.client);
 }
@@ -60,9 +57,7 @@ Future<void> setupOnesignal() async {
 Future<void> setupCommon() async {
   sl.registerLazySingleton<ApiRequest>(() => ApiRequest());
 
-  sl.registerLazySingleton<ConnectionChecker>(
-    () => ConnectionCheckerImpl(InternetConnection()),
-  );
+  sl.registerLazySingleton<ConnectionChecker>(() => ConnectionCheckerImpl(InternetConnection()));
 
   sl.registerFactory(() => SortChipCubit());
 
@@ -70,9 +65,7 @@ Future<void> setupCommon() async {
 }
 
 Future<void> setupAuth() async {
-  sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(sl()),
-  );
+  sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(sl()));
 
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()));
 
@@ -85,20 +78,14 @@ Future<void> setupAuth() async {
 }
 
 Future<void> setupDashboard() async {
-  sl.registerLazySingleton<DashboardRemoteDataSource>(
-    () => DashboardRemoteDataSourceImpl(sl()),
-  );
+  sl.registerLazySingleton<DashboardRemoteDataSource>(() => DashboardRemoteDataSourceImpl(sl()));
 
-  sl.registerLazySingleton<DashboardLocalDataSource>(
-    () => DashboardLocalDataSourceImpl(),
-  );
+  sl.registerLazySingleton<DashboardLocalDataSource>(() => DashboardLocalDataSourceImpl());
 
-  sl.registerLazySingleton<DashboardRepository>(
-    () => DashboardRepositoryImpl(sl(), sl(), sl()),
-  );
+  sl.registerLazySingleton<DashboardRepository>(() => DashboardRepositoryImpl(sl(), sl(), sl()));
 
   sl.registerLazySingleton(() => GetGamesUseCase(sl()));
   sl.registerLazySingleton(() => GetGameOverviewUseCase(sl()));
 
-  sl.registerFactory(() => DashboardCubit(sl(), sl()));
+  sl.registerFactory(() => DashboardCubit(sl(), sl(), sl()));
 }

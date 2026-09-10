@@ -5,11 +5,13 @@ abstract class ApiResult<T> {
 }
 
 class ApiFailure<T> extends ApiResult<T> {
-  final String message;
   final int? statusCode;
+
+  final String message;
+
   final DioException? dioException;
 
-  const ApiFailure({required this.message, this.statusCode, this.dioException});
+  const ApiFailure({this.statusCode, required this.message, this.dioException});
 }
 
 class ApiSuccess<T> extends ApiResult<T> {

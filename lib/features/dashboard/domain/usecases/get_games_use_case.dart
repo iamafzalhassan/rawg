@@ -1,5 +1,5 @@
 import 'package:rawg/core/network/api_result.dart';
-import 'package:rawg/features/dashboard/domain/entities/game.dart';
+import 'package:rawg/features/dashboard/domain/entities/game_page.dart';
 import 'package:rawg/features/dashboard/domain/repository/dashboard_repository.dart';
 
 class GetGamesUseCase {
@@ -7,17 +7,5 @@ class GetGamesUseCase {
 
   GetGamesUseCase(this._dashboardRepository);
 
-  Future<ApiResult<List<Game>>> call({
-    int page = 1,
-    int pageSize = 20,
-    String? platforms,
-    String? searchQuery,
-  }) async {
-    return await _dashboardRepository.getGames(
-      page: page,
-      pageSize: pageSize,
-      platforms: platforms,
-      searchQuery: searchQuery,
-    );
-  }
+  Future<ApiResult<GamePage>> call({int page = 1, int pageSize = 20, String? platforms, String? searchQuery}) async => await _dashboardRepository.getGames(page: page, pageSize: pageSize, platforms: platforms, searchQuery: searchQuery);
 }

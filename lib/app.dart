@@ -7,15 +7,13 @@ class App extends StatelessWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      key: ValueKey(context.locale.toString()),
-      locale: context.locale,
-      localizationsDelegates: context.localizationDelegates,
-      routerConfig: AppRouter.router,
-      supportedLocales: context.supportedLocales,
-      theme: AppTheme.darkMode,
-      title: 'appTitle'.tr(),
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp.router(
+    key: ValueKey(context.locale.toString()),
+    locale: context.locale,
+    localizationsDelegates: context.localizationDelegates,
+    routerConfig: AppRouter.router,
+    supportedLocales: context.supportedLocales,
+    theme: AppTheme.darkMode,
+    title: 'appTitle'.tr(),
+  );
 }

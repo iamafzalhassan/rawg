@@ -15,65 +15,6 @@ import 'package:rawg/features/settings/presentation/widgets/settings_item.dart';
 class Settings extends StatelessWidget {
   const Settings({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocListener<SettingsCubit, SettingsState>(
-      listener: (context, state) {
-        if (state.errorMessage != null) {
-          showSnackBar(state.errorMessage!, context);
-        }
-
-        if (state.signedOut) {
-          context.goNamed(RouteConstants.auth);
-        }
-      },
-      listenWhen: (previous, current) => previous.signedOut != current.signedOut || previous.errorMessage != current.errorMessage,
-      child: Scaffold(
-        appBar: RAWGAppBar(
-          showBackButton: true,
-          showLogo: false,
-          showSettingsButton: false,
-          title: 'settings.title'.tr(),
-        ),
-        body: BlocBuilder<SettingsCubit, SettingsState>(
-          builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  SettingsItem(
-                    'settings.language'.tr(),
-                    showDropDown: true,
-                    onTap: () => showBottomSheet(context, const LanguageBottomSheet()),
-                    value: getCurrentLanguageName(context),
-                  ),
-                  const SizedBox(height: 12.0),
-                  SettingsItem(
-                    'settings.notifications'.tr(),
-                    onToggleChanged: (value) => context.read<SettingsCubit>().setNotificationsEnabled(value),
-                    showToggle: true,
-                    toggleValue: state.notificationsEnabled,
-                  ),
-                  const SizedBox(height: 12.0),
-                  SettingsItem('App Version', value: '1.0'),
-                  const Spacer(),
-                  RAWGButton.elevated(
-                    backgroundColor: AppPalette.black1,
-                    isLoading: state.isLoading,
-                    label: 'settings.signOut'.tr(),
-                    onPressed: () => context.read<SettingsCubit>().signOut(),
-                    textColor: AppPalette.red1,
-                  ),
-                  const SizedBox(height: 16.0),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
   String getCurrentLanguageName(BuildContext context) {
     if (context.locale == const Locale('en', 'US')) {
       return 'languages.english'.tr();
@@ -82,4 +23,40 @@ class Settings extends StatelessWidget {
     }
     return 'languages.english'.tr();
   }
+
+  @override
+  Widget build(BuildContext context) => BlocListener<SettingsCubit, SettingsState>(
+    listener: (context, state) {
+      if (state.errorMessage != null) {
+        showSnackBar(state.errorMessage!, context);
+      }
+
+      if (state.signedOut) {
+        context.goNamed(RouteConstants.auth);
+      }
+    },
+    listenWhen: (previous, current) => previous.signedOut != current.signedOut || previous.errorMessage != current.errorMessage,
+    child: Scaffold(
+      appBar: RAWGAppBar(showBackButton: true, showLogo: false, showSettingsButton: false, title: 'settings.title'.tr()),
+      body: BlocBuilder<SettingsCubit, SettingsState>(
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                SettingsItem('settings.language'.tr(), onTap: () => showBottomSheet(context, const LanguageBottomSheet()), showDropDown: true, value: getCurrentLanguageName(context)),
+                const SizedBox(height: 12.0),
+                SettingsItem('settings.notifications'.tr(), onToggleChanged: (value) => context.read<SettingsCubit>().setNotificationsEnabled(value), showToggle: true, toggleValue: state.notificationsEnabled),
+                const SizedBox(height: 12.0),
+                SettingsItem('App Version', value: '1.0'),
+                const Spacer(),
+                RAWGButton.elevated(backgroundColor: AppPalette.black1, isLoading: state.isLoading, label: 'settings.signOut'.tr(), onPressed: () => context.read<SettingsCubit>().signOut(), textColor: AppPalette.red1),
+                const SizedBox(height: 16.0),
+              ],
+            ),
+          );
+        },
+      ),
+    ),
+  );
 }

@@ -6,6 +6,7 @@ import 'package:rawg/features/dashboard/domain/entities/store.dart';
 
 class Game {
   bool? tba;
+
   int? added;
   int? id;
   int? metacritic;
@@ -14,16 +15,22 @@ class Game {
   int? reviewsCount;
   int? reviewsTextCount;
   int? suggestionsCount;
+
   String? backgroundImage;
   String? dominantColor;
   String? name;
   String? saturatedColor;
   String? slug;
-  DateTime? released;
-  EsrbRating? esrbRating;
+
   List<Genre>? genres;
+
   List<ParentPlatform>? parentPlatforms;
+
   List<Store>? stores;
+
+  DateTime? released;
+
+  EsrbRating? esrbRating;
 
   Game({
     this.tba,
@@ -40,22 +47,22 @@ class Game {
     this.name,
     this.saturatedColor,
     this.slug,
-    this.released,
-    this.esrbRating,
     this.genres,
     this.parentPlatforms,
     this.stores,
+    this.released,
+    this.esrbRating,
   });
-
-  String get platforms {
-    if (parentPlatforms == null) return '';
-    return parentPlatforms!.map((p) => p.platform?.name).join(', ');
-  }
 
   String get getGenreNames {
     if (genres == null || genres!.isEmpty) {
       return 'genres.action'.tr();
     }
     return genres!.map((g) => g.name).join(', ');
+  }
+
+  String get platforms {
+    if (parentPlatforms == null) return '';
+    return parentPlatforms!.map((p) => p.platform?.name).join(', ');
   }
 }

@@ -20,54 +20,12 @@ class GameModel extends Game {
     required super.name,
     required super.saturatedColor,
     required super.slug,
-    required super.released,
-    required super.esrbRating,
     required super.genres,
     required super.parentPlatforms,
     required super.stores,
+    required super.released,
+    required super.esrbRating,
   });
-
-  GameModel copyWith({
-    bool? tba,
-    int? added,
-    int? id,
-    int? metacritic,
-    int? playtime,
-    int? ratingsCount,
-    int? reviewsCount,
-    int? reviewsTextCount,
-    int? suggestionsCount,
-    String? backgroundImage,
-    String? dominantColor,
-    String? name,
-    String? saturatedColor,
-    String? slug,
-    DateTime? released,
-    EsrbRatingModel? esrbRating,
-    List<GenreModel>? genres,
-    List<ParentPlatformModel>? parentPlatforms,
-    List<StoreModel>? stores,
-  }) => GameModel(
-    tba: tba ?? this.tba,
-    added: added ?? this.added,
-    id: id ?? this.id,
-    metacritic: metacritic ?? this.metacritic,
-    playtime: playtime ?? this.playtime,
-    ratingsCount: ratingsCount ?? this.ratingsCount,
-    reviewsCount: reviewsCount ?? this.reviewsCount,
-    reviewsTextCount: reviewsTextCount ?? this.reviewsTextCount,
-    suggestionsCount: suggestionsCount ?? this.suggestionsCount,
-    backgroundImage: backgroundImage ?? this.backgroundImage,
-    dominantColor: dominantColor ?? this.dominantColor,
-    name: name ?? this.name,
-    saturatedColor: saturatedColor ?? this.saturatedColor,
-    slug: slug ?? this.slug,
-    released: released ?? this.released,
-    esrbRating: esrbRating ?? this.esrbRating,
-    genres: genres ?? this.genres,
-    parentPlatforms: parentPlatforms ?? this.parentPlatforms,
-    stores: stores ?? this.stores,
-  );
 
   factory GameModel.fromJson(Map<String, dynamic> json) => GameModel(
     tba: json["tba"] ?? false,
@@ -84,28 +42,52 @@ class GameModel extends Game {
     name: json["name"] ?? '',
     saturatedColor: json["saturated_color"] ?? '0f0f0f',
     slug: json["slug"] ?? '',
-    released: json["released"] != null
-        ? DateTime.parse(json["released"])
-        : DateTime.now(),
-    esrbRating: json["esrb_rating"] != null
-        ? EsrbRatingModel.fromJson(json["esrb_rating"])
-        : null,
-    genres: json["genres"] != null
-        ? List<GenreModel>.from(
-            json["genres"].map((x) => GenreModel.fromJson(x)),
-          )
-        : [],
-    parentPlatforms: json["parent_platforms"] != null
-        ? List<ParentPlatformModel>.from(
-            json["parent_platforms"].map(
-              (x) => ParentPlatformModel.fromJson(x),
-            ),
-          )
-        : [],
-    stores: json["stores"] != null
-        ? List<StoreModel>.from(
-            json["stores"].map((x) => StoreModel.fromJson(x)),
-          )
-        : [],
+    genres: json["genres"] != null ? List<GenreModel>.from(json["genres"].map((x) => GenreModel.fromJson(x))) : [],
+    parentPlatforms: json["parent_platforms"] != null ? List<ParentPlatformModel>.from(json["parent_platforms"].map((x) => ParentPlatformModel.fromJson(x))) : [],
+    stores: json["stores"] != null ? List<StoreModel>.from(json["stores"].map((x) => StoreModel.fromJson(x))) : [],
+    released: json["released"] != null ? DateTime.parse(json["released"]) : DateTime.now(),
+    esrbRating: json["esrb_rating"] != null ? EsrbRatingModel.fromJson(json["esrb_rating"]) : null,
+  );
+
+  GameModel copyWith({
+    bool? tba,
+    int? added,
+    int? id,
+    int? metacritic,
+    int? playtime,
+    int? ratingsCount,
+    int? reviewsCount,
+    int? reviewsTextCount,
+    int? suggestionsCount,
+    String? backgroundImage,
+    String? dominantColor,
+    String? name,
+    String? saturatedColor,
+    String? slug,
+    List<GenreModel>? genres,
+    List<ParentPlatformModel>? parentPlatforms,
+    List<StoreModel>? stores,
+    DateTime? released,
+    EsrbRatingModel? esrbRating,
+  }) => GameModel(
+    tba: tba ?? this.tba,
+    added: added ?? this.added,
+    id: id ?? this.id,
+    metacritic: metacritic ?? this.metacritic,
+    playtime: playtime ?? this.playtime,
+    ratingsCount: ratingsCount ?? this.ratingsCount,
+    reviewsCount: reviewsCount ?? this.reviewsCount,
+    reviewsTextCount: reviewsTextCount ?? this.reviewsTextCount,
+    suggestionsCount: suggestionsCount ?? this.suggestionsCount,
+    backgroundImage: backgroundImage ?? this.backgroundImage,
+    dominantColor: dominantColor ?? this.dominantColor,
+    name: name ?? this.name,
+    saturatedColor: saturatedColor ?? this.saturatedColor,
+    slug: slug ?? this.slug,
+    genres: genres ?? this.genres,
+    parentPlatforms: parentPlatforms ?? this.parentPlatforms,
+    stores: stores ?? this.stores,
+    released: released ?? this.released,
+    esrbRating: esrbRating ?? this.esrbRating,
   );
 }

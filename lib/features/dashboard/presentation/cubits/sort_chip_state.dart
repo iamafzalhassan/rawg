@@ -3,38 +3,19 @@ part of 'sort_chip_cubit.dart';
 class SortChipState extends Equatable {
   final bool filtering;
   final bool triggerFilter;
-  final SortItem? selectedPlatform;
+
   final List<SortItem> platformSortList;
 
-  const SortChipState({
-    this.filtering = false,
-    this.triggerFilter = false,
-    this.selectedPlatform,
-    this.platformSortList = const [],
-  });
+  final SortItem? selectedPlatform;
 
-  SortChipState copyWith({
-    bool? filtering,
-    bool? triggerFilter,
-    SortItem? selectedPlatform,
-    List<SortItem>? platformSortList,
-  }) {
-    return SortChipState(
-      filtering: filtering ?? this.filtering,
-      triggerFilter: triggerFilter ?? this.triggerFilter,
-      selectedPlatform: selectedPlatform ?? this.selectedPlatform,
-      platformSortList: platformSortList ?? this.platformSortList,
-    );
-  }
+  const SortChipState({this.filtering = false, this.triggerFilter = false, this.platformSortList = const [], this.selectedPlatform});
 
-  @override
-  List<Object?> get props => [
-    filtering,
-    triggerFilter,
-    selectedPlatform,
-    platformSortList,
-  ];
+  SortChipState copyWith({bool? filtering, bool? triggerFilter, List<SortItem>? platformSortList, SortItem? selectedPlatform}) =>
+      SortChipState(filtering: filtering ?? this.filtering, triggerFilter: triggerFilter ?? this.triggerFilter, platformSortList: platformSortList ?? this.platformSortList, selectedPlatform: selectedPlatform ?? this.selectedPlatform);
 
   @override
   bool get stringify => true;
+
+  @override
+  List<Object?> get props => [filtering, triggerFilter, platformSortList, selectedPlatform];
 }

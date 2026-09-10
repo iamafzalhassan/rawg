@@ -6,8 +6,6 @@ import 'package:rawg/core/secrets/app_secret.dart';
 class ApiRequest {
   static final ApiRequest instance = ApiRequest._internal();
 
-  factory ApiRequest() => instance;
-
   late final Dio dio;
 
   ApiRequest._internal() {
@@ -17,26 +15,16 @@ class ApiRequest {
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         sendTimeout: const Duration(seconds: 30),
-        headers: const {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers: const {'Content-Type': 'application/json', 'Accept': 'application/json'},
       ),
     );
     setupInterceptors();
   }
 
+  factory ApiRequest() => instance;
+
   void setupInterceptors() {
-    dio.interceptors.add(
-      PrettyDioLogger(
-        compact: true,
-        error: true,
-        requestBody: true,
-        requestHeader: true,
-        responseBody: true,
-        responseHeader: false,
-      ),
-    );
+    dio.interceptors.add(PrettyDioLogger(compact: true, error: true, requestBody: true, requestHeader: true, responseBody: true, responseHeader: false));
 
     dio.interceptors.add(
       InterceptorsWrapper(
@@ -52,8 +40,7 @@ class ApiRequest {
           if (error.response?.statusCode == 401) {
             final newToken = await refreshToken();
             if (newToken != null) {
-              error.requestOptions.headers['Authorization'] =
-                  'Bearer $newToken';
+              error.requestOptions.headers['Authorization'] = 'Bearer $newToken';
               final response = await dio.fetch(error.requestOptions);
               return handler.resolve(response);
             }
@@ -64,49 +51,15 @@ class ApiRequest {
     );
   }
 
-  Future<Response<T>> get<T>(
-    String path, {
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-  }) => dio.get<T>(path, queryParameters: queryParameters, options: options);
-
-  Future<Response<T>> post<T>(
-    String path, {
-    dynamic data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-  }) => dio.post<T>(
-    path,
-    data: data,
-    queryParameters: queryParameters,
-    options: options,
-  );
-
-  Future<Response<T>> put<T>(
-    String path, {
-    dynamic data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-  }) => dio.put<T>(
-    path,
-    data: data,
-    queryParameters: queryParameters,
-    options: options,
-  );
-
-  Future<Response<T>> delete<T>(
-    String path, {
-    dynamic data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-  }) => dio.delete<T>(
-    path,
-    data: data,
-    queryParameters: queryParameters,
-    options: options,
-  );
-
   Future<String?> getAuthToken() async => null;
 
   Future<String?> refreshToken() async => null;
+
+  Future<Response<T>> delete<T>(String path, {dynamic data, Map<String, dynamic>? queryParameters, Options? options}) => dio.delete<T>(path, data: data, queryParameters: queryParameters, options: options);
+
+  Future<Response<T>> get<T>(String path, {Map<String, dynamic>? queryParameters, Options? options}) => dio.get<T>(path, queryParameters: queryParameters, options: options);
+
+  Future<Response<T>> post<T>(String path, {dynamic data, Map<String, dynamic>? queryParameters, Options? options}) => dio.post<T>(path, data: data, queryParameters: queryParameters, options: options);
+
+  Future<Response<T>> put<T>(String path, {dynamic data, Map<String, dynamic>? queryParameters, Options? options}) => dio.put<T>(path, data: data, queryParameters: queryParameters, options: options);
 }

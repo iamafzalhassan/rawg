@@ -6,7 +6,5 @@ class GetCurrentUserUseCase {
 
   GetCurrentUserUseCase(this.authRepository);
 
-  User? call() {
-    return authRepository.getCurrentUser();
-  }
+  User? call() => authRepository.getCurrentUser();
 }

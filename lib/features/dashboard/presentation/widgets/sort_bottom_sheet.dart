@@ -11,94 +11,66 @@ import 'package:rawg/features/dashboard/presentation/cubits/sort_chip_cubit.dart
 class SortBottomSheet extends StatelessWidget {
   const SortBottomSheet({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SortChipCubit, SortChipState>(
-      builder: (context, state) {
-        final List<SortItem> platformList = state.platformSortList;
-
-        return Column(
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.only(left: 16.0),
-              child: Text(
-                'dashboard.platforms'.tr(),
-                style: AppFont.style(
-                  fontSize: 25.0,
-                  color: AppPalette.white,
-                ),
+  Widget buildPlatformItem(BuildContext context, SortItem item, int index, int length) => GestureDetector(
+    onTap: () => onTap(context, item),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                item.name!,
+                style: AppFont.style(color: AppPalette.white, fontSize: 18.0),
                 textAlign: TextAlign.left,
               ),
-            ),
-            const SizedBox(height: 16.0),
-            ...List.generate(
-              platformList.length,
-                  (i) => buildPlatformItem(
-                context,
-                platformList[i],
-                i,
-                platformList.length,
+              const Spacer(),
+              Container(
+                decoration: BoxDecoration(
+                  border: item.isSelected! ? null : Border.all(color: AppPalette.gray2),
+                  color: item.isSelected! ? AppPalette.green1 : null,
+                  shape: BoxShape.circle,
+                ),
+                height: 20.0,
+                padding: const EdgeInsets.all(2.0),
+                width: 20.0,
+                child: item.isSelected! ? Image.asset(AssetConstants.tickIcon) : null,
               ),
-            ),
-            const SizedBox(height: 16.0),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget buildPlatformItem(
-      BuildContext context,
-      SortItem item,
-      int index,
-      int length,
-      ) {
-    return GestureDetector(
-      onTap: () => onTap(context, item),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(
-                  item.name!,
-                  style: AppFont.style(
-                    fontSize: 18.0,
-                    color: AppPalette.white,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                const Spacer(),
-                Container(
-                  decoration: BoxDecoration(
-                    border: item.isSelected! ? null : Border.all(color: AppPalette.gray2),
-                    color: item.isSelected! ? AppPalette.green1 : null,
-                    shape: BoxShape.circle,
-                  ),
-                  height: 20.0,
-                  padding: const EdgeInsets.all(2.0),
-                  width: 20.0,
-                  child: item.isSelected!
-                      ? Image.asset(AssetConstants.tickIcon)
-                      : null,
-                ),
-              ],
-            ),
-            const SizedBox(height: 8.0),
-            if (index != length - 1) ...[
-              const DashedDivider(color: AppPalette.gray2),
-              const SizedBox(height: 8.0),
             ],
-          ],
-        ),
+          ),
+          const SizedBox(height: 8.0),
+          if (index != length - 1) ...[const DashedDivider(color: AppPalette.gray2), const SizedBox(height: 8.0)],
+        ],
       ),
-    );
-  }
+    ),
+  );
 
   void onTap(BuildContext context, SortItem item) {
     context.read<SortChipCubit>().onItemSelected(item);
     Navigator.pop(context);
   }
+
+  @override
+  Widget build(BuildContext context) => BlocBuilder<SortChipCubit, SortChipState>(
+    builder: (context, state) {
+      final List<SortItem> platformList = state.platformSortList;
+
+      return Column(
+        children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            margin: const EdgeInsets.only(left: 16.0),
+            child: Text(
+              'dashboard.platforms'.tr(),
+              style: AppFont.style(color: AppPalette.white, fontSize: 25.0),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          const SizedBox(height: 16.0),
+          ...List.generate(platformList.length, (i) => buildPlatformItem(context, platformList[i], i, platformList.length)),
+          const SizedBox(height: 16.0),
+        ],
+      );
+    },
+  );
 }

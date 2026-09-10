@@ -11,49 +11,7 @@ import 'package:rawg/features/settings/presentation/cubits/settings_cubit.dart';
 class LanguageBottomSheet extends StatelessWidget {
   const LanguageBottomSheet({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    final languages = LocaleConstants.languages;
-
-    return BlocBuilder<SettingsCubit, SettingsState>(
-      builder: (context, state) {
-        return Column(
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.only(left: 16.0),
-              child: Text(
-                'settings.selectLanguage'.tr(),
-                style: AppFont.style(
-                  fontSize: 25,
-                  color: AppPalette.white,
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            ...List.generate(languages.length, (i) => buildLanguageItem(
-                i,
-                languages.length,
-                languages[i]['name'] as String,
-                context,
-                languages[i]['locale'] as Locale,
-              ),
-            ),
-            const SizedBox(height: 16.0),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget buildLanguageItem(
-      int index,
-      int length,
-      String name,
-      BuildContext context,
-      Locale locale,
-      ) {
+  Widget buildLanguageItem(int index, int length, String name, BuildContext context, Locale locale) {
     final isSelected = context.locale == locale;
 
     return GestureDetector(
@@ -66,10 +24,7 @@ class LanguageBottomSheet extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  style: AppFont.style(
-                    fontSize: 18,
-                    color: AppPalette.white,
-                  ),
+                  style: AppFont.style(color: AppPalette.white, fontSize: 18),
                   textAlign: TextAlign.left,
                 ),
                 const Spacer(),
@@ -82,17 +37,12 @@ class LanguageBottomSheet extends StatelessWidget {
                   height: 20,
                   padding: const EdgeInsets.all(2.0),
                   width: 20,
-                  child: isSelected
-                      ? Image.asset(AssetConstants.tickIcon)
-                      : null,
+                  child: isSelected ? Image.asset(AssetConstants.tickIcon) : null,
                 ),
               ],
             ),
             const SizedBox(height: 8.0),
-            if (index != length - 1) ...[
-              const DashedDivider(color: AppPalette.gray2),
-              const SizedBox(height: 8.0),
-            ],
+            if (index != length - 1) ...[const DashedDivider(color: AppPalette.gray2), const SizedBox(height: 8.0)],
           ],
         ),
       ),
@@ -109,5 +59,31 @@ class LanguageBottomSheet extends StatelessWidget {
     if (context.mounted) {
       Navigator.pop(context);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final languages = LocaleConstants.languages;
+
+    return BlocBuilder<SettingsCubit, SettingsState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: const EdgeInsets.only(left: 16.0),
+              child: Text(
+                'settings.selectLanguage'.tr(),
+                style: AppFont.style(color: AppPalette.white, fontSize: 25),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            ...List.generate(languages.length, (i) => buildLanguageItem(i, languages.length, languages[i]['name'] as String, context, languages[i]['locale'] as Locale)),
+            const SizedBox(height: 16.0),
+          ],
+        );
+      },
+    );
   }
 }
