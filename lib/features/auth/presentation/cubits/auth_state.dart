@@ -10,11 +10,11 @@ class AuthState extends Equatable {
   final String? errorMessage;
   final String? successMessage;
 
-  final User? user;
+  final AppUser? user;
 
   const AuthState({this.isLoading = false, this.isSignInFormValid = false, this.isSignUpFormValid = false, this.currentTabIndex = 0, this.errorMessage, this.successMessage, this.user});
 
-  AuthState copyWith({bool? isLoading, bool? isSignInFormValid, bool? isSignUpFormValid, int? currentTabIndex, String? errorMessage, String? successMessage, User? user}) => AuthState(
+  AuthState copyWith({bool? isLoading, bool? isSignInFormValid, bool? isSignUpFormValid, int? currentTabIndex, String? errorMessage, String? successMessage, AppUser? user}) => AuthState(
     isLoading: isLoading ?? this.isLoading,
     isSignInFormValid: isSignInFormValid ?? this.isSignInFormValid,
     isSignUpFormValid: isSignUpFormValid ?? this.isSignUpFormValid,

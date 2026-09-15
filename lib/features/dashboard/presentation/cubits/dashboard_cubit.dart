@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg/core/network/api_result.dart';
 import 'package:rawg/core/network/connection_checker.dart';
@@ -22,8 +21,6 @@ class DashboardCubit extends Cubit<DashboardState> {
   final GetGameOverviewUseCase getGameOverviewUseCase;
 
   final GetGamesUseCase getGamesUseCase;
-
-  final TextEditingController textEditingController = TextEditingController();
 
   bool offline = false;
 
@@ -115,7 +112,6 @@ class DashboardCubit extends Cubit<DashboardState> {
   @override
   Future<void> close() {
     connection?.cancel();
-    textEditingController.dispose();
     timer?.cancel();
     return super.close();
   }

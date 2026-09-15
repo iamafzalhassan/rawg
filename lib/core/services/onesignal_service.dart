@@ -9,15 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class OneSignalService {
   static const String notificationEnabledKey = 'notifications_enabled';
 
-  static final OneSignalService instance = OneSignalService._internal();
-
   bool initialized = false;
 
   GoRouter? router;
-
-  OneSignalService._internal();
-
-  factory OneSignalService() => instance;
 
   Future<void> addTags(Map<String, String> tags) async {
     try {

@@ -10,58 +10,97 @@ import 'package:rawg/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:rawg/features/common/presentation/widgets/rawg_button.dart';
 import 'package:rawg/features/common/presentation/widgets/rawg_from_field.dart';
 
-class Auth extends StatelessWidget {
+class Auth extends StatefulWidget {
   const Auth({super.key});
 
   static const double signInHeight = 327.0;
   static const double signUpHeight = 423.0;
 
-  Widget buildSignUpForm(BuildContext context, AuthState state) {
-    final cubit = context.read<AuthCubit>();
+  @override
+  State<Auth> createState() => AuthPageState();
+}
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          RAWGFormField(controller: cubit.nameController, enabled: !state.isLoading, hintText: 'auth.fullNameHint'.tr(), label: 'auth.fullName'.tr()),
-          const SizedBox(height: 16.0),
-          RAWGFormField(controller: cubit.emailController, enabled: !state.isLoading, hintText: 'auth.emailHint'.tr(), keyboardType: TextInputType.emailAddress, label: 'auth.email'.tr()),
-          const SizedBox(height: 16.0),
-          RAWGFormField(controller: cubit.passwordController, enabled: !state.isLoading, hintText: 'auth.passwordHint'.tr(), isPassword: true, label: 'auth.password'.tr()),
-          const SizedBox(height: 48.0),
-          RAWGButton.elevated(
-            backgroundColor: state.isSignUpFormValid && !state.isLoading ? AppPalette.black2 : AppPalette.gray6,
-            isLoading: state.isLoading,
-            label: 'auth.register'.tr(),
-            onPressed: state.isSignUpFormValid && !state.isLoading ? () => cubit.signUp() : null,
-          ),
-        ],
-      ),
-    );
+class AuthPageState extends State<Auth> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController signInEmailController = TextEditingController();
+  final TextEditingController signInPasswordController = TextEditingController();
+
+  void validateSignUpForm() => context.read<AuthCubit>().validateSignUpForm(email: emailController.text, name: nameController.text, password: passwordController.text);
+
+  void validateSignInForm() => context.read<AuthCubit>().validateSignInForm(email: signInEmailController.text, password: signInPasswordController.text);
+
+  Widget buildSignUpForm(AuthState state) => SingleChildScrollView(
+    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RAWGFormField(controller: nameController, enabled: !state.isLoading, hintText: 'auth.fullNameHint'.tr(), label: 'auth.fullName'.tr()),
+        const SizedBox(height: 16.0),
+        RAWGFormField(controller: emailController, enabled: !state.isLoading, hintText: 'auth.emailHint'.tr(), keyboardType: TextInputType.emailAddress, label: 'auth.email'.tr()),
+        const SizedBox(height: 16.0),
+        RAWGFormField(controller: passwordController, enabled: !state.isLoading, hintText: 'auth.passwordHint'.tr(), isPassword: true, label: 'auth.password'.tr()),
+        const SizedBox(height: 48.0),
+        RAWGButton.elevated(
+          backgroundColor: state.isSignUpFormValid && !state.isLoading ? AppPalette.black2 : AppPalette.gray6,
+          isLoading: state.isLoading,
+          label: 'auth.register'.tr(),
+          onPressed: state.isSignUpFormValid && !state.isLoading ? signUp : null,
+        ),
+      ],
+    ),
+  );
+
+  void signUp() => context.read<AuthCubit>().signUp(email: emailController.text, name: nameController.text, password: passwordController.text);
+
+  Widget buildSignInForm(AuthState state) => SingleChildScrollView(
+    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RAWGFormField(controller: signInEmailController, enabled: !state.isLoading, hintText: 'auth.emailHint'.tr(), keyboardType: TextInputType.emailAddress, label: 'auth.email'.tr()),
+        const SizedBox(height: 16.0),
+        RAWGFormField(controller: signInPasswordController, enabled: !state.isLoading, hintText: 'auth.passwordHint'.tr(), isPassword: true, label: 'auth.password'.tr()),
+        const SizedBox(height: 48.0),
+        RAWGButton.elevated(
+          backgroundColor: state.isSignInFormValid && !state.isLoading ? AppPalette.black2 : AppPalette.gray6,
+          isLoading: state.isLoading,
+          label: 'auth.signIn'.tr(),
+          onPressed: state.isSignInFormValid && !state.isLoading ? signIn : null,
+        ),
+      ],
+    ),
+  );
+
+  void signIn() => context.read<AuthCubit>().signIn(email: signInEmailController.text, password: signInPasswordController.text);
+
+  void clearFields() {
+    emailController.clear();
+    nameController.clear();
+    passwordController.clear();
+    signInEmailController.clear();
+    signInPasswordController.clear();
   }
 
-  Widget buildSignInForm(BuildContext context, AuthState state) {
-    final cubit = context.read<AuthCubit>();
+  @override
+  void initState() {
+    super.initState();
+    emailController.addListener(validateSignUpForm);
+    nameController.addListener(validateSignUpForm);
+    passwordController.addListener(validateSignUpForm);
+    signInEmailController.addListener(validateSignInForm);
+    signInPasswordController.addListener(validateSignInForm);
+  }
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          RAWGFormField(controller: cubit.signInEmailController, enabled: !state.isLoading, hintText: 'auth.emailHint'.tr(), keyboardType: TextInputType.emailAddress, label: 'auth.email'.tr()),
-          const SizedBox(height: 16.0),
-          RAWGFormField(controller: cubit.signInPasswordController, enabled: !state.isLoading, hintText: 'auth.passwordHint'.tr(), isPassword: true, label: 'auth.password'.tr()),
-          const SizedBox(height: 48.0),
-          RAWGButton.elevated(
-            backgroundColor: state.isSignInFormValid && !state.isLoading ? AppPalette.black2 : AppPalette.gray6,
-            isLoading: state.isLoading,
-            label: 'auth.signIn'.tr(),
-            onPressed: state.isSignInFormValid && !state.isLoading ? () => cubit.signIn() : null,
-          ),
-        ],
-      ),
-    );
+  @override
+  void dispose() {
+    emailController.dispose();
+    nameController.dispose();
+    passwordController.dispose();
+    signInEmailController.dispose();
+    signInPasswordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -72,6 +111,7 @@ class Auth extends StatelessWidget {
       }
 
       if (state.successMessage != null) {
+        clearFields();
         context.pushReplacementNamed(RouteConstants.dashboard);
       }
     },
@@ -108,7 +148,7 @@ class Auth extends StatelessWidget {
                       borderRadius: BorderRadius.vertical(top: Radius.circular(24.0)),
                       color: AppPalette.gray6,
                     ),
-                    height: (state.currentTabIndex == 0 ? signUpHeight : signInHeight) + 48,
+                    height: (state.currentTabIndex == 0 ? Auth.signUpHeight : Auth.signInHeight) + 48,
                     child: Column(
                       children: [
                         Container(
@@ -132,7 +172,7 @@ class Auth extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: state.currentTabIndex == 0 ? signUpHeight : signInHeight, child: state.currentTabIndex == 0 ? buildSignUpForm(context, state) : buildSignInForm(context, state)),
+                        SizedBox(height: state.currentTabIndex == 0 ? Auth.signUpHeight : Auth.signInHeight, child: state.currentTabIndex == 0 ? buildSignUpForm(state) : buildSignInForm(state)),
                       ],
                     ),
                   ),

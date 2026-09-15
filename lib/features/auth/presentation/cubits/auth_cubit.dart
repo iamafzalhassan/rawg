@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg/core/di/injection_container.dart';
 import 'package:rawg/core/network/api_result.dart';
 import 'package:rawg/core/services/onesignal_service.dart';
+import 'package:rawg/features/auth/domain/entities/app_user.dart';
 import 'package:rawg/features/auth/domain/usecases/get_current_user_use_case.dart';
 import 'package:rawg/features/auth/domain/usecases/sign_in_use_case.dart';
 import 'package:rawg/features/auth/domain/usecases/sign_up_use_case.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'auth_state.dart';
 
@@ -18,30 +18,18 @@ class AuthCubit extends Cubit<AuthState> {
 
   final SignUpUseCase signUpUseCase;
 
-  final emailController = TextEditingController();
-  final nameController = TextEditingController();
-  final passwordController = TextEditingController();
-  final signInEmailController = TextEditingController();
-  final signInPasswordController = TextEditingController();
+  AuthCubit(this.signUpUseCase, this.signInUseCase, this.getCurrentUserUseCase) : super(const AuthState());
 
-  AuthCubit(this.signUpUseCase, this.signInUseCase, this.getCurrentUserUseCase) : super(const AuthState()) {
-    emailController.addListener(validateSignUpForm);
-    nameController.addListener(validateSignUpForm);
-    passwordController.addListener(validateSignUpForm);
-    signInEmailController.addListener(validateSignInForm);
-    signInPasswordController.addListener(validateSignInForm);
-  }
-
-  void validateSignUpForm() {
-    final isValid = nameController.text.trim().isNotEmpty && emailController.text.trim().isNotEmpty && passwordController.text.trim().isNotEmpty;
+  void validateSignUpForm({required String email, required String name, required String password}) {
+    final isValid = name.trim().isNotEmpty && email.trim().isNotEmpty && password.trim().isNotEmpty;
 
     if (state.isSignUpFormValid != isValid) {
       emit(state.copyWith(isSignUpFormValid: isValid));
     }
   }
 
-  void validateSignInForm() {
-    final isValid = signInEmailController.text.trim().isNotEmpty && signInPasswordController.text.trim().isNotEmpty;
+  void validateSignInForm({required String email, required String password}) {
+    final isValid = email.trim().isNotEmpty && password.trim().isNotEmpty;
 
     if (state.isSignInFormValid != isValid) {
       emit(state.copyWith(isSignInFormValid: isValid));
@@ -56,46 +44,32 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> signIn() async {
-    final email = signInEmailController.text.trim();
-    final password = signInPasswordController.text.trim();
-
+  Future<void> signIn({required String email, required String password}) async {
     emit(state.copyWith(isLoading: true, errorMessage: null, successMessage: null));
 
-    final result = await signInUseCase(email: email, password: password);
+    final result = await signInUseCase(email: email.trim(), password: password.trim());
 
     switch (result) {
-      case ApiSuccess<User>():
+      case ApiSuccess<AppUser>():
         await setOneSignalUserId(result.data.id);
 
         emit(state.copyWith(isLoading: false, successMessage: 'Sign in successful!', user: result.data));
-        clearSignInFields();
-      case ApiFailure<User>(:final message):
+      case ApiFailure<AppUser>(:final message):
         emit(state.copyWith(isLoading: false, errorMessage: message));
     }
   }
 
-  void clearSignInFields() {
-    signInEmailController.clear();
-    signInPasswordController.clear();
-  }
-
-  Future<void> signUp() async {
-    final email = emailController.text.trim();
-    final name = nameController.text.trim();
-    final password = passwordController.text.trim();
-
+  Future<void> signUp({required String email, required String name, required String password}) async {
     emit(state.copyWith(isLoading: true, errorMessage: null, successMessage: null));
 
-    final result = await signUpUseCase(email: email, name: name, password: password);
+    final result = await signUpUseCase(email: email.trim(), name: name.trim(), password: password.trim());
 
     switch (result) {
-      case ApiSuccess<User>():
+      case ApiSuccess<AppUser>():
         await setOneSignalUserId(result.data.id);
 
         emit(state.copyWith(isLoading: false, successMessage: 'Sign up successful!', user: result.data));
-        clearSignUpFields();
-      case ApiFailure<User>(:final message):
+      case ApiFailure<AppUser>(:final message):
         emit(state.copyWith(isLoading: false, errorMessage: message));
     }
   }
@@ -109,21 +83,5 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void clearSignUpFields() {
-    emailController.clear();
-    nameController.clear();
-    passwordController.clear();
-  }
-
   void switchTab(int index) => emit(state.copyWith(currentTabIndex: index, errorMessage: null, successMessage: null));
-
-  @override
-  Future<void> close() {
-    emailController.dispose();
-    nameController.dispose();
-    passwordController.dispose();
-    signInEmailController.dispose();
-    signInPasswordController.dispose();
-    return super.close();
-  }
 }

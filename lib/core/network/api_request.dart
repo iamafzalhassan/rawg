@@ -4,11 +4,9 @@ import 'package:rawg/core/constants/api_constants.dart';
 import 'package:rawg/core/secrets/app_secret.dart';
 
 class ApiRequest {
-  static final ApiRequest instance = ApiRequest._internal();
-
   late final Dio dio;
 
-  ApiRequest._internal() {
+  ApiRequest() {
     dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.baseUrl,
@@ -20,8 +18,6 @@ class ApiRequest {
     );
     setupInterceptors();
   }
-
-  factory ApiRequest() => instance;
 
   void setupInterceptors() {
     dio.interceptors.add(PrettyDioLogger(compact: true, error: true, requestBody: true, requestHeader: true, responseBody: true, responseHeader: false));

@@ -1,17 +1,18 @@
 import 'package:go_router/go_router.dart';
 import 'package:rawg/core/constants/route_constants.dart';
+import 'package:rawg/core/di/injection_container.dart';
+import 'package:rawg/features/auth/domain/usecases/get_current_user_use_case.dart';
 import 'package:rawg/features/auth/presentation/pages/auth.dart';
 import 'package:rawg/features/dashboard/domain/entities/game.dart';
 import 'package:rawg/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:rawg/features/dashboard/presentation/pages/game_overview.dart';
 import 'package:rawg/features/settings/presentation/pages/settings.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppRouter {
   static final router = GoRouter(
     initialLocation: '/auth',
     redirect: (context, state) {
-      final isAuthenticated = Supabase.instance.client.auth.currentUser != null;
+      final isAuthenticated = sl<GetCurrentUserUseCase>()() != null;
       final isAuthRoute = state.matchedLocation == '/auth';
 
       if (isAuthenticated && isAuthRoute) {
