@@ -24,11 +24,11 @@ The app follows Clean Architecture with use cases, repositories and data sources
 
 ## Architecture
 
-- **Clean Architecture per feature.** `auth` and `dashboard` each have `data` (data sources, models, repository implementations), `domain` (entities, repository contracts, use cases) and `presentation` (cubits, states, pages, widgets).
-- **Cubits for state.** Auth, dashboard, platform filters, settings and form fields each have their own Cubit with an `Equatable` state.
-- **Dependency injection with GetIt.** One container registers data sources, repositories, use cases and cubits, and initialises Hive, Supabase and OneSignal at start-up.
+- **Clean Architecture per feature.** `auth` and `dashboard` each have `data` (data sources, models, repository implementations), `domain` (entities, repository contracts, use cases) and `presentation` (cubits, states, pages, widgets). The domain has no framework types: auth works with an `AppUser` entity, and the data layer maps Supabase users into it.
+- **Cubits for state.** Auth, dashboard, platform filters, settings and form fields each have their own Cubit with an `Equatable` state. Cubits hold no widgets or text controllers; pages and fields own those and pass values in.
+- **Dependency injection with GetIt.** One container registers data sources, repositories, use cases and cubits, and initialises Hive, Supabase and OneSignal at start-up. It is the only place that keeps a single shared instance of a service.
 - **Typed results.** Data sources return `ApiSuccess` or `ApiFailure` instead of throwing, and cubits pattern-match on the result.
-- **Declarative routing.** GoRouter redirects based on the Supabase session, and the game overview is a nested route under the dashboard.
+- **Declarative routing.** GoRouter redirects based on the current user from `GetCurrentUserUseCase`, and the game overview is a nested route under the dashboard.
 - **No code generation.** Models, entities and the Hive type adapter are written by hand.
 
 ## How the data flows
@@ -85,6 +85,14 @@ assets/locales/         en-US and si-LK translations
 
 1. Set your RAWG API key, Supabase URL and anon key, and OneSignal app id in `lib/core/secrets/app_secret.dart`.
 2. Run `flutter pub get`, then `flutter run`.
+
+## Testing
+
+Unit tests live in `test/`, mirroring the `lib/` path of the code they cover, with hand-written fakes for the data sources and connection checker:
+
+- **`test/features/dashboard/data/repository/dashboard_repository_impl_test.dart`**: when online, game details come from the network and are cached; when offline, the cached copy is served without calling the network.
+
+Run them with `flutter test`.
 
 ## Roadmap
 
